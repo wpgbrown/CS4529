@@ -1,6 +1,7 @@
 \documentclass[a4paper,12pt]{article}
 
 \RequirePackage{epsfig}
+\usepackage{pgfgantt}
 
 \setlength\hoffset{-0.5in}      %% these work quite well with a 12pt font
 \setlength\voffset{-0.5in}
@@ -16,9 +17,9 @@
       \vspace{5.0mm}
 {\Large\bf{Project Plan}} \\
       \vspace{8mm}
-      {\large\bf{Your Name}}  \\
+      {\large\bf{William Brown}}  \\
       \vspace{5.0mm}
-       {\tt user@csd.abdn.ac.uk} \\
+       {\tt w.brown.19@abdn.ac.uk} \\
       \vspace{5.0mm}
       {\em Department of Computing Science,\\
        University of Aberdeen, Aberdeen AB24 3UE, UK} 
@@ -27,7 +28,13 @@
 
 \section*{Introduction}
 
-Open source relies on volunteers. Reviewers for open source are often also volunteers who may be in varying degrees of activity in a given time.
+Code review is a vital step in the software development process. However, slow code review creates a bottleneck that hampers maintenance and development of code.
+
+Open source projects often incorporate volunteers in the code writing and review process. Because these volunteers are in most cases not compensated for their time, the review process is dependent on the volunteer to want to spend time reviewing a patch (?)
+
+In projects where there is a paid team that works alongside volunteers, it can often be the case that the paid staff work insulated within their team so that their patches are accelerated through. Furthermore, a team will likely have defined reviewers or someone to ask for a review.
+
+However, for the volunteers finding the right person to talk to for a review is hard especially for those who are new to contributing. Newcomers not having patches reviewed quickly could disincentive them from future patches. Having newcomers join in is essential as there will be a natural decline in the "regulars" over time, which cannot be completely avoided (such as unexpected personal reasons like death).
 
 This section should briefly describe the background to your
 project and explain why your project is a worthwhile task.
@@ -37,9 +44,7 @@ relevant articles
 
 \section*{Goals}
 
-Build a tool to suggest reviewers based on data collected from the repository.
-
-There exists a tool but is closed source and for gitlab. Also seems to be 
+I want to make a tool that allows users who submit a patch to find the best person for a review. This should be simple to use by the user submitting a change and should work over a wide variety of repositories with varying levels of activity.
 
 This section should describe the the main goals of your project.
 In other words, describe {\em what} it is that you want to do.
@@ -78,6 +83,12 @@ you should still say so!
 
 \section*{Risk Assessment}
 
+Not being able to download all the data in time. The last downloadable dump of data was ages ago and I have not found the right person to get a data dump made for this project. There is an API that I can use to download this data which I was able to do for my research methods course.
+
+The data downloaded could actually not be a good way to perform recommendations.
+
+
+
 Try to describe possible circumstances (e.g. a particular piece of
 technology doesn't work or is too expensive) that might cause
 the project to become become infeasible. What would you have to do
@@ -91,12 +102,13 @@ and their durations, along with any deadlines and deliverables.
 It is often useful to collect all of this information in a
 {\em Gantt chart}, as shown in Figure~\ref{fig:plan} below:
 
-\begin{figure}[htb]
-\begin{center}
-\includegraphics[scale=0.65]{ProjectPlan.eps}
-\caption{Main Project Activities\label{fig:plan}}
-\end{center}
-\end{figure}
+
+% \begin{figure}[htb]
+% \begin{center}
+% \includegraphics[scale=0.65]{ProjectPlan.eps}
+% \caption{Main Project Activities\label{fig:plan}}
+% \end{center}
+% \end{figure}
 
 % For information, this figure was created using xfig, and 
 % converted to encapsulated postscript by a command in the Makefile
