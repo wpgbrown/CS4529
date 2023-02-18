@@ -1,0 +1,545 @@
+3d
+'''Unassigned'''
+|-
+AbuseFilter
+{{u|Hoo man|Marius Hoch}}, {{u|Daimona Eaytoy}}, {{u|se4598}}, {{u|Matěj Suchánek}}
+|-
+ActiveAbstract
+{{u|ArielGlenn}}, {{U|HOkwelum (WMF)|Hannah Okwelum}}
+|-
+AdvancedSearch
+'''Unassigned'''
+|-
+AntiSpoof
+{{u|Reedy|Sam Reed}}
+|-
+ApiFeatureUsage
+'''Unassigned'''
+|-
+ArticleCreationWorkflow
+'''Unassigned'''
+|-
+ArticlePlaceholderS
+'''Unassigned'''
+|-
+Babel
+'''Unassigned'''
+|-
+BetaFeatures
+'''Unassigned'''
+|-
+BounceHandler
+{{u|01tonythomas |01tonythomas }}, {{u|Jgreen (wmf)}}
+|-
+Calendar-Wikivoyage
+'''Unassigned'''
+|-
+CampaignEvents
+'''Unassigned'''
+|-
+Campaigns
+'''Unassigned'''
+|-
+Capiunto
+{{u|Hoo man|Marius Hoch}}
+|-
+CategoryTree
+'''Unassigned'''
+|-
+CentralAuth
+{{u|Majavah|Taavi Väänänen}}, {{u|Zabe}}
+|-
+CentralNotice
+'''Unassigned'''
+|-
+CharInsert
+'''Unassigned'''
+|-
+CheckUser
+{{u|Dreamy Jazz}} (except Investigate. Not taking ownership but have been doing a fair bit of work on CU so know it well and can help others if needed)
+|-
+CirrusSearch
+'''Unassigned'''
+|-
+Cite
+{{u|Hoo man|Marius Hoch}}
+|-
+CiteThisPage
+{{u|Hoo man|Marius Hoch}}
+|-
+Citoid
+'''Unassigned'''
+|-
+CLDR
+[[Wikimedia Language engineering|Language team]]
+|-
+CodeEditor
+{{u|TheDJ|Derk-Jan Hartman}}
+|-
+CodeEditor
+{{u|Pastakhov|Pavel Astakhov}}
+|-
+Cognate
+'''Unassigned'''
+|-
+Collection
+{{u|cscott|C. Scott Ananian}} originally: PediaPress
+|-
+CommonsMetadata
+'''Unassigned'''
+|-
+ConfirmEdit
+{{u|Emufarmers}}, {{u|Florianschmidtwelzow}}
+|-
+ContactPage
+'''Unassigned'''
+|-
+ContentTranslation
+[[Wikimedia Language engineering|Language team]]
+|-
+CreditsSource
+'''Unassigned'''
+|-
+Dashiki
+'''Unassigned'''
+|-
+Disambiguator
+'''Unassigned'''
+|-
+DiscussionTools
+'''Unassigned'''
+|-
+DismissableSiteNotice
+'''Unassigned'''
+|-
+DonationInterface
+'''Unassigned'''
+|-
+DoubleWiki
+{{u|Tpt|Thomas PT (Tpt)}}
+|-
+DynamicPageList (Wikimedia)
+Brian Wolff
+|-
+DynamicSidebar
+[[User:X-Savitar|Derick Alangi]]
+|-
+EasyTimeline
+'''Unassigned'''
+|-
+Echo
+'''Unassigned'''
+|-
+Elastica
+'''Unassigned'''
+|-
+ElectronPdfService
+'''Unassigned'''
+|-
+EntitySchema
+'''Unassigned'''
+|-
+EventBus
+
+|-
+EventLogging
+'''Unassigned'''
+|-
+EventStreamConfig
+[[User:Ottomata|Andrew Otto]]
+|-
+ExtensionDistributor
+{{u|Tim Starling|Tim Starling}}
+|-
+ExternalGuidance
+'''Unassigned'''
+|-
+FeaturedFeeds
+'''Unassigned'''
+|-
+FileExporter
+'''Unassigned'''
+|-
+FileImporter
+'''Unassigned'''
+|-
+FlaggedRevs
+Aaron Schulz and Amir Sarabadani
+|-
+Flow
+'''Unassigned'''
+|-
+FundraiserLandingPage
+'''Unassigned'''
+|-
+FundraisingTranslateWorkflow
+{{u|ejegg|Elliott Eggleston}}
+|-
+FundraisingEmailUnsubscribe
+'''Unassigned'''
+|-
+Gadgets
+{{u|Catrope|Roan Kattouw}}
+|-
+GeoCrumbs
+'''Unassigned'''
+|-
+GeoData
+'''Unassigned'''
+|-
+GlobalBlocking
+{{u|Majavah|Taavi Väänänen}}
+|-
+GlobalCssJs
+'''Unassigned'''
+|-
+GlobalPreferences
+'''Unassigned'''
+|-
+GlobalUsage
+'''Unassigned'''
+|-
+GlobalUserPage
+'''Unassigned'''
+|-
+GlobalWatchlist
+{{u|DannyS712|DannyS712}}
+|-
+GoogleNewsSitemap
+Brian Wolff
+|-
+Graph
+{{u|Yurik|Yurik}}
+|-
+GrowthExperiments
+'''Unassigned'''
+|-
+GuidedTour
+'''Unassigned'''
+|-
+GWToolset
+'''Unassigned'''
+|-
+ImageMap
+'''Unassigned'''
+|-
+ImageSuggestions
+'''Unassigned'''
+|-
+InputBox
+{{u|Jackmcbarn}}
+|-
+Insider
+'''Unassigned'''
+|-
+Interwiki
+'''Unassigned'''
+|-
+InterwikiSorting
+'''Unassigned'''
+|-
+IPInfo
+'''Unassigned'''
+|-
+Josa
+'''Unassigned'''
+|-
+JsonConfig
+{{u|Yurik|Yurik}}
+|-
+Kartographer
+[[User:MSantos (WMF)|Mateus Santos]]
+|-
+LabeledSectionTransclusion
+'''Unassigned'''
+|-
+LandingCheck
+'''Unassigned'''
+|-
+LDAP_Authentication
+'''Unassigned'''
+|-
+Linter
+'''Unassigned'''
+|-
+LiquidThreads
+'''Unassigned'''
+|-
+Listings
+'''Unassigned'''
+|-
+LoginNotify
+'''Unassigned'''
+|-
+MachineVision
+[[Readers/Structured Data|Structured Data team]] ([[Wikimedia Product/Component responsibility|details and SLA]])
+|-
+MapSources
+'''Unassigned'''
+|-
+MassMessage
+[[User:wctaiwan|wctaiwan]]
+|-
+Math
+{{u|TheDJ|Derk-Jan Hartman}}, {{u|Physikerwelt|Moritz Schubotz}}
+|-
+MediaModeration
+'''Unassigned'''
+|-
+MediaSearch
+'''Unassigned'''
+|-
+MobileApp
+'''Unassigned'''
+|-
+MobileFrontend
+'''Unassigned'''
+|-
+MultimediaViewer
+'''Unassigned'''
+|-
+NavigationTiming
+{{u|Krinkle|Timo Tijhof}}
+|-
+Newsletter
+[[User:Bawolff|Brian Wolff]] (for emergency issues)
+|-
+NewUserMessage
+'''Unassigned'''
+|-
+Nuke
+{{u|Jeroen de Dauw|Jeroen de Dauw}}
+|-
+OATHAuth
+'''Unassigned'''
+|-
+OAuth
+{{u|Tgr (WMF)}}
+|-
+OAuthRateLimiter
+[[User:PPchelko (WMF)|PPchelko_(WMF)]], [[User:CAndrew (WMF)|CAndrew_(WMF)]]
+|-
+OpenStackManager
+{{u|AndrewBogott (WMF)}}, {{u|BDavis (WMF)}}
+|-
+ORES
+'''Unassigned'''
+|-
+PageAssessments
+{{u|Kaldari|Kaldari}}
+|-
+PagedTiffHandler
+'''Unassigned'''
+|-
+Pending stewardship review
+'''Unassigned'''
+|-
+PageViewInfo
+'''Unassigned'''
+|-
+ParserFunctions
+{{u|Jackmcbarn}}, {{u|Tim Starling|Tim Starling}}?
+|-
+PdfHandler
+{{u|bawolff|bawolff}}
+|-
+Poem
+'''Unassigned'''
+|-
+Popups
+'''Unassigned'''
+|-
+ProofreadPage
+{{u|Tpt|Thomas PT (Tpt)}}
+|-
+PropertySuggester
+'''Unassigned'''
+|-
+QuickSurveys
+Consult [[Reading/Web|Web]] for large architectural changes or UBN bugs.
+Others are feel free to contribute and merge changes to this extension.
+|-
+Quiz
+'''Unassigned'''
+|-
+ReadingLists
+'''Unassigned'''
+|-
+RelatedArticles
+'''Unassigned'''
+|-
+Renameuser
+{{u|Hoo man|Marius Hoch}}
+|-
+RevisionSlider
+'''Unassigned'''
+|-
+RSS
+'''Unassigned'''
+|-
+SandboxLink
+'''Unassigned'''
+|-
+SecureLinkFixer
+{{U|Legoktm}}
+|-
+Score
+{{U|GrafZahl|Alexander Klauer}}, {{u|Ebe123|Ebe123}}
+|-
+Scribunto
+{{u|Tim Starling|Tim Starling}}, {{u|VasilievVV|Victor Vasiliev}}, {{u|Jackmcbarn}}
+|-
+SearchExtraNS
+'''Unassigned'''
+|-
+SearchVue
+'''Unassigned'''
+|-
+SecurePoll
+{{u|Huji}}
+|-
+ShortUrl
+'''Unassigned'''
+|-
+SimilarEditors
+'''Unassigned'''
+|-
+SiteMatrix
+'''Unassigned'''
+|-
+SpamBlacklist
+'''Unassigned'''
+|-
+StopForumSpam
+{{u|SBassett_(WMF)}}, {{u|Reedy}}, {{u|Legoktm}}
+|-
+SubPageList3
+'''Unassigned'''
+|-
+SubpageSortkey
+Brian Wolff
+|-
+SyntaxHighlight_GeSHi
+'''Unassigned'''
+|-
+TemplateData
+'''Unassigned'''
+|-
+TemplateSandbox
+{{u|Jackmcbarn}}
+|-
+TemplateStyles
+{{u|Tgr (WMF)|Gergő Tisza}}
+|-
+TemplateWizard
+{{u|Samwilson}}
+|-
+TextExtracts
+'''Unassigned'''
+|-
+Thanks
+'''Unassigned'''
+|-
+TheWikipediaLibrary
+[[User:JSherman (WMF)|Jason Sherman]], [[User:SCardenas (WMF)|Susana Cardenas Molinar]]
+|-
+TimedMediaHandler
+Brion Vibber (Emergency Backup: Structured Data), {{u|MDale|Michael Dale}}
+|-
+TitleBlacklist
+{{u|Jackmcbarn}}
+|-
+TocTree
+'''Unassigned'''
+|-
+TorBlock
+'''Unassigned'''
+|-
+Translate
+'''Unassigned'''
+|-
+TranslationNotifications
+'''Unassigned'''
+|-
+TrustedXFF
+'''Unassigned'''
+|-
+TwoColConflict
+'''Unassigned'''
+|-
+UniversalLanguageSelector
+'''Unassigned'''
+|-
+UploadsLink
+'''Unassigned'''
+|-
+UploadWizard
+{{u|MarkTraceur|Mark Holmquist}}
+|-
+UrlShortener
+'''Unassigned'''
+|-
+VisualEditor
+'''Unassigned'''
+|-
+WebAuthn
+'''Unassigned'''
+|-
+WikibaseClient
+'''Unassigned'''
+|-
+WikibaseRepository
+'''Unassigned'''
+|-
+WikibaseCirrusSearch
+'''Unassigned'''
+|-
+WikibaseLexeme
+'''Unassigned'''
+|-
+WikibaseLexemeCirrusSearch
+'''Unassigned'''
+|-
+WikibaseMediaInfo
+'''Unassigned'''
+|-
+WikidataPageBanner
+'''Unassigned'''
+|-
+WikiEditor
+{{u|TheDJ|Derk-Jan Hartman}}
+|-
+wikihiero
+{{u|MaxSem|Max Semenik}}
+|-
+WikiLove
+'''Unassigned'''
+|-
+WikimediaApiPortalOAuth
+[[User:Krinkle|Timo Tijhof]]
+|-
+WikimediaBadges
+'''Unassigned'''
+|-
+WikimediaEditorTasks
+'''Unassigned'''
+|-
+WikimediaEvents
+See OWNERs.md file for individual owners of each schema.
+Consult with Performance for large changes.
+|-
+WikimediaIncubator
+{{u|SPQRobin|Robin Pepermans}}, {{u|Hydriz|Hydriz}}, {{u|Ebe123|Ebe123}}
+|-
+WikimediaMaintenance
+Sam Reed
+|-
+WikimediaMessages
+{{u|Multichill|Maarten Dammers}}
+|-
+Wikisource
+[[User:Tpt|Tpt]]
+|-
+XAnalytics
+'''Unassigned'''
+|-

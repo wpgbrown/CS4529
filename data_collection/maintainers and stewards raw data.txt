@@ -1,0 +1,1124 @@
+== MediaWiki extensions deployed at Wikimedia Foundation ==
+
+:''See also: [[:Category:Extensions used on Wikimedia]] and [[phab:source/mediawiki-config/browse/master/wmf-config/extension-list]]''
+{{Note|Not all the areas below actually have their own [[Phabricator]] project, or have not had #tags setup for alternate names yet.}}
+
+{| class="wikitable sortable"
+!Extension!! Description !! Steward !! Maintainers 
+!Consultants
+|-
+| [[Extension:3d|3d]]
+| Enables upload of three-dimensional model files, and supports thumbnailing and interactive viewing in [[Media Viewer]]. {{MaintainerLinksExtension|3d}}
+| [[Readers/Structured Data|Structured Data team]] ([[Wikimedia Product/Component responsibility|details and SLA]])
+| 
+|
+|-
+|[[Extension:AbuseFilter|AbuseFilter]]
+| Allows privileged users to set specific controls on actions by users, such as edits, and create automated reactions for certain behaviors {{MaintainerLinksExtension|AbuseFilter}}
+|(Active volunteer)
+| {{u|Hoo man|Marius Hoch}}, {{u|Daimona Eaytoy}}, {{u|se4598}}, {{u|Matěj Suchánek}}
+|
+|-
+| [[Extension:ActiveAbstract|ActiveAbstract]]
+| Used as part of dumpBackup {{MaintainerLinksExtension|ActiveAbstract}}
+|  '''Unassigned'''
+| {{u|ArielGlenn}}, {{U|HOkwelum (WMF)|Hannah Okwelum}}
+|
+|-
+| [[Extension:AdvancedSearch|AdvancedSearch]]
+| Enhances Special:Search by providing an advanced parameters form {{MaintainerLinksExtension|AdvancedSearch}}
+| [https://www.wikimedia.de/ansprechpartner/ WMDE Engineering] (contact EMs)
+| 
+|
+|-
+| [[Extension:AntiSpoof|AntiSpoof]]
+| Prevents creation of confusable usernames {{MaintainerLinksExtension|AntiSpoof}}
+| [[Anti-Harassment Tools]]
+| {{u|Reedy|Sam Reed}}
+|
+|-
+| [[Extension:ApiFeatureUsage|ApiFeatureUsage]]
+| Access API feature usage log summaries {{MaintainerLinksExtension|ApiFeatureUsage}}
+|[[Platform Engineering Team]]
+| 
+|
+|-
+| [[Extension:ArticleCreationWorkflow|ArticleCreationWorkflow]]
+| {{MaintainerLinksExtension|ArticleCreationWorkflow}}
+| [[Community Tech]]
+| 
+|
+|-
+| [[Extension:ArticlePlaceholder|ArticlePlaceholder]]
+| Provides a special page with Wikidata information about a certain topic, with invitation to create an article for the topic {{MaintainerLinksExtension|ArticlePlaceholder}}
+| [https://www.wikimedia.de/ansprechpartner/ WMDE Engineering] (contact EMs)
+| 
+|
+|-
+| [[Extension:Babel|Babel]]
+| Adds a parser function to inform other users about language proficiency and categorize users of the same levels and languages {{MaintainerLinksExtension|Babel}}
+|[[Wikimedia Language engineering|Language team]]
+| 
+|
+|-
+| [[Extension:BetaFeatures|BetaFeatures]]
+| Allows other extensions to register their beta features in the user preferences {{MaintainerLinksExtension|BetaFeatures}}
+|  '''Unassigned'''
+|
+|
+|-
+| [[Extension:BounceHandler|BounceHandler]]
+| Allow MediaWiki to handle bounce email efficiently with VERP headers {{MaintainerLinksExtension|BounceHandler}}
+|  '''Unassigned'''
+| {{u|01tonythomas |01tonythomas }}, {{u|Jgreen (wmf)}} 
+|
+|-
+| [[Extension:Calendar-Wikivoyage|Calendar]]
+| Creates a Calendar in pages{{MaintainerLinksExtension|Calendar}}
+|  '''Unassigned'''
+|
+|
+|-
+| [[Extension:CampaignEvents|CampaignEvents]]
+| Adds tools for organizing events {{MaintainerLinksExtension|CampaignEvents}}
+| [[:m:Campaigns/Foundation Product Team|Campaigns Product team]]
+|
+|
+|-
+| [[Extension:Campaigns|Campaigns]]
+| Allows to track user account creations related to campaigns {{MaintainerLinksExtension|Campaigns}}
+|  '''Unassigned'''
+|
+|
+|-
+|[[Extension:Capiunto|Capiunto]]
+|Provides basic Infobox functionality for Scribunto{{MaintainerLinksExtension|Capiunto}}
+|  '''Unassigned'''
+|{{u|Hoo man|Marius Hoch}}
+|
+|-
+| [[Extension:CategoryTree|CategoryTree]]
+| Provides a dynamic view of the wiki's category structure as a tree {{MaintainerLinksExtension|CategoryTree}}
+|  '''Unassigned'''
+|
+|
+|-
+| [[Extension:CentralAuth|CentralAuth]]
+| Allows to merge accounts into global accounts {{MaintainerLinksExtension|CentralAuth}}
+|  '''Unassigned''' Under review
+{{Phabricator|T252244}}
+| {{u|Majavah|Taavi Väänänen}}, {{u|Zabe}}
+|
+|-
+| [[Extension:CentralNotice|CentralNotice]]
+| Adds a central sitenotice {{MaintainerLinksExtension|CentralNotice}}
+| [[Fundraising tech]]
+|
+|
+|-
+| [[Extension:CharInsert|CharInsert]]
+| Create JavaScript character insert boxes {{MaintainerLinksExtension|CharInsert}}
+| [[Editing team]]
+|
+|
+|-
+| {{anchor|CheckUser}} [[Extension:CheckUser|CheckUser]]
+|  Allows a user with permissions to check which IPs are used by a given username and which usernames are used by a given IP  {{MaintainerLinksExtension|CheckUser}}
+|[[Anti-Harassment Tools|Anti-Harassment Tools Team]]
+| {{u|Dreamy Jazz}} (except Investigate. Not taking ownership but have been doing a fair bit of work on CU so know it well and can help others if needed)
+|
+|-
+| [[Extension:CirrusSearch|CirrusSearch]]
+| Implements searching for MediaWiki using Elasticsearch {{MaintainerLinksExtension|CirrusSearch}}
+| [[Wikimedia Search Platform|Search Platform]]
+|
+|
+|-
+| [[Extension:Cite|Cite]]
+| Allows footnotes for citing sources and helps for correctly citing content in offline media {{MaintainerLinksExtension|Cite}}
+| [[Editing team]]
+| {{u|Hoo man|Marius Hoch}}
+|
+|-
+| [[Extension:CiteThisPage|CiteThisPage]]
+| Adds a special page that provides different citation formats for a particular article {{MaintainerLinksExtension|CiteThisPage}}
+|  '''Unassigned'''
+| {{u|Hoo man|Marius Hoch}}
+|
+|-
+| [[Extension:Citoid|Citoid]]
+| Extension part of the Citoid service {{MaintainerLinksExtension|Citoid}}
+| [[Editing team]]
+|
+|
+|-
+| [[Extension:CLDR|cldr]]
+| Import localisation data from [[translatewiki:CLDR|CLDR]] {{MaintainerLinksExtension|CLDR}}
+|[[Wikimedia Language engineering|Language team]]
+|[[Wikimedia Language engineering|Language team]]
+|
+|-
+| [[Extension:CodeEditor|CodeEditor]]
+| Provides a syntax-highlighting code editor for site & user JS, CSS and Lua pages, integrating with advanced edit toolbar {{MaintainerLinksExtension|CodeEditor}}
+| [[Editing team]]
+| {{u|TheDJ|Derk-Jan Hartman}}
+|
+|-
+|[[Extension:CodeEditor|CodeMirror]]
+|Provides syntax highlighting in MediaWiki's wikitext editor.{{MaintainerLinksExtension|CodeMirror}}
+|[[Community Tech]]
+|{{u|Pastakhov|Pavel Astakhov}}
+|
+|-
+| [[Extension:Cognate|Cognate]]
+| Centralises Wiktionary links into Wikidata{{MaintainerLinksExtension|Cognate}}
+| [https://www.wikimedia.de/ansprechpartner/ WMDE Engineering] (contact EMs)
+|
+|
+|-
+| [[Extension:Collection|Collection]]
+| Allows organization of personal selections of pages in a collection that can be edited, persisted and optionally retrieved as PDF, ODF or DocBook (XML) {{MaintainerLinksExtension|Collection}}
+|  '''Unassigned''' Under review
+{{Phabricator|T224922}}
+| {{u|cscott|C. Scott Ananian}} originally: PediaPress
+|
+|-
+| [[Extension:CommonsMetadata|CommonsMetadata]]
+| Extracts metadata from commons pages {{MaintainerLinksExtension|CommonsMetadata}}
+| [[Readers/Structured Data|Structured Data team]] ([[Wikimedia Product/Component responsibility|details and SLA]])
+|
+|
+|-
+| [[Extension:ConfirmEdit|ConfirmEdit]]
+| Adds CAPTCHAs for page saves and other user actions. Only QuestyCaptcha is supported.  {{MaintainerLinksExtension|ConfirmEdit}}
+| [[Editing team]]
+| {{u|Emufarmers}}, {{u|Florianschmidtwelzow}}
+|
+|-
+| [[Extension:ContactPage|ContactPage]]
+| Provides a contact form for visitors {{MaintainerLinksExtension|ContactPage}}
+|[[Wikimedia Product Infrastructure team|Product Infrastructure]] ([[Wikimedia Product/Component responsibility#Extensions|SLA details]])
+|
+|
+|-
+| [[Extension:ContentTranslation|ContentTranslation]]
+| Allows editors to translate an article from one language to another with the help of machine translation and other aids. {{MaintainerLinksExtension|ContentTranslation}}
+|[[Wikimedia Language engineering|Language team]]
+|[[Wikimedia Language engineering|Language team]]
+|
+|-
+| [[Extension:CreditsSource|CreditsSource]]
+| Display source work credits in the page footer {{MaintainerLinksExtension|CreditsSource}}
+|  '''Unassigned'''
+|
+|
+|-
+| [[Extension:Dashiki|Dashiki]]
+| Renders the JSON used to configure dashiki dashboards in a friendly HTML table{{MaintainerLinksExtension|Dashiki}}
+| [[wikitech:Data_Engineering|Data Engineering]]
+|
+|
+|-
+| [[Extension:Disambiguator|Disambiguator]]
+| Enables the designation of disambiguation pages with a magic word {{MaintainerLinksExtension|Disambiguator}}
+|  '''Unassigned'''
+|
+|
+|-
+| [[Extension:DiscussionTools|DiscussionTools]]
+| Tools to enhance discussion pages {{MaintainerLinksExtension|DiscussionTools}}
+| [[Editing team]]
+|
+|
+|-
+| [[Extension:DismissableSiteNotice|DismissableSiteNotice]]
+| Allows users to close the sitenotice {{MaintainerLinksExtension|DismissableSiteNotice}}
+|  '''Unassigned'''
+|
+|
+|-
+| [[Extension:DonationInterface|DonationInterface]]
+| Provides fundraising mechanisms for collecting payments {{MaintainerLinksExtension|DonationInterface}}
+| [[Fundraising tech]]
+|
+|
+|-
+| [[Extension:DoubleWiki|DoubleWiki]]
+| Compare wikis in two separate languages side by side {{MaintainerLinksExtension|DoubleWiki}}
+|  '''Unassigned'''
+| {{u|Tpt|Thomas PT (Tpt)}}
+|
+|-
+| [[Extension:DynamicPageList (Wikimedia)|DynamicPageList (Wikimedia)]]
+(''aka'' Intersection'')''
+| Outputs a bulleted list of most recent items residing in a category, or an intersection of several categories {{MaintainerLinksExtension|DynamicPageList (Wikimedia)}}
+|  '''Unassigned'''
+| Brian Wolff
+|
+|-
+| [[Extension:DynamicSidebar|DynamicSidebar]]
+| Shows a dynamic sidebar based on user configuration {{MaintainerLinksExtension|DynamicSidebar}}
+|  '''Unassigned'''
+| [[User:X-Savitar|Derick Alangi]]
+|
+|-
+| [[Extension:EasyTimeline|EasyTimeline]]
+| Produces an embedded timeline image from special syntax inside {{tag|timeline|open}} tags.{{MaintainerLinksExtension|EasyTimeline}}
+|  '''Unassigned'''
+| 
+|
+|-
+| [[Extension:Echo|Echo]]
+| MediaWiki's notification subsystem {{MaintainerLinksExtension|Echo}}
+|[[Growth|Growth team]] '''[[phab:project/profile/1114/|(Needs New Owner)]]'''
+|
+|
+|-
+| [[Extension:Elastica|Elastica]]
+| Provides base elasticsearch functionality {{MaintainerLinksExtension|Elastica}}
+| [[Wikimedia Search Platform|Search Platform]]
+| 
+|
+|-
+| [[Extension:ElectronPdfService|ElectronPdfService]]
+| Converts wiki pages to PDFs using Electron.{{MaintainerLinksExtension|ElectronPdfService}}
+| [https://www.wikimedia.de/ansprechpartner/ WMDE Engineering] (contact EMs)
+|
+|
+|-
+| [[Extension:EntitySchema|EntitySchema]]
+| Stores Shape Expressions Schemas on wiki pages (for Wikidata).{{MaintainerLinksExtension|EntitySchema}}
+| [https://www.wikimedia.de/ansprechpartner/ WMDE Engineering] (contact EMs)
+| 
+|
+|-
+| [[Extension:EventBus|EventBus]]
+| Propagates change events to a RESTful service. Transports data between arbitrary applications, in the form of events that conform to versioned schemas. {{MaintainerLinksExtension|EventBus}}
+| [[wikitech:Data Engineering|Data Engineering]]
+| —
+|
+|-
+| [[Extension:EventLogging|EventLogging]]
+| Provides logging and validation of web analytics events {{MaintainerLinksExtension|EventLogging}}
+| [[wikitech:Data_Engineering|Data Engineering]]
+|
+|
+|-
+|[[Extension:EventStreamConfig|EventStreamConfig]]
+|Exposes event stream configs in an API endpoint.  Can also be used to expose configs via ResourceLoader.{{MaintainerLinksExtension|EventStreamConfig}}
+|[[wikitech:Data_Engineering|Data Engineering]]
+|[[User:Ottomata|Andrew Otto]]
+|
+|-
+| [[Extension:ExtensionDistributor|ExtensionDistributor]]
+| Enables the distribution of extensions from www.mediawiki.org {{MaintainerLinksExtension|ExtensionDistributor}}
+|  '''Unassigned'''
+| {{u|Tim Starling|Tim Starling}}
+|
+|-
+|[[Extension:ExternalGuidance|ExternalGuidance]]
+|Indicates to users that the wiki page being viewed is served through an external service, and provides ways to contribute back to the original wiki. {{MaintainerLinksExtension|ExternalGuidance}}
+|[[Language team]]
+|
+|
+|-
+| [[Extension:FeaturedFeeds|FeaturedFeeds]]
+| Adds syndication feeds of wiki's featured content {{MaintainerLinksExtension|FeaturedFeeds}}
+|[[Wikimedia Product Infrastructure team|Product Infrastructure]] ([[Wikimedia Product/Component responsibility#Extensions|SLA details]])
+|
+|
+|-
+| [[Extension:FileExporter|FileExporter]]
+| Provides a link to export local files to another wiki that has the [[Extension:FileImporter|FileImporter]] extension. {{MaintainerLinksExtension|FileExporter}}
+| [https://www.wikimedia.de/ansprechpartner/ WMDE Engineering] (contact EMs)
+|
+|
+|-
+| [[Extension:FileImporter|FileImporter]]
+| Allows for the easy importing of a file from one wiki to another.  {{MaintainerLinksExtension|FileImporter}}
+| [https://www.wikimedia.de/ansprechpartner/ WMDE Engineering] (contact EMs)
+|
+|
+|-
+| [[Extension:FlaggedRevs|FlaggedRevs]]
+| Allows for article content management by "editor" and "reviewer" classes {{MaintainerLinksExtension|FlaggedRevs}}
+|  '''Unassigned''' Under Review
+{{Phabricator|T185664}}
+|
+|Aaron Schulz and Amir Sarabadani
+|-
+| [[Extension:Flow|StructuredDiscussions]] (aka Flow)
+| A modern discussion and collaboration system {{MaintainerLinksExtension|Flow}}
+|[[Growth|Growth team]] '''[[phab:project/profile/1114/|(Needs New Owner)]]'''
+|
+|
+|-
+| [[Extension:FundraiserLandingPage|FundraiserLandingPage]]
+| Enables template parameters to be passed as querystring elements {{MaintainerLinksExtension|FundraiserLandingPage}}
+| [[Fundraising tech]]
+|
+|
+|-
+| [[Extension:FundraisingTranslateWorkflow|FundraisingTranslateWorkflow]]
+| Locks down translation publishing rights on selected pages {{MaintainerLinksExtension|FundraisingTranslateWorkflow}}
+| [[Fundraising tech]]
+| {{u|ejegg|Elliott Eggleston}}
+|
+|-
+| [[Extension:FundraisingEmailUnsubscribe|FundraisingEmailUnsubscribe]]
+| Donor-facing fundraising email unsubscribe form (on payments.wikimedia.org) {{MaintainerLinksExtension|FundraisingEmailUnsubscribe}}
+| [[Fundraising tech]]
+|
+|
+|-
+| [[Extension:Gadgets|Gadgets]]
+| Allows users to enable JS-based, user-provided gadgets from their preferences page {{MaintainerLinksExtension|Gadgets}}
+|  '''Unassigned'''
+| {{u|Catrope|Roan Kattouw}}
+|
+|-
+| [[Extension:GeoCrumbs|GeoCrumbs]]
+| Adds a trail of bread crumbs to the page {{MaintainerLinksExtension|GeoCrumbs}}
+|  '''Unassigned'''
+|
+|
+|-
+| [[Extension:GeoData|GeoData]]
+| Adds geographical coordinates storage and retrieval functionality {{MaintainerLinksExtension|GeoData}}
+| [[Wikimedia_Search_Platform|Search Platform Team]]
+|
+|
+|-
+| [[Extension:GlobalBlocking|GlobalBlocking]]
+| Allows IP addresses to be blocked on multiple wikis {{MaintainerLinksExtension|GlobalBlocking}}
+|  '''Unassigned'''
+|{{u|Majavah|Taavi Väänänen}}
+|
+|-
+| [[Extension:GlobalCssJs|GlobalCssJs]]
+| Allows global CSS and JS on a "central" wiki to be loaded for all wikis in the farm {{MaintainerLinksExtension|GlobalCssJs}}
+|  '''Unassigned'''
+|
+|
+|-
+|[[Extension:GlobalPreferences|GlobalPreferences]]
+|Allows a user to decide which user preferences to set as global (wikifarm-wide) and which to keep local.{{MaintainerLinksExtension|GlobalPreferences}}
+|[[Community Tech]]
+|
+|
+|-
+| [[Extension:GlobalUsage|GlobalUsage]]
+| Enables viewing of global image use in a wiki farm with shared image repository {{MaintainerLinksExtension|GlobalUsage}}
+| [[Readers/Structured Data|Structured Data team]] ([[Wikimedia Product/Component responsibility|details and SLA]])
+|
+|
+|-
+| [[Extension:GlobalUserPage|GlobalUserPage]]
+| Enables global (shared between wikis) user pages on a wiki farm {{MaintainerLinksExtension|GlobalUserPage}}
+|  '''Unassigned'''
+|
+|
+|-
+| [[Extension:GlobalWatchlist|GlobalWatchlist]]
+| Allows a user to view changes to watched pages on multiple sites at once {{MaintainerLinksExtension|GlobalWatchlist}}
+| (Active volunteer)
+| {{u|DannyS712|DannyS712}}
+|
+|-
+| [[Extension:GoogleNewsSitemap|GoogleNewsSitemap]]
+| Outputs a list of pages based on what categories they are in as an RSS feed or Google news sitemap {{MaintainerLinksExtension|GoogleNewsSitemap}}
+|  '''Unassigned'''
+| Brian Wolff
+|
+|-
+| [[Extension:Graph|Graph]]
+| Data-driven graphs {{MaintainerLinksExtension|Graph}}
+| [[Editing team]]
+| {{u|Yurik|Yurik}}
+|
+|-
+| [[Extension:GrowthExperiments|GrowthExperiments]]
+| Contains experiments done by the Growth team {{MaintainerLinksExtension|GrowthExperiments}}
+| [[Growth|Growth team]] 
+| 
+|
+|-
+| [[Extension:GuidedTour|GuidedTour]]
+| Delivers [[guided tours]] {{MaintainerLinksExtension|GuidedTour}}
+|[[Growth|Growth team]] '''[[phab:project/profile/1114/|(Needs New Owner)]]'''
+|
+|
+|-
+| [[Extension:GWToolset|GWToolset]]
+| Mass upload of content based on provided metadata {{MaintainerLinksExtension|GWToolset}}
+| [[Readers/Structured Data|Structured Data team]] ([[Wikimedia Product/Component responsibility|details and SLA]])
+|
+|
+|-
+| [[Extension:ImageMap|ImageMap]]
+| Allows clickable HTML image maps {{MaintainerLinksExtension|ImageMap}}
+| [[Editing team]]
+|
+|
+|-
+| [[Extension:ImageSuggestions|ImageSuggestions]]
+| Image recommendation features for experienced users {{MaintainerLinksExtension|ImageSuggestions}}
+| [[Readers/Structured Data|Structured Data team]] ([[Wikimedia Product/Component responsibility|details and SLA]])
+|
+|
+|-
+| [[Extension:InputBox|InputBox]]
+| Allows users to add predefined HTML forms to wiki pages {{MaintainerLinksExtension|InputBox}}
+|  '''Unassigned'''
+| {{u|Jackmcbarn}}
+|
+|-
+| [[Extension:Insider|Insider]]
+| Lists volunteer tour guides for travel destinations {{MaintainerLinksExtension|Insider}}
+|  '''Unassigned'''
+|
+|
+|-
+| [[Extension:Interwiki|Interwiki]]
+| Adds a special page to view and manipulate the interwiki table {{MaintainerLinksExtension|Interwiki}}
+|  '''Unassigned'''
+|
+|
+|-
+| [[Extension:InterwikiSorting|InterwikiSorting]]
+| Allows sorting of interwiki links {{MaintainerLinksExtension|InterwikiSorting}}
+| [https://www.wikimedia.de/ansprechpartner/ WMDE Engineering] (contact EMs)
+|
+|
+|-
+| [[Extension:IPInfo|IPInfo]]
+| Displays IP information for anti-vandalism purposes {{MaintainerLinksExtension|IPInfo}}
+| [[Anti-Harassment Tools|Anti-Harassment Tools Team]]
+|
+|
+|-
+| [[Extension:Josa|Josa]]
+| Automates ''josa'' part of Korean postposition process {{MaintainerLinksExtension|Josa}}
+|  '''Unassigned'''
+|
+|
+|-
+| [[Extension:JsonConfig|JsonConfig]]
+| Provides a wiki-based JSON configuration system {{MaintainerLinksExtension|JsonConfig}}
+|[[Wikimedia Product Infrastructure team|Product Infrastructure]] ([[Wikimedia Product/Component responsibility#Extensions|SLA details]])
+| {{u|Yurik|Yurik}}
+|
+|-
+| [[Extension:Kartographer|Kartographer]]
+| Allows adding maps to pages {{MaintainerLinksExtension|Kartographer}}
+| [[Content Transform Team]]
+|[[User:MSantos (WMF)|Mateus Santos]]
+|
+|-
+| [[Extension:LabeledSectionTransclusion|LabeledSectionTransclusion]]
+| Enables marked sections of text to be transcluded {{MaintainerLinksExtension|LabeledSectionTransclusion}}
+|  '''Unassigned'''
+|
+|
+|-
+| [[Extension:LandingCheck|LandingCheck]]
+| Send users to localized landing pages with fallback options {{MaintainerLinksExtension|LandingCheck}}
+| [[Fundraising tech]]
+|
+|
+|-
+| [[Extension:LDAP_Authentication|LdapAuthentication]]
+| Provides LDAP authentication, and some authorization functionality {{MaintainerLinksExtension|LdapAuthentication}}
+|  '''Unassigned'''
+|
+|
+|-
+| [[Extension:Linter|Linter]]
+| Help users find out-dated bits of wikitext to fix them {{MaintainerLinksExtension|Linter}}
+| [[Content Transform Team]]
+|
+|
+|-
+| [[Extension:LiquidThreads|LiquidThreads]]
+| A structured discussion system for MediaWiki {{MaintainerLinksExtension|LiquidThreads}}
+|  '''Unassigned'''
+|
+|
+|-
+| [[Extension:Listings|Listings]]
+| For use in imported Wikitravel articles. [[phab:T206102|In the future, tags should be substituted]] by more powerful ones {{MaintainerLinksExtension|Listings}}
+|  '''Unassigned'''
+|
+|
+|-
+| [[Extension:LoginNotify|LoginNotify]]
+| Notify users of suspicious logins {{MaintainerLinksExtension|LoginNotify}}
+| [[Community Tech]]
+|
+|
+|-
+| [[Extension:MachineVision|MachineVision]]
+| Interfaces with internal and external machine vision service providers and stores and serves results for usage on-wiki (to be deployed Sept 2019) {{MaintainerLinksExtension|MachineVision}}
+| [[Content Transform Team]] (but probably needs to migrate stewardship)
+| [[Readers/Structured Data|Structured Data team]] ([[Wikimedia Product/Component responsibility|details and SLA]])
+|
+|-
+| [[Extension:MapSources|MapSources]]
+| Gives access to several data and mapping sources {{MaintainerLinksExtension|MapSources}}
+|  '''Unassigned'''
+|
+|
+|-
+| [[Extension:MassMessage|MassMessage]]
+| Allows users to send messages across wikis {{MaintainerLinksExtension|MassMessage}}
+|  '''Unassigned'''
+| [[User:wctaiwan|wctaiwan]]
+|
+|-
+| [[Extension:Math|Math]]
+| Renders mathematical formulas between <nowiki><math> ... </math></nowiki> tags {{MaintainerLinksExtension|Math}}
+| [[Editing team]]
+| {{u|TheDJ|Derk-Jan Hartman}}, {{u|Physikerwelt|Moritz Schubotz}}
+|
+|-
+|[[Extension:MediaModeration|MediaModeration]]
+| Checks uploaded media for possible child exploitation content.
+|[[Platform Engineering Team]]
+|
+|
+|-
+| [[Extension:MediaSearch|MediaSearch]]
+| An alternative, media-focused way to display search results through the Special:MediaSearch page. {{MaintainerLinksExtension|MediaSearch}}
+| [[Readers/Structured Data|Structured Data team]] ([[Wikimedia Product/Component responsibility|details and SLA]])
+|
+|
+|-
+| [[Extension:MobileApp|MobileApp]]
+| Serves styles and scripts for use in the Wikimedia native apps {{MaintainerLinksExtension|MobileApp}}
+| [[Wikimedia Apps/Team|Apps]] ([[Reading/Component_responsibility#Extensions|SLA details]]), [[Content Transform Team]]
+|
+|
+|-
+| [[Extension:MobileFrontend|MobileFrontend]]
+| Optimizes content for mobile experiences.{{MaintainerLinksExtension|MobileFrontend}}
+| [[Reading/Web|Web]] ([[Reading/Component_responsibility#Extensions|SLA details]])
+|
+|
+|-
+| [[Extension:MultimediaViewer|MultimediaViewer]]
+| Provides a better experience to users when they click on thumbnails in a page {{MaintainerLinksExtension|MultimediaViewer}}
+| [[Readers/Structured Data|Structured Data team]] ([[Wikimedia Product/Component responsibility|details and SLA]])
+|
+|
+|-
+| [[Extension:NavigationTiming|NavigationTiming]]
+| Logs perceived latency measurements from client-side {{MaintainerLinksExtension|NavigationTiming}}
+| [[Wikimedia Performance Team|Performance Team]]
+| {{u|Krinkle|Timo Tijhof}}
+|
+|-
+| [[Extension:Newsletter|Newsletter]]
+| Adds a preference for newsletter subscription {{MaintainerLinksExtension|Newsletter}}
+|  '''Unassigned'''
+| [[User:Bawolff|Brian Wolff]] (for emergency issues)
+|
+|-
+| [[Extension:NewUserMessage|NewUserMessage]]
+| Adds a message to newly created user's talk pages {{MaintainerLinksExtension|NewUserMessage}}
+|[[Growth|Growth team]] '''[[phab:project/profile/1114/|(Needs New Owner)]]'''
+|
+|
+|-
+| [[Extension:Nuke|Nuke]]
+| Gives sysops the ability to mass delete pages {{MaintainerLinksExtension|Nuke}}
+|  '''Unassigned''' Under review
+{{Phabricator|T221155}}
+| {{u|Jeroen de Dauw|Jeroen de Dauw}}
+|
+|-
+| [[Extension:OATHAuth|OATHAuth]]
+| An HMAC based One Time Password extension, providing two-factor authentication {{MaintainerLinksExtension|OATHAuth}}
+|  '''Unassigned'''
+|
+|
+|-
+| [[Extension:OAuth|OAuth]]
+| Allow users to safely authorize another application (Consumer) to use the MediaWiki api on their behalf {{MaintainerLinksExtension|OAuth}}
+|[[Platform Engineering Team]]
+| {{u|Tgr (WMF)}}
+|
+|-
+|[[Extension:OAuthRateLimiter|OAuthRateLimiter]]
+|Implements an OAuth hook to add rate limit values to the OAuth JSON Web Token (JWT){{MaintainerLinksExtension|OAuthRateLimiter}}
+|[[Platform Engineering Team]]
+|[[User:PPchelko (WMF)|PPchelko_(WMF)]], [[User:CAndrew (WMF)|CAndrew_(WMF)]]
+|
+|-
+|[[Extension:OpenStackManager|OpenStackManager]]
+|Provides a web interface based on MediaWiki, offering a Nova or Swift manager that allows authorized users to create and manage projects, instances, IP allocations, DNS and LDAP entries, and boot images, to run virtual servers hosted on an [http://wiki.openstack.org/ OpenStack] cloud.{{MaintainerLinksExtension|OpenStackManager}}
+|[[Wikimedia Cloud Services team|Wikimedia Cloud Services]]
+|{{u|AndrewBogott (WMF)}}, {{u|BDavis (WMF)}}
+|
+|-
+| [[Extension:ORES|ORES]]
+| Integrates data from the ORES project into the RecentChanges view {{MaintainerLinksExtension|ORES}}
+|[[Machine Learning|Machine Learning Team]]/[[SPT|Scoring Platform team]]
+|
+|
+|-
+| [[Extension:PageAssessments|PageAssessments]]
+| Stores assessments of pages made by WikiProjects {{MaintainerLinksExtension|PageAssessments}}
+| [[Community Tech]]
+| {{u|Kaldari|Kaldari}}
+|
+|-
+| [[Extension:PagedTiffHandler|PagedTiffHandler]]
+| Handles TIFF files, including multi-paged images {{MaintainerLinksExtension|PagedTiffHandler}}
+|[[Wikimedia Product Infrastructure team|Product Infrastructure]] ([[Wikimedia Product/Component responsibility#Extensions|SLA details]])
+|
+|
+|-
+| [[Extension:PageImages|PageImages]]
+| Stores information about images representing a page {{MaintainerLinksExtension|PageImages}}
+| [[Reading/Web|Web]] ([[Reading/Component_responsibility#Extensions|SLA details]])
+Pending stewardship review
+|
+|
+|-
+| {{anchor|PageTriage}}[[Extension:PageTriage|PageTriage]]
+| Facilitates reviewing and approving new pages {{MaintainerLinksExtension|PageTriage}}
+|[[Growth|Growth team]] '''[[phab:project/profile/1114/|(Needs New Owner)]]''' 
+|
+|
+|-
+| [[Extension:PageViewInfo|PageViewInfo]]
+| Provides fancy looking graphs of Wikimedia page view data {{MaintainerLinksExtension|PageViewInfo}}
+|  '''Unassigned'''
+|
+|
+|-
+| [[Extension:ParserFunctions|ParserFunctions]]
+| Enhances parser with logical and string functions {{MaintainerLinksExtension|ParserFunctions}}
+| [[Content Transform Team]]
+| {{u|Jackmcbarn}}, {{u|Tim Starling|Tim Starling}}?
+|
+|-
+| [[Extension:PdfHandler|PdfHandler]]
+| Handles PDF files like multipage DJVU {{MaintainerLinksExtension|PdfHandler}}
+|[[Wikimedia Product Infrastructure team|Product Infrastructure]] ([[Wikimedia Product/Component responsibility#Extensions|SLA details]])
+| {{u|bawolff|bawolff}}
+|
+|-
+| [[Extension:Poem|Poem]]
+| Adds <nowiki><poem></nowiki> tag for poem formatting {{MaintainerLinksExtension|Poem}}
+|  '''Unassigned'''
+|
+|
+|-
+| [[Extension:Popups|Popups]]
+| Displays popups when users hover over article links (aka. Hovercards) {{MaintainerLinksExtension|Popups}}
+|[[Reading/Web|Web]] ([[Reading/Component_responsibility#Extensions|SLA details]])
+|
+|
+|-
+| [[Extension:ProofreadPage|ProofreadPage]]
+| Helps proofreading of books. {{MaintainerLinksExtension|ProofreadPage}}
+| (Active volunteer)
+| {{u|Tpt|Thomas PT (Tpt)}}
+|
+|-
+| [[Extension:PropertySuggester|PropertySuggester]]
+| Provides suggested properties when a user tries to add new statements to a Wikidata item. {{MaintainerLinksExtension|PropertySuggester}}
+| [https://www.wikimedia.de/ansprechpartner/ WMDE Engineering] (contact EMs)
+|
+|
+|-
+| [[Extension:QuickSurveys|QuickSurveys]]
+| Provides in-article quick surveys or external survey to poll readers for opinions. {{MaintainerLinksExtension|QuickSurveys}}
+|[[Reading/Web|Web]] ([[Reading/Component_responsibility#Extensions|SLA details]])
+|Consult [[Reading/Web|Web]] for large architectural changes or UBN bugs.
+
+
+Others are feel free to contribute and merge changes to this extension.
+|
+|-
+| [[Extension:Quiz|Quiz]]
+| Quiz building tool adopted on the Wikiversity {{MaintainerLinksExtension|Quiz}}
+|  '''Unassigned'''
+|
+|
+|-
+| [[Extension:ReadingLists|ReadingLists]]
+| Provides an API for storing and retrieving private lists of pages. {{MaintainerLinksExtension|RelatedArticles}}
+|[[Wikimedia Product Infrastructure team|Product Infrastructure]] ([[Wikimedia Product/Component responsibility#Extensions|SLA details]])
+|
+|
+|-
+| [[Extension:RelatedArticles|RelatedArticles]]
+| Parser function to associate related articles (cf. Wikivoyage) {{MaintainerLinksExtension|RelatedArticles}}
+|[[Reading/Web|Web]] ([[Reading/Component_responsibility#Extensions|SLA details]])
+|
+|
+|-
+| [[Extension:Renameuser|Renameuser]]
+| Provides a special page that allows user accounts to be renamed {{MaintainerLinksExtension|Renameuser}}
+|  '''Unassigned'''
+| {{u|Hoo man|Marius Hoch}}
+|
+|-
+| [[Extension:RevisionSlider|RevisionSlider]]
+| Visualizes revision history {{MaintainerLinksExtension|RevisionSlider}}
+| [https://www.wikimedia.de/ansprechpartner/ WMDE Engineering] (contact EMs)
+|
+|
+|-
+| [[Extension:RSS|RSS]]
+| Displays RSS feeds on a wiki page {{MaintainerLinksExtension|RSS}}
+|  '''Unassigned'''
+|
+|
+|-
+| [[Extension:SandboxLink|SandboxLink]]
+| Provides a link in personal tools to a per-user sandbox {{MaintainerLinksExtension|SandboxLink}}
+|  '''Unassigned'''
+|
+|
+|-
+| [[Extension:SecureLinkFixer|SecureLinkFixer]]
+| Automatically rewrites URLs to HTTPS if domain always requires HTTPS {{MaintainerLinksExtension|SecureLinkFixer}}
+| [[Platform Engineering Team]] ([[phab:T200745|T200745]])
+| {{U|Legoktm}}
+|
+|-
+| [[Extension:Score|Score]]
+| Allows rendering of musical scores with [[:en:LilyPond]] {{MaintainerLinksExtension|Score}}
+| [[Editing team]]
+| {{U|GrafZahl|Alexander Klauer}}, {{u|Ebe123|Ebe123}}
+|
+|-
+| [[Extension:Scribunto|Scribunto]]
+| Provides a framework for embedding scripting languages into MediaWiki pages {{MaintainerLinksExtension|Scribunto}}
+| [[Platform Engineering Team]]
+| {{u|Tim Starling|Tim Starling}}, {{u|VasilievVV|Victor Vasiliev}}, {{u|Jackmcbarn}}
+|
+|-
+| [[Extension:SearchExtraNS|SearchExtraNS]]
+| Searches extra specified namespaces if no direct match is found {{MaintainerLinksExtension|SearchExtraNS}}
+|  '''Unassigned'''
+|
+|
+|-
+| [[Extension:SearchVue|SearchVue]]
+| Vue.js augmentations and improvements to Special:Search {{MaintainerLinksExtension|SearchVue}}
+|  [[Structured_Data_Across_Wikimedia]]
+|
+|
+|-
+| [[Extension:SecurePoll|SecurePoll]]
+| Extension for elections and surveys {{MaintainerLinksExtension|SecurePoll}}
+|
+| {{u|Huji}}
+|
+|-
+| [[Extension:ShortUrl|ShortUrl]]
+| Adds a special page that redirects to an article based on the given base36-encoded ID {{MaintainerLinksExtension|ShortUrl}}
+|  '''Unassigned''' Under review
+{{Phabricator|T187045}}
+|
+|
+|-
+| [[Extension:SimilarEditors|SimilarEditors]]
+| Adds a special page for discovering editors with similar edit histories {{MaintainerLinksExtension|SimilarEditors}}
+| [[Anti-Harassment Tools|Anti-Harassment Tools Team]]
+|
+|
+|-
+| [[Extension:SiteMatrix|SiteMatrix]]
+| A special page with a matrix of all Wikimedia sites {{MaintainerLinksExtension|SiteMatrix}}
+|  '''Unassigned'''
+|
+|
+|-
+| [[Extension:SpamBlacklist|SpamBlacklist]]
+| Provides a regex-based spam filter {{MaintainerLinksExtension|SpamBlacklist}}
+|  '''Unassigned''' Under review
+{{Phabricator|T224921}}
+|
+|
+|-
+| [[Extension:StopForumSpam|StopForumSpam]]
+| Blocks write actions based upon stopforumspam.com deny lists {{MaintainerLinksExtension|StopForumSpam}}
+| [[Wikimedia_Security_Team|The Wikimedia Security Team]]
+| {{u|SBassett_(WMF)}}, {{u|Reedy}}, {{u|Legoktm}}
+|
+|-
+| [[Extension:SubPageList3|SubPageList3]]
+| Provides a splist tag to list the subpages of a page {{MaintainerLinksExtension|SubPageList3}}
+|  '''Unassigned'''
+|
+|
+|-
+| [[Extension:SubpageSortkey|SubpageSortkey]]
+| Changes the default sortkey to have something to do with the subpages {{MaintainerLinksExtension|SubpageSortkey}}
+|  '''Unassigned'''
+| Brian Wolff
+|
+|-
+| [[Extension:SyntaxHighlight_GeSHi|SyntaxHighlight_GeSHi]]
+| Allows source code to be syntax highlighted on the wiki pages {{MaintainerLinksExtension|SyntaxHighlight_GeSHi}}
+| [[Editing team]]
+|
+|
+|-
+| [[Extension:TemplateData|TemplateData]]
+| Creates and extracts data about templates and their usage {{MaintainerLinksExtension|TemplateData}}
+| [[Editing team]]
+|
+|
+|-
+| [[Extension:TemplateSandbox|TemplateSandbox]]
+| Enables page previews using sandboxed templates {{MaintainerLinksExtension|TemplateSandbox}}
+|  '''Unassigned'''
+| {{u|Jackmcbarn}}
+|
+|-
+| [[Extension:TemplateStyles|TemplateStyles]]
+| Allows for loading sanitized CSS stylesheets from a template {{MaintainerLinksExtension|TemplateStyles}}
+| [[Content Transform Team]]
+| {{u|Tgr (WMF)|Gergő Tisza}}
+|
+|-
+| [[Extension:TemplateWizard|TemplateWizard]]
+| Adds a popup dialog box for adding template code to wikitext. {{MaintainerLinksExtension|TemplateWizard}}
+| [[Community Tech]]
+| {{u|Samwilson}}
+|
+|-
+| [[Extension:TextExtracts|TextExtracts]]
+| Provides API with plain-text or limited HTML extracts of page content {{MaintainerLinksExtension|TextExtracts}}
+|[[Reading/Web|Web]] ([[Reading/Component_responsibility#Extensions|SLA details]])
+
+Pending stewardship review.
+|
+|
+|-
+| [[Extension:Thanks|Thanks]]
+| Lets users thank other users for individual edits {{MaintainerLinksExtension|Thanks}}
+|[[Growth|Growth team]] '''[[phab:project/profile/1114/|(Needs New Owner)]]'''
+|
+|
+|-
+| [[Extension:TheWikipediaLibrary|TheWikipediaLibrary]]
+| Notifies users of their eligibility for the Wikipedia Library when they cross the edit count and account age thresholds {{MaintainerLinksExtension|TheWikipediaLibrary}}
+| [[The Wikipedia Library|Wikipedia Library team]]
+| [[User:JSherman (WMF)|Jason Sherman]], [[User:SCardenas (WMF)|Susana Cardenas Molinar]]
+|
+|-
+| [[Extension:TimedMediaHandler|TimedMediaHandler]]
+| Provides integrated support for server side transcoding, WebM, Ogg Theora, Vorbis, Speex and Timed Text {{MaintainerLinksExtension|TimedMediaHandler}}
+| [[Reading/Component_responsibility#Extensions|Readers Engineering]]
+| Brion Vibber (Emergency Backup: Structured Data), {{u|MDale|Michael Dale}}
+|
+|-
+| [[Extension:TitleBlacklist|TitleBlacklist]]
+| Blocks the creation of pages matching a regular expression blacklist {{MaintainerLinksExtension|TitleBlacklist}}
+|  '''Unassigned'''
+| {{u|Jackmcbarn}}
+|
+|-
+| [[Extension:TocTree|TocTree]]
+| Adds options for floated or expanded table of contents (cf. Wikivoyage) {{MaintainerLinksExtension|TocTree}}
+| '''Unassigned'''
+|
+|
+|-
+| [[Extension:TorBlock|TorBlock]]
+| Automatically applies restrictions to Tor exit nodes with access to the wiki's front-door server {{MaintainerLinksExtension|TorBlock}}
+|[[Platform Engineering Team]]
+|
+|
+|-
+| [[Extension:Translate|Translate]]
+| Enables in-wiki translation and proofreading {{MaintainerLinksExtension|Translate}}
+|[[Wikimedia Language engineering|Language team]]
+|
+|
+|-
+| [[Extension:TranslationNotifications|TranslationNotifications]]
+| Allows translators sign up for translation notifications {{MaintainerLinksExtension|TranslationNotifications}}
+|[[Wikimedia Language engineering|Language team]]
+|
+|
+|-
+| [[Extension:TrustedXFF|TrustedXFF]]
+| Handles trusted proxy addresses (XFF) {{MaintainerLinksExtension|TrustedXFF}}
+|[[Platform Engineering Team]]
+|
+|
+|-
+| [[Extension:TwoColConflict|TwoColConflict]]
+| Provides an interactive two-column edit conflict resolution tool {{MaintainerLinksExtension|TwoColConflict}}
+| [https://www.wikimedia.de/ansprechpartner/ WMDE Engineering] (contact EMs)
+|
+|
+|-
+| [[Extension:UniversalLanguageSelector|UniversalLanguageSelector]]
+| Allows users to select a language and configure its support in an easy way. {{MaintainerLinksExtension|UniversalLanguageSelector}}
+|[[Wikimedia Language engineering|Language team]]
+|
+|
+|-
+| [[Extension:UploadsLink|UploadsLink]]
+| Provides a link in personal tools to a user's uploads {{MaintainerLinksExtension|UploadsLink}}
+|  '''Unassigned'''
+|
+|
+|-
+| [[Extension:UploadWizard|UploadWizard]]
+| Helps people upload media to Commons. {{MaintainerLinksExtension|UploadWizard}}
+| [[Readers/Structured Data|Structured Data team]] ([[Wikimedia Product/Component responsibility|details and SLA]])
+| {{u|MarkTraceur|Mark Holmquist}}
+|
+|-
+|[[Extension:UrlShortener|UrlShortener]]
+|Provides a basic URL shortening service{{MaintainerLinksExtension|UrlShortener}}
+|[[Platform Engineering Team]]
+|
+|
+|-
+| [[Extension:VisualEditor|VisualEditor]]
+| Enables a rich-text editor for wiki pages (see also [[Parsoid]]) {{MaintainerLinksExtension|VisualEditor}}
+| [[Editing team]]
+|
+|
+|-
+| [[Extension:WebAuthn|WebAuthn]]
+| A module for OATHAuth extension that provides authentication using WebAuthn API
+{{MaintainerLinksExtension|WebAuthn}}
+|  '''Unassigned'''
+|
+|
+|-
+| [[Extension:WikibaseClient|WikibaseClient]]
+| Client for structured data repository {{MaintainerLinksExtension|WikibaseClient}}
+| [https://www.wikimedia.de/ansprechpartner/ WMDE Engineering] (contact EMs)
+|
+|
+|-
+| [[Extension:WikibaseRepository|WikibaseRepository]]
+| Structured data repository {{MaintainerLinksExtension|WikibaseRepository}}
+| [https://www.wikimedia.de/ansprechpartner/ WMDE Engineering] (contact EMs)
+|
+|
+|-
+| [[Extension:WikibaseCirrusSearch|WikibaseCirrusSearch]]
+| Implements searching for Wikibase repositories using Elasticsearch {{MaintainerLinksExtension|WikibaseCirrusSearch}}
+| [[Wikimedia Search Platform|Search Platform]]
+|
+|
+|-
+| [[Extension:WikibaseLexeme|WikibaseLexeme]]
+| Structured lexicographical data {{MaintainerLinksExtension|WikibaseLexeme}}
+| [https://www.wikimedia.de/ansprechpartner/ WMDE Engineering] (contact EMs)
+|
+|
+|-
+| [[Extension:WikibaseLexemeCirrusSearch|WikibaseLexemeCirrusSearch]]
+| Implements searching for Wikibase Lexemes using Elasticsearch {{MaintainerLinksExtension|WikibaseLexemeCirrusSearch}}
+| [[Wikimedia Search Platform|Search Platform]]
+|
+|
+|-
+| [[Extension:WikibaseMediaInfo|WikibaseMediaInfo]]
+| Wikibase extension to manage structured metadata of media files {{MaintainerLinksExtension|WikibaseMediaInfo}}
+| [[Readers/Structured Data|Structured Data team]] ([[Wikimedia Product/Component responsibility|details and SLA]])
+|
+|
+|-
+| Wikidata.org
+| Specific code for Wikibase as running on Wikidata.org
+| [https://www.wikimedia.de/ansprechpartner/ WMDE Engineering] (contact EMs)
+|
+|
+|-
+| [[Extension:WikidataPageBanner|WikidataPageBanner]]
+| Adds pagewide banners at the top of pages in specified namespaces on a wiki. {{MaintainerLinksExtension|WikidataPageBanner}}
+|[[Reading/Web|Web]] ([[Reading/Component_responsibility#Extensions|SLA details]])
+|
+|
+|-
+| [[Extension:WikiEditor|WikiEditor]]
+| Provides an extendable wikitext editing interface and many feature-providing modules {{MaintainerLinksExtension|WikiEditor}}
+| [[Editing team]]
+| {{u|TheDJ|Derk-Jan Hartman}}
+|
+|-
+| [[Extension:wikihiero|wikihiero]]
+| Enables the use of hieroglyphs with additional syntaxes {{MaintainerLinksExtension|wikihiero}}
+|  '''Unassigned'''
+| {{u|MaxSem|Max Semenik}}
+|
+|-
+| [[Extension:WikiLove|WikiLove]]
+| Makes it easy to add positive feedback to user talk pages {{MaintainerLinksExtension|WikiLove}}
+|  '''Unassigned'''
+|
+|
+|-
+|[[Extension:WikimediaApiPortalOAuth|WikimediaApiPortalOAuth]]
+|The WikimediaApiPortalOAuth extension is designed to connect the [[Core_Platform_Team/Initiative/API_Gateway/Documentation_Plan|API Portal]] with the [[Extension:OAuth|OAuth]] server on Meta-Wiki. It provides a user interface to create and manage OAuth 2.0 clients.
+|[[Platform Engineering Team]]
+|[[User:Krinkle|Timo Tijhof]]
+|
+|-
+| [[Extension:WikimediaBadges|WikimediaBadges]]
+| Default themes to display badges on Wikimedia projects {{MaintainerLinksExtension|WikimediaBadges}}
+| [https://www.wikimedia.de/ansprechpartner/ WMDE Engineering] (contact EMs)
+|
+|
+|-
+|[[Extension:WikimediaEditorTasks|WikimediaEditorTasks]]
+|Task generation, storage, and API service for microcontribution suggestions {{MaintainerLinksExtension|WikimediaEditorTasks}}
+|[[Content Transform Team]]
+|
+|
+|-
+| [[Extension:WikimediaEvents|WikimediaEvents]]
+| Event instrumentations and wiring for Wikimedia Foundation sites {{MaintainerLinksExtension|WikimediaEvents}}
+|[[Wikimedia Performance Team|Performance Team]]
+|See OWNERs.md file for individual owners of each schema.
+
+
+Consult with Performance for large changes.
+|
+|-
+| [[Extension:WikimediaIncubator|WikimediaIncubator]]
+| Adds functions meant for Wikimedia Incubator {{MaintainerLinksExtension|WikimediaIncubator}}
+| (Active volunteer)
+| {{u|SPQRobin|Robin Pepermans}}, {{u|Hydriz|Hydriz}}, {{u|Ebe123|Ebe123}}
+|
+|-
+| [[Extension:WikimediaMaintenance|WikimediaMaintenance]]
+| Various WMF-specific maintenance scripts {{MaintainerLinksExtension|WikimediaMaintenance}}
+|  '''Unassigned'''
+| Sam Reed
+|
+|-
+| [[Extension:WikimediaMessages|WikimediaMessages]]
+| Adds Wikimedia specific messages and grammar, as well as Wikimedia specific overrides for license related messages {{MaintainerLinksExtension|WikimediaMessages}}
+|  '''Unassigned'''
+| {{u|Multichill|Maarten Dammers}}
+|
+|-
+|[[Extension:Wikisource|Wikisource]]
+|{{MaintainerLinksExtension|Wikisource}}
+|[[Community Tech]]
+|[[User:Tpt|Tpt]]
+|
+|-
+| [[Extension:XAnalytics|XAnalytics]]
+| Communicates analytic information for WMF to logging infrastructure {{MaintainerLinksExtension|XAnalytics}}
+|  '''Unassigned'''
+|
+|
+|}
