@@ -10,10 +10,12 @@ import xml.etree.ElementTree as ET
 import matplotlib.pyplot as plt
 from scipy.stats import pearsonr, ttest_ind
 
-elasticsearch_request_headers = {'kbn-xsrf': 'true', 'content-type': 'application/json'}
-gerrit_search_url = 'https://wikimedia.biterg.io/data/gerrit/_search'
-git_search_url = 'https://wikimedia.biterg.io/data/git/_search'
-phabricator_search_url = 'https://wikimedia.biterg.io/data/phabricator/_search'
+from . import common
 
-extensions_list = [ line.strip() for line in open("extensions_list.txt", "r").readlines() ]
 
+
+def generate_reviewers_list():
+    try:
+        for extension in extensions_list:
+            requests.get(  )
+    finally:

@@ -5,6 +5,8 @@ repository. Define secrets.py with a class that extends this
 
 from abc import ABCMeta, abstractmethod
 
+from secrets import Secrets
+
 class SecretsInterface(metaclass=ABCMeta):
 
     """
@@ -21,3 +23,6 @@ class SecretsInterface(metaclass=ABCMeta):
     @abstractmethod
     def gerrit_http_credentials(self) -> tuple:
         pass
+
+def load_secrets() -> SecretsInterface:
+    return Secrets()
