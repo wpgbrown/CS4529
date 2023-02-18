@@ -1,8 +1,8 @@
-from secrets_interface import load_secrets
+from secrets import Secrets
 
-extensions_list = [ line.strip() for line in open("extensions_list.txt", "r").readlines() ]
+extensions_list = [ line.strip() for line in open("../extensions_list.txt", "r").readlines() ]
 
-secrets = load_secrets()
+secrets = Secrets()
 
 gerrit_api_url_prefix = 'https://gerrit.wikimedia.org/r/a/'
 
