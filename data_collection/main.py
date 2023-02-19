@@ -1,5 +1,6 @@
 import json
 import pickle
+import string
 import time
 import numpy
 import requests as requests
@@ -12,10 +13,3 @@ from scipy.stats import pearsonr, ttest_ind
 
 from . import common
 
-
-
-def generate_reviewers_list():
-    try:
-        for extension in extensions_list:
-            requests.get(  )
-    finally:

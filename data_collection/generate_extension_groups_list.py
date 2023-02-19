@@ -1,8 +1,10 @@
 import json
-from . import common
+import re
 
-with open("groups_list.json", "r") as f:
-    with open("extension_groups_list.txt", "w") as f2:
+from data_collection import common
+
+with open("raw_data/groups_list.json", "r") as f:
+    with open("raw_data/extension_groups_list.json", "w") as f2:
         extension_groups = {}
         groups = json.load(f)
         group_names = groups.keys()
@@ -11,4 +13,8 @@ with open("groups_list.json", "r") as f:
                 extension_groups[extension] = groups[extension]
             elif "extension-" + extension in group_names:
                 extension_groups[extension] = groups["extension-" + extension]
-        print(groups.keys())
+            else:
+                for group in group_names:
+                    if extension in group:
+                        print("Here: " + extension + "   " + group)
+        json.dump( extension_groups, f2 )
