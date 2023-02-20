@@ -1,5 +1,4 @@
 import json
-import re
 
 from data_collection import common
 

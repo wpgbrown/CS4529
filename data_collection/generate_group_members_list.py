@@ -1,11 +1,7 @@
 import json
-import pickle
-import string
 import time
-
 import more_itertools
 import requests
-
 from data_collection import common
 
 
