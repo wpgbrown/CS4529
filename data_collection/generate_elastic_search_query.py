@@ -1,7 +1,15 @@
 import json
+import warnings
 
+"""
+The methods that are used to make the queries are based on queries
+used to make the interface panel at biterg.
+
+The builder is made by William Brown
+"""
 class ElasticSearchQueryBuilder:
     def __init__(self):
+        self.aggs = []
         self._must = []
         self._must_not = []
         self._filter = []
@@ -42,6 +50,16 @@ class ElasticSearchQueryBuilder:
             "match_phrase": {
                 "author_bot": {
                     "query": True
+                }
+            }
+        })
+        return self
+
+    def repository(self, repository_name):
+        self.must({
+            "match_phrase": {
+                "repository": {
+                    "query": repository_name
                 }
             }
         })
@@ -90,7 +108,7 @@ class ElasticSearchQueryBuilder:
                                     "approval_value:\"-2\"": {
                                         "query_string": {
                                             "query": "approval_value:\"-2\"",
-                                            "analyze_wildcard": true,
+                                            "analyze_wildcard": True,
                                             "default_field": "*"
                                         }
                                     }
@@ -103,7 +121,7 @@ class ElasticSearchQueryBuilder:
                                     "approval_value:\"-1\"": {
                                         "query_string": {
                                             "query": "approval_value:\"-1\"",
-                                            "analyze_wildcard": true,
+                                            "analyze_wildcard": True,
                                             "default_field": "*"
                                         }
                                     }
@@ -116,7 +134,7 @@ class ElasticSearchQueryBuilder:
                                     "approval_value:\"1\"": {
                                         "query_string": {
                                             "query": "approval_value:\"1\"",
-                                            "analyze_wildcard": true,
+                                            "analyze_wildcard": True,
                                             "default_field": "*"
                                         }
                                     }
@@ -129,7 +147,7 @@ class ElasticSearchQueryBuilder:
                                     "approval_value:\"2\"": {
                                         "query_string": {
                                             "query": "approval_value:\"2\"",
-                                            "analyze_wildcard": true,
+                                            "analyze_wildcard": True,
                                             "default_field": "*"
                                         }
                                     }
@@ -252,3 +270,42 @@ class ElasticSearchQueryBuilder:
 
     def get_json(self):
         return json.dumps(self.get_object())
+
+class ElasticSearchAggregationBuilder:
+    def __init__(self):
+        self.test = ''
+
+    def get_object(self):
+        return {}
+
+    def get_json(self):
+        return json.dumps(self.get_object())
+class ElasticSearchAggregationGroupBuilder:
+    def __init__(self):
+        self._aggregations = {}
+
+    def aggregation(self, value, key=None):
+        if key is None:
+            # Set key as highest already seen integer key plus 1
+            key = str(max(filter(try_integer_conversion, self._aggregations.keys()), default=-1) + 1)
+        else:
+            key = str(key)
+        if key in self._aggregations.keys():
+            warnings.warn("Aggregations cannot have the same key. Previous key value pair removed.")
+        if isinstance(value, ElasticSearchAggregationBuilder):
+            # If the value is a instance of the builder, get the associated object
+            value = value.get_object()
+        self._aggregations.update({key: value})
+        return self
+
+    def get_object(self):
+        return self._aggregations
+
+    def get_json(self):
+        return json.dumps(self.get_object())
+
+def try_integer_conversion(value, default=0):
+    try:
+        return int(value)
+    except (TypeError, ValueError):
+        return default
