@@ -1,5 +1,17 @@
 import json
 import warnings
+from abc import ABCMeta, abstractmethod
+
+class AggregationBuilderInterface(metaclass=ABCMeta):
+    @property
+    @abstractmethod
+    def get_object(self):
+        pass
+
+    @property
+    @abstractmethod
+    def get_json(self) -> str:
+        pass
 
 """
 The methods that are used to make the queries are based on queries
@@ -9,7 +21,7 @@ The builder is made by William Brown
 """
 class ElasticSearchQueryBuilder:
     def __init__(self):
-        self.aggs = []
+        self._aggs = {}
         self._must = []
         self._must_not = []
         self._filter = []
@@ -65,98 +77,103 @@ class ElasticSearchQueryBuilder:
         })
         return self
 
+    def aggregation(self, aggregation: AggregationBuilderInterface):
+        self._aggs.update(aggregation.get_object())
+        return self
+
     def get_object(self):
-        return {
-            "aggs": {
-                "2": {
-                    "terms": {
-                        "field": "author_name",
-                        "size": 5000,
-                        "order": {
-                            "1": "desc"
+        """{
+            "2": {
+                "terms": {
+                    "field": "author_name",
+                    "size": 5000,
+                    "order": {
+                        "1": "desc"
+                    }
+                },
+                "aggs": {
+                    "1": {
+                        "sum": {
+                            "field": "is_gerrit_approval"
                         }
                     },
-                    "aggs": {
-                        "1": {
-                            "sum": {
-                                "field": "is_gerrit_approval"
-                            }
-                        },
-                        "3": {
-                            "sum_bucket": {
-                                "buckets_path": "3-bucket>_count"
-                            }
-                        },
-                        "4": {
-                            "sum_bucket": {
-                                "buckets_path": "4-bucket>_count"
-                            }
-                        },
-                        "5": {
-                            "sum_bucket": {
-                                "buckets_path": "5-bucket>_count"
-                            }
-                        },
-                        "6": {
-                            "sum_bucket": {
-                                "buckets_path": "6-bucket>_count"
-                            }
-                        },
-                        "3-bucket": {
+                    "3": {
+                        "sum_bucket": {
+                            "buckets_path": "3-bucket>_count"
+                        }
+                    },
+                    "4": {
+                        "sum_bucket": {
+                            "buckets_path": "4-bucket>_count"
+                        }
+                    },
+                    "5": {
+                        "sum_bucket": {
+                            "buckets_path": "5-bucket>_count"
+                        }
+                    },
+                    "6": {
+                        "sum_bucket": {
+                            "buckets_path": "6-bucket>_count"
+                        }
+                    },
+                    "3-bucket": {
+                        "filters": {
                             "filters": {
-                                "filters": {
-                                    "approval_value:\"-2\"": {
-                                        "query_string": {
-                                            "query": "approval_value:\"-2\"",
-                                            "analyze_wildcard": True,
-                                            "default_field": "*"
-                                        }
+                                "approval_value:\"-2\"": {
+                                    "query_string": {
+                                        "query": "approval_value:\"-2\"",
+                                        "analyze_wildcard": True,
+                                        "default_field": "*"
                                     }
                                 }
                             }
-                        },
-                        "4-bucket": {
+                        }
+                    },
+                    "4-bucket": {
+                        "filters": {
                             "filters": {
-                                "filters": {
-                                    "approval_value:\"-1\"": {
-                                        "query_string": {
-                                            "query": "approval_value:\"-1\"",
-                                            "analyze_wildcard": True,
-                                            "default_field": "*"
-                                        }
+                                "approval_value:\"-1\"": {
+                                    "query_string": {
+                                        "query": "approval_value:\"-1\"",
+                                        "analyze_wildcard": True,
+                                        "default_field": "*"
                                     }
                                 }
                             }
-                        },
-                        "5-bucket": {
+                        }
+                    },
+                    "5-bucket": {
+                        "filters": {
                             "filters": {
-                                "filters": {
-                                    "approval_value:\"1\"": {
-                                        "query_string": {
-                                            "query": "approval_value:\"1\"",
-                                            "analyze_wildcard": True,
-                                            "default_field": "*"
-                                        }
+                                "approval_value:\"1\"": {
+                                    "query_string": {
+                                        "query": "approval_value:\"1\"",
+                                        "analyze_wildcard": True,
+                                        "default_field": "*"
                                     }
                                 }
                             }
-                        },
-                        "6-bucket": {
+                        }
+                    },
+                    "6-bucket": {
+                        "filters": {
                             "filters": {
-                                "filters": {
-                                    "approval_value:\"2\"": {
-                                        "query_string": {
-                                            "query": "approval_value:\"2\"",
-                                            "analyze_wildcard": True,
-                                            "default_field": "*"
-                                        }
+                                "approval_value:\"2\"": {
+                                    "query_string": {
+                                        "query": "approval_value:\"2\"",
+                                        "analyze_wildcard": True,
+                                        "default_field": "*"
                                     }
                                 }
                             }
                         }
                     }
                 }
-            },
+            }
+        }"""
+        return {
+            "aggs": self._aggs,
             "size": 0,
             "_source": {
                 "excludes": []
@@ -271,35 +288,52 @@ class ElasticSearchQueryBuilder:
     def get_json(self):
         return json.dumps(self.get_object())
 
-class ElasticSearchAggregationBuilder:
-    def __init__(self):
-        self.test = ''
+class ElasticSearchAggregationBuilder(AggregationBuilderInterface):
+    def __init__(self, name=''):
+        self.name = str(name)
+        self.value = {}
 
-    def get_object(self):
-        return {}
+    def add_type(self, type_name, value):
+        self.value.update({type_name: value})
+        return self
 
-    def get_json(self):
-        return json.dumps(self.get_object())
-class ElasticSearchAggregationGroupBuilder:
-    def __init__(self):
-        self._aggregations = {}
+    def terms(self, field, limit, order, extra=None):
+        if extra is None:
+            extra = {}
+        extra.update({
+            'field': field,
+            'size': limit,
+            'order': order
+        })
+        self.add_type('terms', extra)
+        return self
 
-    def aggregation(self, value, key=None):
-        if key is None:
-            # Set key as highest already seen integer key plus 1
-            key = str(max(filter(try_integer_conversion, self._aggregations.keys()), default=-1) + 1)
-        else:
-            key = str(key)
-        if key in self._aggregations.keys():
-            warnings.warn("Aggregations cannot have the same key. Previous key value pair removed.")
-        if isinstance(value, ElasticSearchAggregationBuilder):
-            # If the value is a instance of the builder, get the associated object
-            value = value.get_object()
-        self._aggregations.update({key: value})
+    def sum(self, field):
+        self.add_type('sum', {
+            'field': field
+        })
         return self
 
     def get_object(self):
-        return self._aggregations
+        return {
+            self.name: self.value
+        }
+
+    def get_json(self):
+        return json.dumps(self.get_object())
+
+class ElasticSearchAggregationGroupBuilder(AggregationBuilderInterface):
+    def __init__(self):
+        self._aggregations = {}
+
+    def aggregation(self, value: AggregationBuilderInterface):
+        self._aggregations.update(value.get_object())
+        return self
+
+    def get_object(self):
+        return {
+            'aggs': self._aggregations
+        }
 
     def get_json(self):
         return json.dumps(self.get_object())
