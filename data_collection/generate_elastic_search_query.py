@@ -2,6 +2,7 @@ import json
 import warnings
 from abc import ABCMeta, abstractmethod
 
+
 class AggregationBuilderInterface(metaclass=ABCMeta):
     @property
     @abstractmethod
@@ -67,15 +68,57 @@ class ElasticSearchQueryBuilder:
         })
         return self
 
-    def repository(self, repository_name):
-        self.must({
-            "match_phrase": {
-                "repository": {
-                    "query": repository_name
+    def repository(self, repository_names):
+        if not isinstance(repository_names, list):
+            self.must({
+                "match_phrase": {
+                    "repository": {
+                        "query": repository_names
+                    }
                 }
+            })
+            return self
+        repository_conditions = []
+        for repository_name in repository_names:
+            repository_conditions.append({
+                "match_phrase": {
+                    "repository": {
+                        "query": repository_name
+                    }
+                }
+            })
+        self.must({
+            "bool": {
+                "should": repository_conditions,
+                "minimum_should_match": 1
             }
         })
         return self
+
+    def match_phrase(self, field, values, minimum_to_match=1):
+        if not isinstance(values, list):
+            self.must({
+                "match_phrase": {
+                    field: values
+                }
+            })
+            return self
+        conditions = []
+        for value in values:
+            conditions.append({
+                "match_phrase": {
+                    field: value
+                }
+            })
+        self.must({
+            "bool": {
+                "should": conditions,
+                "minimum_should_match": minimum_to_match
+            }
+        })
+        return self
+
+    def query_string(self):
 
     def aggregation(self, aggregation: AggregationBuilderInterface):
         self._aggs.update(aggregation.get_object())
