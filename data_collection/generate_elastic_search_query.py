@@ -1,18 +1,17 @@
 import json
 import warnings
 from abc import ABCMeta, abstractmethod
+from collections import ChainMap
+from typing import Union, List
 
 
 class AggregationBuilderInterface(metaclass=ABCMeta):
-    @property
     @abstractmethod
-    def get_object(self):
+    def get_dict(self):
         pass
 
-    @property
-    @abstractmethod
     def get_json(self) -> str:
-        pass
+        return json.dumps(self.get_dict())
 
 """
 The methods that are used to make the queries are based on queries
@@ -95,7 +94,7 @@ class ElasticSearchQueryBuilder:
         })
         return self
 
-    def match_phrase(self, field, values, minimum_to_match=1):
+    def must_match_phrase(self, field, values, minimum_to_match=1):
         if not isinstance(values, list):
             self.must({
                 "match_phrase": {
@@ -118,103 +117,21 @@ class ElasticSearchQueryBuilder:
         })
         return self
 
-    def query_string(self):
-
-    def aggregation(self, aggregation: AggregationBuilderInterface):
-        self._aggs.update(aggregation.get_object())
+    def must_query_string(self, query, default_field="*", analyse_wildcard=False):
+        self.must({
+            "query_string": {
+                "query": query,
+                "analyze_wildcard": analyse_wildcard,
+                "default_field": default_field
+            }
+        })
         return self
 
-    def get_object(self):
-        """{
-            "2": {
-                "terms": {
-                    "field": "author_name",
-                    "size": 5000,
-                    "order": {
-                        "1": "desc"
-                    }
-                },
-                "aggs": {
-                    "1": {
-                        "sum": {
-                            "field": "is_gerrit_approval"
-                        }
-                    },
-                    "3": {
-                        "sum_bucket": {
-                            "buckets_path": "3-bucket>_count"
-                        }
-                    },
-                    "4": {
-                        "sum_bucket": {
-                            "buckets_path": "4-bucket>_count"
-                        }
-                    },
-                    "5": {
-                        "sum_bucket": {
-                            "buckets_path": "5-bucket>_count"
-                        }
-                    },
-                    "6": {
-                        "sum_bucket": {
-                            "buckets_path": "6-bucket>_count"
-                        }
-                    },
-                    "3-bucket": {
-                        "filters": {
-                            "filters": {
-                                "approval_value:\"-2\"": {
-                                    "query_string": {
-                                        "query": "approval_value:\"-2\"",
-                                        "analyze_wildcard": True,
-                                        "default_field": "*"
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    "4-bucket": {
-                        "filters": {
-                            "filters": {
-                                "approval_value:\"-1\"": {
-                                    "query_string": {
-                                        "query": "approval_value:\"-1\"",
-                                        "analyze_wildcard": True,
-                                        "default_field": "*"
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    "5-bucket": {
-                        "filters": {
-                            "filters": {
-                                "approval_value:\"1\"": {
-                                    "query_string": {
-                                        "query": "approval_value:\"1\"",
-                                        "analyze_wildcard": True,
-                                        "default_field": "*"
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    "6-bucket": {
-                        "filters": {
-                            "filters": {
-                                "approval_value:\"2\"": {
-                                    "query_string": {
-                                        "query": "approval_value:\"2\"",
-                                        "analyze_wildcard": True,
-                                        "default_field": "*"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }"""
+    def aggregation(self, aggregation: AggregationBuilderInterface):
+        self._aggs.update(aggregation.get_dict())
+        return self
+
+    def get_dict(self):
         return {
             "aggs": self._aggs,
             "size": 0,
@@ -223,100 +140,6 @@ class ElasticSearchQueryBuilder:
             },
             "stored_fields": [
                 "*"
-            ],
-            "script_fields": {
-                "painless_delay": {
-                    "script": {
-                        "source": "if (doc.containsKey('status') && doc['type'].value == 'changeset') {\n  if (doc['status'].value == 'MERGED' || doc['status'].value == 'ABANDONED') {\n     return Duration.between(LocalDateTime.ofInstant(Instant.ofEpochMilli(doc['grimoire_creation_date'].value.millis), ZoneId.of('Z')), LocalDateTime.ofInstant(Instant.ofEpochMilli(doc['last_updated'].value.millis), ZoneId.of('Z'))).toMinutes()/1440.0;\n  } else {\n     return Duration.between(LocalDateTime.ofInstant(Instant.ofEpochMilli(doc['grimoire_creation_date'].value.millis), ZoneId.of('Z')), LocalDateTime.ofInstant(Instant.ofEpochMilli(new Date().getTime()), ZoneId.of('Z'))).toMinutes()/1440.0;\n  }\n\n  \n} else {\n  return 0;\n}",
-                        "lang": "painless"
-                    }
-                }
-            },
-            "docvalue_fields": [
-                {
-                    "field": "approval_granted_on",
-                    "format": "date_time"
-                },
-                {
-                    "field": "approval_max_date",
-                    "format": "date_time"
-                },
-                {
-                    "field": "approval_min_date",
-                    "format": "date_time"
-                },
-                {
-                    "field": "changeset_max_date",
-                    "format": "date_time"
-                },
-                {
-                    "field": "changeset_min_date",
-                    "format": "date_time"
-                },
-                {
-                    "field": "closed",
-                    "format": "date_time"
-                },
-                {
-                    "field": "comment_created_on",
-                    "format": "date_time"
-                },
-                {
-                    "field": "comment_max_date",
-                    "format": "date_time"
-                },
-                {
-                    "field": "comment_min_date",
-                    "format": "date_time"
-                },
-                {
-                    "field": "created_on",
-                    "format": "date_time"
-                },
-                {
-                    "field": "demography_max_date",
-                    "format": "date_time"
-                },
-                {
-                    "field": "demography_min_date",
-                    "format": "date_time"
-                },
-                {
-                    "field": "grimoire_creation_date",
-                    "format": "date_time"
-                },
-                {
-                    "field": "last_updated",
-                    "format": "date_time"
-                },
-                {
-                    "field": "metadata__enriched_on",
-                    "format": "date_time"
-                },
-                {
-                    "field": "metadata__timestamp",
-                    "format": "date_time"
-                },
-                {
-                    "field": "metadata__updated_on",
-                    "format": "date_time"
-                },
-                {
-                    "field": "opened",
-                    "format": "date_time"
-                },
-                {
-                    "field": "patchset_created_on",
-                    "format": "date_time"
-                },
-                {
-                    "field": "patchset_max_date",
-                    "format": "date_time"
-                },
-                {
-                    "field": "patchset_min_date",
-                    "format": "date_time"
-                }
             ],
             "query": {
                 "bool": {
@@ -328,8 +151,33 @@ class ElasticSearchQueryBuilder:
             }
         }
 
-    def get_json(self):
-        return json.dumps(self.get_object())
+    def get_json(self, indent=None):
+        return json.dumps(self.get_dict(), indent=indent)
+
+    def get_pretty_json(self):
+        return self.get_json(2)
+
+class FiltersItemBuilder(AggregationBuilderInterface):
+    def __init__(self):
+        self._items = {}
+
+    def add_filter_item(self, name, value):
+        self._items.update({name: value})
+        return self
+
+    def query_string(self, name, query, default_field: str ="*", analyse_wildcard: bool =False):
+        self.add_filter_item(name, {
+            "query_string": {
+                "query": query,
+                "analyze_wildcard": analyse_wildcard,
+                "default_field": default_field
+            }
+        })
+        return self
+
+    def get_dict(self):
+        return self._items
+
 
 class ElasticSearchAggregationBuilder(AggregationBuilderInterface):
     def __init__(self, name=''):
@@ -357,29 +205,54 @@ class ElasticSearchAggregationBuilder(AggregationBuilderInterface):
         })
         return self
 
-    def get_object(self):
-        return {
-            self.name: self.value
-        }
+    def sum_bucket(self, bucket_path):
+        self.add_type('sum_bucket', {
+            "buckets_path": bucket_path
+        })
+        return self
+    def filters(self, filters: Union[List[FiltersItemBuilder], List[dict], FiltersItemBuilder, dict]):
+        if not isinstance(filters, list):
+            filters = [ filters ]
+        filters_dictionary = {}
+        for filter_item in filters:
+            try:
+                filters_dictionary.update(filter_item.get_dict())
+            except AttributeError:
+                filters_dictionary.update(filter_item)
+        self.add_type('filters', {
+           'filters': filters_dictionary
+        })
+        return self
 
-    def get_json(self):
-        return json.dumps(self.get_object())
+    def aggregation(self, aggregation: AggregationBuilderInterface):
+        if isinstance(aggregation, ElasticSearchAggregationGroupBuilder):
+            self.value.update(aggregation.get_dict())
+        else:
+            self.value.update({'aggs': aggregation.get_dict()})
+        return self
+
+    def get_dict(self):
+        if self.name == '':
+            return self.value
+        return {self.name: self.value}
 
 class ElasticSearchAggregationGroupBuilder(AggregationBuilderInterface):
     def __init__(self):
         self._aggregations = {}
 
     def aggregation(self, value: AggregationBuilderInterface):
-        self._aggregations.update(value.get_object())
+        self._aggregations.update(value.get_dict())
         return self
 
-    def get_object(self):
+    def aggregations(self, *values: AggregationBuilderInterface):
+        for value in values:
+            self.aggregation(value)
+        return self
+
+    def get_dict(self):
         return {
             'aggs': self._aggregations
         }
-
-    def get_json(self):
-        return json.dumps(self.get_object())
 
 def try_integer_conversion(value, default=0):
     try:
