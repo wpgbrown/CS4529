@@ -7,6 +7,7 @@ from data_collection.generate_elastic_search_query import ElasticSearchQueryBuil
 from secrets import Secrets
 
 extensions_list = [ line.strip() for line in open("../extensions_list.txt", "r").readlines() ]
+extensions_repository_list = [ "mediawiki/extensions/" + extension for extension in extensions_list ]
 
 secrets = Secrets()
 
@@ -26,3 +27,6 @@ def perform_elastic_search_request(search_query: Union[str, ElasticSearchQueryBu
         data=search_query
     )
     return json.loads(response.text)
+
+def remove_gerrit_api_json_response_prefix( text_content: str ):
+    return text_content.replace(")]}'", "", 1).strip()

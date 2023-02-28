@@ -33,3 +33,4 @@ def generate_author_votes_for_period( repository, cutoff_time ):
     response_data = perform_elastic_search_request(elastic_search_query_builder)
     print(response_data)
     print(json.dumps(response_data, indent=2))
+
