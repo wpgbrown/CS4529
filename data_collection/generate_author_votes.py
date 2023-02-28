@@ -2,6 +2,7 @@ import json
 import time
 import requests
 from data_collection import common
+from data_collection.common import perform_elastic_search_request
 from data_collection.generate_elastic_search_query import ElasticSearchQueryBuilder, \
     ElasticSearchAggregationGroupBuilder, ElasticSearchAggregationBuilder, FiltersItemBuilder
 
@@ -11,8 +12,7 @@ def generate_author_votes_for_period( repository, cutoff_time ):
         .repository(repository) \
         .in_range(cutoff_time, time.time_ns() // 1_000) \
         .exclude_bots() \
-        .aggregation(
-        ElasticSearchAggregationBuilder(2).terms('author_name', 5000, {"1": "desc"}).aggregation(
+        .aggregation(ElasticSearchAggregationBuilder(2).terms('author_name', 5000, {"1": "desc"}).aggregation(
             ElasticSearchAggregationGroupBuilder().aggregations(
                 ElasticSearchAggregationBuilder(1).sum('is_gerrit_approval'),
                 ElasticSearchAggregationBuilder(3).sum_bucket('3-bucket>_count'),
@@ -30,11 +30,6 @@ def generate_author_votes_for_period( repository, cutoff_time ):
             )
         )
     )
-    response = requests.get(
-        common.gerrit_search_url,
-        headers=common.elasticsearch_request_headers,
-        data=elastic_search_query_builder.get_json()
-    )
-    response_data = json.loads(response.text)
+    response_data = perform_elastic_search_request(elastic_search_query_builder)
     print(response_data)
     print(json.dumps(response_data, indent=2))
