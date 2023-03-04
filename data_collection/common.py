@@ -1,4 +1,5 @@
 import json
+import os
 from typing import Union
 
 import requests
@@ -6,7 +7,9 @@ import requests
 from data_collection.generate_elastic_search_query import ElasticSearchQueryBuilder
 from secrets import Secrets
 
-extensions_list = [ line.strip() for line in open("../extensions_list.txt", "r").readlines() ]
+root_path = os.path.dirname(__file__)
+
+extensions_list = [ line.strip() for line in open(os.path.join(root_path, "../extensions_list.txt"), "r").readlines() ]
 extensions_repository_list = [ "mediawiki/extensions/" + extension for extension in extensions_list ]
 
 secrets = Secrets()
@@ -30,3 +33,6 @@ def perform_elastic_search_request(search_query: Union[str, ElasticSearchQueryBu
 
 def remove_gerrit_api_json_response_prefix( text_content: str ):
     return text_content.replace(")]}'", "", 1).strip()
+
+def path_relative_to_root(relative_path):
+    return os.path.join( root_path, relative_path )

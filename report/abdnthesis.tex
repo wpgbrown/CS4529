@@ -1,0 +1,148 @@
+\documentclass[bsc]{abdnthesis}
+
+%% For citations, I would recommend natbib for its                          
+%% flexibility, particularly when named citation styles are used, but                
+%% it also has useful features for plain and those of that ilk.                      
+%% The natbib package gives you the following definitons                             
+%% that extend the simple \cite:                                                     
+%   \citet{key} ==>>                Jones et al. (1990)                              
+%   \citet*{key} ==>>               Jones, Baker, and Smith (1990)                   
+%   \citep{key} ==>>                (Jones et al., 1990)                             
+%   \citep*{key} ==>>               (Jones, Baker, and Smith, 1990)                  
+%   \citep[chap. 2]{key} ==>>       (Jones et al., 1990, chap. 2)                    
+%   \citep[e.g.][]{key} ==>>        (e.g. Jones et al., 1990)                        
+%   \citep[e.g.][p. 32]{key} ==>>   (e.g. Jones et al., p. 32)                       
+%   \citeauthor{key} ==>>           Jones et al.                                     
+%   \citeauthor*{key} ==>>          Jones, Baker, and Smith                          
+%   \citeyear{key} ==>>             1990                                             
+
+\usepackage{float}
+\usepackage{xcolor}
+\usepackage{wrapfig}
+\usepackage{minted, color, pdflscape, caption, tabularx, appendix}
+\usepackage{subcaption}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{thmtools}
+\usepackage[hidelinks]{hyperref}
+\usepackage{cleveref}
+\usepackage[round,colon,authoryear]{natbib}
+\setlength{\bibsep}{0pt}
+\bibliographystyle{apalike}
+
+\usepackage{etoolbox}
+\PassOptionsToPackage{hyphens}{url}
+
+\defcitealias{TestCoverageMediaWiki}{MediaWiki test coverage}
+\defcitealias{ExtensionTestCoverageMediaWiki}{MediaWiki extension test coverage}
+\defcitealias{mediawiki:GitReviewers}{Git Reviewers list}
+\defcitealias{mediawiki:developersmaintainers}{Code maintainers list}
+\defcitealias{WikiApiaryAbout}{WikiApiary}
+\defcitealias{WikiApiaryExtensions}{WikiApiary}
+\defcitealias{GerritEfficiency}{Git Efficiency}
+\defcitealias{PhabricatorBacklog}{Phabricator Backlog}
+\defcitealias{GitOverview}{Git Overview}
+\defcitealias{GerritApprovals}{Gerrit Approvals}
+\defcitealias{BitergAbout}{Wikimedia Bitergia Analytics}
+\defcitealias{GitExtensionsList}{list of extensions on MediaWiki's git repositories}
+
+\newcommand{\rcnote}[1]{\noindent \textcolor{red}{Rafael: {#1}}}
+
+\usepackage[T1]{fontenc}
+
+\title{Automatic recommendation of code reviewers in an open-source environment}
+\author{William Brown}
+% IMO this is a bit silly, but some like to include these. To remove,
+% delete this declaration and remove the option from the
+% \documentclass definition above.
+%\qualifications{PhD, Computer Science, University College London, 1997\\%            
+%BEng (Hons.) Electrical and Electronic Engineering, The University of Wales, Swansea, 1992}
+\school{Department of Computing Science}
+
+%%%% In the final submission of a thesis, this should only be the year
+%%%% of submission.  However, it is useful to use \date{\today} for drafts so that
+%%%% they don't get mixed up.
+    
+\date{2023}
+
+
+
+Todo this week:
+* Requirements
+* Introduction
+* Good amount of work on Related work
+
+* Data collected in the majority or what is to be initially collected
+* Test data
+
+
+
+
+
+
+%% It is useful to split the document up as chapters and include
+%% them.  LaTeX will sort out all the numbering and cross-referencing
+%% for you --- if you run it enough times!
+
+%% If you want to include only a couple of chapters then use the
+%% \includeonly{} command with a list of the file/chapter names that
+%% you wish to include.  NB, this must be in the preamble.
+
+% \includeonly{introduction,faq}
+
+\def\sfthing#1#2{\def#1{\mbox{{\small\normalfont\sffamily #2}}}}
+
+\sfthing{\PP}{P}
+\sfthing{\FF}{F}
+
+%% This will make sure that all cross-references are correct (including
+%% references to those file not included) but will produce a dvi
+%% file with only those files/chapters you specify included.
+
+\begin{document}
+
+%%%% Create the title page and standard declaration.
+
+\maketitle
+\makedeclaration
+
+%%%% Then the abstract and acknowledgements
+
+\begin{abstract}
+  An expansion of the title and contraction of the thesis.
+\end{abstract}
+
+\begin{acknowledgements}
+  Much stuff borrowed from elsewhere.
+  Elastic search queries based on ones used in panels from wikimedia.biterg.io
+\end{acknowledgements}
+
+%%%% It should have a table of contents, but delete the other two as
+%%%% necessary.
+
+\tableofcontents
+%\listoftables
+%\listoffigures
+
+\include{"abdnthesis/main body sections/introduction"}
+%\include{faq}
+\include{"abdnthesis/main body sections/background-related-work"}
+\include{"abdnthesis/main body sections/requirements"}
+\include{"abdnthesis/main body sections/research-question"}
+\include{"abdnthesis/main body sections/implementation"}
+\include{"abdnthesis/main body sections/evaluation"}
+\include{"abdnthesis/main body sections/testing"}
+\include{"abdnthesis/main body sections/conclusion"}
+\include{abdnthesis/appendixes/technical-manual}
+\include{abdnthesis/appendixes/user-manual}
+% \include{design}
+% \include{implementation}
+% \include{evaluation}
+% \include{discussion}
+% \include{conclusion}
+
+\appendix
+% \include{proof}
+
+\bibliography{mybib}
+
+\end{document}

@@ -1,7 +1,5 @@
 import json
 import time
-import requests
-from data_collection import common
 from data_collection.common import perform_elastic_search_request
 from data_collection.generate_elastic_search_query import ElasticSearchQueryBuilder, \
     ElasticSearchAggregationGroupBuilder, ElasticSearchAggregationBuilder, FiltersItemBuilder
@@ -34,3 +32,4 @@ def generate_author_votes_for_period( repository, cutoff_time ):
     print(response_data)
     print(json.dumps(response_data, indent=2))
 
+generate_author_votes_for_period( "mediawiki/extensions/CheckUser",  )

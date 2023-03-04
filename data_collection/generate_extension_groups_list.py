@@ -2,6 +2,12 @@ import json
 
 from data_collection import common
 
+"""
+Splits the list of groups into ones that are specific to extensions.
+
+TODO: Unused?
+"""
+
 with open("raw_data/groups_list.json", "r") as f:
     with open("raw_data/extension_groups_list.json", "w") as f2:
         extension_groups = {}

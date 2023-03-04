@@ -1,6 +1,8 @@
 """
 Generates a JSON list of groups for further processing by
 calling the API and then saving this list to a file.
+
+TODO: Unused?
 """
 
 import requests
