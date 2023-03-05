@@ -59,7 +59,8 @@ class ElasticSearchQueryBuilder:
         self.must_not({
             "match_phrase": {
                 "author_bot": {
-                    "query": True
+                    "query": True,
+                    "type": "phrase"
                 }
             }
         })
@@ -163,7 +164,7 @@ class FiltersItemBuilder(AggregationBuilderInterface):
         self._items.update({name: value})
         return self
 
-    def query_string(self, name, query, default_field: str ="*", analyse_wildcard: bool =False):
+    def query_string(self, name, query, default_field: str = "*", analyse_wildcard: bool = False):
         self.add_filter_item(name, {
             "query_string": {
                 "query": query,
