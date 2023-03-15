@@ -30,6 +30,7 @@ def generate_members_of_repository(repositories, output_file_name='', recursive=
                 # A repository can be already processed if it was a parent of another already processed
                 #  repository and recursive hasn't been set to False.
                 continue
+            # TODO: Fix counts "out of" and "number processed" when recursing.
             logging.info("Processing " + repository + " with " + str(processed_count) + " processed out of " + str(len(to_process)))
             print("Processing", repository, "with", processed_count, "processed out of", len(to_process))
             groups_for_repository[repository] = {}

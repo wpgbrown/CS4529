@@ -59,8 +59,7 @@ class ElasticSearchQueryBuilder:
         self.must_not({
             "match_phrase": {
                 "author_bot": {
-                    "query": True,
-                    "type": "phrase"
+                    "query": True
                 }
             }
         })

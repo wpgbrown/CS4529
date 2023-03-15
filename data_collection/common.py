@@ -1,6 +1,7 @@
 import json
 import logging
 import os
+from json import JSONDecodeError
 from typing import Union
 
 import requests
@@ -24,7 +25,7 @@ gerrit_search_url = 'https://wikimedia.biterg.io/data/gerrit/_search'
 git_search_url = 'https://wikimedia.biterg.io/data/git/_search'
 phabricator_search_url = 'https://wikimedia.biterg.io/data/phabricator/_search'
 
-def perform_elastic_search_request(search_query: Union[str, ElasticSearchQueryBuilder]):
+def perform_elastic_search_request(search_query: Union[str, ElasticSearchQueryBuilder]) -> dict:
     if isinstance(search_query, ElasticSearchQueryBuilder):
         search_query = search_query.get_json()
     logging.debug("Performing elastic search query: " + search_query)
@@ -34,7 +35,20 @@ def perform_elastic_search_request(search_query: Union[str, ElasticSearchQueryBu
         data=search_query
     )
     logging.debug("Response: " + response.text)
-    return json.loads(response.text)
+    try:
+        response = json.loads(response.text)
+    except JSONDecodeError:
+        logging.error("Elastic search response not valid JSON.")
+        return {'error': True}
+    if not isinstance(response, dict) or 'error' in response.keys():
+        # Invalid response or query errored out - return as an error
+        logging.error("Elastic search query errored.")
+        return {'error': True}
+    if 'timed_out' in response.keys() and response['timed_out']:
+        # Log as skipped
+        logging.warning("Elastic search query timed out.")
+        return {'timed_out': True}
+    return response
 
 def remove_gerrit_api_json_response_prefix( text_content: str ):
     return text_content.replace(")]}'", "", 1).strip()
