@@ -10,8 +10,6 @@ from data_collection.generate_elastic_search_query import ElasticSearchQueryBuil
     ElasticSearchAggregationGroupBuilder, ElasticSearchAggregationBuilder, FiltersItemBuilder
 
 logging.basicConfig(filename="logs_for_generate_author_votes.txt", level=logging.DEBUG)
-# Hide urllib3's warnings as these are unlikely to be useful to be logged
-logging.getLogger("urllib3").setLevel(logging.WARNING)
 
 def generate_votes_for_repository(repository: str, cutoff_time: int = None, filter: Union[AnyStr, list, None] = None):
     elastic_search_query_builder = ElasticSearchQueryBuilder() \

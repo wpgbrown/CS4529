@@ -1,0 +1,991 @@
+DEBUG:root:Request made: https://gerrit.wikimedia.org/r/a/changes/?q=(status:merged OR status:abandoned)+-is:wip+repo:mediawiki/composer+since:'2023-02-15 13:13:11'
+DEBUG:root:Request made: https://gerrit.wikimedia.org/r/a/changes/?q=(status:merged OR status:abandoned)+-is:wip+repo:mediawiki/composer+since:'2023-02-15+13:15:02'
+DEBUG:root:Request made: https://gerrit.wikimedia.org/r/a/changes/?q=(status:merged+OR+status:abandoned)+-is:wip+repo:mediawiki/composer+since:2023-02-15+13:15:25
+DEBUG:root:Request made: https://gerrit.wikimedia.org/r/a/changes/?q=(status:merged+OR+status:abandoned)+-is:wip+repo:mediawiki/composer+since:2022-07-05+13:17:41
+DEBUG:root:Request made: https://gerrit.wikimedia.org/r/a/changes/?q=(status:merged+OR+status:abandoned)+-is:wip+repo:mediawiki/composer/console+since:2022-07-05+13:17:42
+DEBUG:root:Request made: https://gerrit.wikimedia.org/r/a/changes/?q=(status:merged+OR+status:abandoned)+-is:wip+repo:mediawiki/composer/project+since:2022-07-05+13:17:42
+DEBUG:root:Request made: https://gerrit.wikimedia.org/r/a/changes/?q=(status:merged+OR+status:abandoned)+-is:wip+repo:mediawiki/core+since:2022-07-05+13:17:43
+DEBUG:root:Request made: https://gerrit.wikimedia.org/r/a/changes/?q=(status:merged+OR+status:abandoned)+-is:wip+repo:mediawiki/debian+since:2022-07-05+13:17:43
+DEBUG:root:Request made: https://gerrit.wikimedia.org/r/a/changes/?q=(status:merged+OR+status:abandoned)+-is:wip+repo:mediawiki/event-schemas+since:2022-07-05+13:17:44
+DEBUG:root:Request made: https://gerrit.wikimedia.org/r/a/changes/?q=(status:merged+OR+status:abandoned)+-is:wip+repo:mediawiki/extensions+since:2022-07-05+13:17:44
+DEBUG:root:Request made: https://gerrit.wikimedia.org/r/a/changes/?q=(status:merged+OR+status:abandoned)+-is:wip+repo:mediawiki/extensions/3D+since:2022-07-05+13:17:45
+DEBUG:root:Request made: https://gerrit.wikimedia.org/r/a/changes/?q=(status:merged+OR+status:abandoned)+-is:wip+repo:mediawiki/extensions/AControlImageLink+since:2022-07-05+13:17:45
+DEBUG:root:Request made: https://gerrit.wikimedia.org/r/a/changes/?q=(status:merged+OR+status:abandoned)+-is:wip+repo:mediawiki/extensions/AJAXPoll+since:2022-07-05+13:17:46
+DEBUG:root:Request made: https://gerrit.wikimedia.org/r/a/changes/?q=(status:merged+OR+status:abandoned)+-is:wip+repo:mediawiki/composer+mergedafter:2022-07-05+13:18:22
+DEBUG:root:Request made: https://gerrit.wikimedia.org/r/a/changes/?q=(status:merged+OR+status:abandoned)+-is:wip+repo:mediawiki/composer/console+mergedafter:2022-07-05+13:18:22
+DEBUG:root:Request made: https://gerrit.wikimedia.org/r/a/changes/?q=(status:merged+OR+status:abandoned)+-is:wip+repo:mediawiki/composer/project+mergedafter:2022-07-05+13:18:23
+DEBUG:root:Request made: https://gerrit.wikimedia.org/r/a/changes/?q=(status:merged+OR+status:abandoned)+-is:wip+repo:mediawiki/core+mergedafter:2022-07-05+13:18:24
+DEBUG:root:Request made: https://gerrit.wikimedia.org/r/a/changes/?q=(status:merged+OR+status:abandoned)+-is:wip+repo:mediawiki/debian+mergedafter:2022-07-05+13:18:24
+DEBUG:root:Request made: https://gerrit.wikimedia.org/r/a/changes/?q=(status:merged+OR+status:abandoned)+-is:wip+repo:mediawiki/event-schemas+mergedafter:2022-07-05+13:18:25
+DEBUG:root:Request made: https://gerrit.wikimedia.org/r/a/changes/?q=(status:merged+OR+status:abandoned)+-is:wip+repo:mediawiki/composer+mergedafter:"2022-07-05+13:20:22"
+DEBUG:root:Request made: https://gerrit.wikimedia.org/r/a/changes/?q=(status:merged+OR+status:abandoned)+-is:wip+repo:mediawiki/composer/console+mergedafter:"2022-07-05+13:20:22"
+DEBUG:root:Request made: https://gerrit.wikimedia.org/r/a/changes/?q=(status:merged+OR+status:abandoned)+-is:wip+repo:mediawiki/composer/project+mergedafter:"2022-07-05+13:20:23"
+DEBUG:root:Request made: https://gerrit.wikimedia.org/r/a/changes/?q=(status:merged+OR+status:abandoned)+-is:wip+repo:mediawiki/core+mergedafter:"2022-07-05+13:20:24"
+DEBUG:root:Request made: https://gerrit.wikimedia.org/r/a/changes/?q=(status:merged+OR+status:abandoned)+-is:wip+repo:mediawiki/composer+mergedafter:"2022-07-05 13:21:15"
+DEBUG:root:Request made: https://gerrit.wikimedia.org/r/a/changes/?q=(status:merged+OR+status:abandoned)+-is:wip+repo:mediawiki/composer/console+mergedafter:"2022-07-05 13:21:15"
+DEBUG:root:Request made: https://gerrit.wikimedia.org/r/a/changes/?q=(status:merged+OR+status:abandoned)+-is:wip+repo:mediawiki/composer/project+mergedafter:"2022-07-05 13:21:16"
+DEBUG:root:Request made: https://gerrit.wikimedia.org/r/a/changes/?q=(status:merged+OR+status:abandoned)+-is:wip+repo:mediawiki/composer+after:"2022-07-05 13:22:17"
+DEBUG:root:Request made: https://gerrit.wikimedia.org/r/a/changes/?q=(status:merged+OR+status:abandoned)+-is:wip+repo:mediawiki/composer/console+after:"2022-07-05 13:22:17"
+DEBUG:root:Request made: https://gerrit.wikimedia.org/r/a/changes/?q=(status:merged+OR+status:abandoned)+-is:wip+repo:mediawiki/composer/project+after:"2022-07-05 13:22:18"
+DEBUG:root:Request made: https://gerrit.wikimedia.org/r/a/changes/?q=(status:merged+OR+status:abandoned)+-is:wip+repo:mediawiki/core+after:"2022-07-05 13:22:19"
+DEBUG:root:Request made: https://gerrit.wikimedia.org/r/a/changes/?n=2&q=(status:merged+OR+status:abandoned)+-is:wip+repo:mediawiki/composer+after:"2022-07-05 13:23:24"
+DEBUG:root:Request made: https://gerrit.wikimedia.org/r/a/changes/?n=2&q=(status:merged+OR+status:abandoned)+-is:wip+repo:mediawiki/composer/console+after:"2022-07-05 13:23:25"
+DEBUG:root:Request made: https://gerrit.wikimedia.org/r/a/changes/?n=2&q=(status:merged+OR+status:abandoned)+-is:wip+repo:mediawiki/composer/project+after:"2022-07-05 13:23:26"
+DEBUG:root:Request made: https://gerrit.wikimedia.org/r/a/changes/?n=2&q=(status:merged+OR+status:abandoned)+-is:wip+repo:mediawiki/core+after:"2022-07-05 13:23:26"
+DEBUG:root:Request made: https://gerrit.wikimedia.org/r/a/changes/?n=2&q=(status:merged+OR+status:abandoned)+-is:wip+repo:mediawiki/debian+after:"2022-07-05 13:23:26"
+DEBUG:root:Request made: https://gerrit.wikimedia.org/r/a/changes/?n=2&q=(status:merged+OR+status:abandoned)+-is:wip+repo:mediawiki/event-schemas+after:"2022-07-05 13:23:27"
+DEBUG:root:Request made: https://gerrit.wikimedia.org/r/a/changes/?n=2&q=(status:merged+OR+status:abandoned)+-is:wip+repo:mediawiki/composer+after:%222022-07-05 13:33:22%22
+DEBUG:root:Request made: https://gerrit.wikimedia.org/r/a/changes/?n=2&q=(status:merged+OR+status:abandoned)+-is:wip+repo:mediawiki/composer/console+after:%222022-07-05 13:33:22%22
+DEBUG:root:Request made: https://gerrit.wikimedia.org/r/a/changes/?n=2&q=(status:merged+OR+status:abandoned)+-is:wip+repo:mediawiki/composer/project+after:%222022-07-05 13:33:23%22
+DEBUG:root:Request made: https://gerrit.wikimedia.org/r/a/changes/?n=2&q=(status:merged+OR+status:abandoned)+-is:wip+repo:mediawiki/core+after:%222022-07-05 13:33:23%22
+DEBUG:root:Request made: https://gerrit.wikimedia.org/r/a/changes/?n=2&q=(status:merged+OR+status:abandoned)+-is:wip+repo:mediawiki/debian+after:%222022-07-05 13:33:24%22
+DEBUG:root:Request made: https://gerrit.wikimedia.org/r/a/changes/?n=2&q=(status:merged+OR+status:abandoned)+-is:wip+repo:mediawiki/event-schemas+after:%222022-07-05 13:33:24%22
+DEBUG:root:Request made: https://gerrit.wikimedia.org/r/a/changes/?n=2&q=(status:merged+OR+status:abandoned)+-is:wip+repo:mediawiki/extensions+after:%222022-07-05 13:33:25%22
+DEBUG:root:Request made: https://gerrit.wikimedia.org/r/a/changes/?n=2&q=(status:merged+OR+status:abandoned)+-is:wip+repo:mediawiki/extensions/3D+after:%222022-07-05 13:33:26%22
+DEBUG:root:Request made: https://gerrit.wikimedia.org/r/a/changes/?n=2&q=(status:merged+OR+status:abandoned)+-is:wip+repo:mediawiki/extensions/AControlImageLink+after:%222022-07-05 13:33:26%22
+DEBUG:root:Request made: https://gerrit.wikimedia.org/r/a/changes/?n=2&q=(status:merged+OR+status:abandoned)+-is:wip+repo:mediawiki/extensions/AJAXPoll+after:%222022-07-05 13:33:27%22
+DEBUG:root:Request made: https://gerrit.wikimedia.org/r/a/changes/?n=2&q=(status:merged+OR+status:abandoned)+-is:wip+repo:mediawiki/extensions/APC+after:%222022-07-05 13:33:27%22
+DEBUG:root:Request made: https://gerrit.wikimedia.org/r/a/changes/?n=2&q=(status:merged+OR+status:abandoned)+-is:wip+repo:mediawiki/extensions/AWS+after:%222022-07-05 13:33:28%22
+DEBUG:root:Request made: https://gerrit.wikimedia.org/r/a/changes/?n=2&q=status:merged+-is:wip+repo:mediawiki/composer+mergedafter:%222022-07-05 13:35:52%22
+DEBUG:root:Request made: https://gerrit.wikimedia.org/r/a/changes/?n=2&q=status:merged+-is:wip+repo:mediawiki/composer/console+mergedafter:%222022-07-05 13:35:53%22
+DEBUG:root:Request made: https://gerrit.wikimedia.org/r/a/changes/?n=2&q=status:merged+-is:wip+repo:mediawiki/composer/project+mergedafter:%222022-07-05 13:35:54%22
+DEBUG:root:Request made: https://gerrit.wikimedia.org/r/a/changes/?n=2&q=status:merged+-is:wip+repo:mediawiki/core+mergedafter:%222022-07-05 13:35:55%22
+DEBUG:root:Request made: https://gerrit.wikimedia.org/r/a/changes/?n=2&q=status:merged+-is:wip+repo:mediawiki/debian+mergedafter:%222022-07-05 13:35:55%22
+DEBUG:root:Request made: https://gerrit.wikimedia.org/r/a/changes/?n=2&q=status:merged+-is:wip+repo:mediawiki/event-schemas+mergedafter:%222022-07-05 13:35:56%22
+DEBUG:root:Request made: https://gerrit.wikimedia.org/r/a/changes/?n=2&q=status:merged+-is:wip+repo:mediawiki/extensions+mergedafter:%222022-07-05 13:35:57%22
+DEBUG:root:Request made: https://gerrit.wikimedia.org/r/a/changes/?n=2&q=status:merged+-is:wip+repo:mediawiki/extensions/3D+mergedafter:%222022-07-05 13:35:57%22
+DEBUG:root:Request made: https://gerrit.wikimedia.org/r/a/changes/?n=2&q=status:merged+-is:wip+repo:mediawiki/extensions/AControlImageLink+mergedafter:%222022-07-05 13:35:58%22
+DEBUG:root:Request made: https://gerrit.wikimedia.org/r/a/changes/?n=2&q=status:merged+-is:wip+repo:mediawiki/extensions/AJAXPoll+mergedafter:%222022-07-05 13:35:58%22
+DEBUG:root:Request made: https://gerrit.wikimedia.org/r/a/changes/?n=2&q=status:merged+-is:wip+repo:mediawiki/extensions/APC+mergedafter:%222022-07-05 13:35:59%22
+DEBUG:root:Request made: https://gerrit.wikimedia.org/r/a/changes/?n=2&q=status:merged+-is:wip+repo:mediawiki/extensions/AWS+mergedafter:%222022-07-05 13:36:00%22
+DEBUG:root:Request made: https://gerrit.wikimedia.org/r/a/changes/?n=2&q=status:merged+-is:wip+repo:mediawiki/extensions/AWSSDK+mergedafter:%222022-07-05 13:36:00%22
+DEBUG:root:Request made: https://gerrit.wikimedia.org/r/a/changes/?n=2&q=status:merged+-is:wip+repo:mediawiki/extensions/AbsenteeLandlord+mergedafter:%222022-07-05 13:36:01%22
+DEBUG:root:Request made: https://gerrit.wikimedia.org/r/a/changes/?n=2&q=status:merged+-is:wip+repo:mediawiki/extensions/AbuseFilter+mergedafter:%222022-07-05 13:36:02%22
+DEBUG:root:Request made: https://gerrit.wikimedia.org/r/a/changes/?n=2&q=status:merged+-is:wip+repo:mediawiki/extensions/AbuseFilterBypass+mergedafter:%222022-07-05 13:36:02%22
+DEBUG:root:Request made: https://gerrit.wikimedia.org/r/a/changes/?n=2&q=status:merged+-is:wip+repo:mediawiki/extensions/AccessControl+mergedafter:%222022-07-05 13:36:03%22
+DEBUG:root:Request made: https://gerrit.wikimedia.org/r/a/changes/?n=2&q=status:merged+-is:wip+repo:mediawiki/composer+mergedafter:%222022-07-05 13:36:20%22
+DEBUG:root:Request made: https://gerrit.wikimedia.org/r/a/changes/?n=2&q=status:merged+-is:wip+repo:mediawiki/composer/console+mergedafter:%222022-07-05 13:36:20%22
+DEBUG:root:Request made: https://gerrit.wikimedia.org/r/a/changes/?n=2&q=status:merged+-is:wip+repo:mediawiki/composer/project+mergedafter:%222022-07-05 13:36:21%22
+DEBUG:root:Request made: https://gerrit.wikimedia.org/r/a/changes/?n=2&q=status:merged+-is:wip+repo:mediawiki/core+mergedafter:%222022-07-05 13:36:22%22
+DEBUG:root:Request made: https://gerrit.wikimedia.org/r/a/changes/?n=2&q=status:merged+-is:wip+repo:mediawiki/debian+mergedafter:%222022-07-05 13:36:22%22
+DEBUG:root:Request made: https://gerrit.wikimedia.org/r/a/changes/?n=2&q=status:merged+-is:wip+repo:mediawiki/event-schemas+mergedafter:%222022-07-05 13:36:23%22
+DEBUG:root:Request made: https://gerrit.wikimedia.org/r/a/changes/?n=2&q=status:merged+-is:wip+repo:mediawiki/extensions+mergedafter:%222022-07-05 13:36:24%22
+DEBUG:root:Request made: https://gerrit.wikimedia.org/r/a/changes/?n=2&q=status:merged+-is:wip+repo:mediawiki/extensions/3D+mergedafter:%222022-07-05 13:36:24%22
+DEBUG:root:Request made: https://gerrit.wikimedia.org/r/a/changes/?n=2&q=status:merged+-is:wip+repo:mediawiki/extensions/AControlImageLink+mergedafter:%222022-07-05 13:36:25%22
+DEBUG:root:Request made: https://gerrit.wikimedia.org/r/a/changes/?n=2&q=status:merged+-is:wip+repo:mediawiki/extensions/AJAXPoll+mergedafter:%222022-07-05 13:36:26%22
+DEBUG:root:Request made: https://gerrit.wikimedia.org/r/a/changes/?n=2&q=status:merged+-is:wip+repo:mediawiki/extensions/APC+mergedafter:%222022-07-05 13:36:26%22
+DEBUG:root:Request made: https://gerrit.wikimedia.org/r/a/changes/?n=2&q=status:merged+-is:wip+repo:mediawiki/extensions/AWS+mergedafter:%222022-07-05 13:36:27%22
+DEBUG:root:Request made: https://gerrit.wikimedia.org/r/a/changes/?n=2&q=status:merged+-is:wip+repo:mediawiki/extensions/AWSSDK+mergedafter:%222022-07-05 13:36:27%22
+INFO:root:Processingmediawiki/composer
+INFO:root:Processingmediawiki/composer
+INFO:root:Processingmediawiki/composer
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?n=2&q=status:merged+-is:wip+repo:mediawiki/composer+mergedafter:%222023-02-15 14:08:52%22
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?n=2&q=status:abandoned+-is:wip+repo:mediawiki/composer+after:%222023-02-15 14:08:52%22
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?n=2&q=status:merged+-is:wip+repo:mediawiki/composer+mergedafter:%222022-12-17 14:08:54%22
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?n=2&q=status:abandoned+-is:wip+repo:mediawiki/composer+after:%222022-12-17 14:08:54%22
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?n=2&q=status:merged+-is:wip+repo:mediawiki/composer+mergedafter:%222022-03-17 14:08:55%22
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?n=2&q=status:abandoned+-is:wip+repo:mediawiki/composer+after:%222022-03-17 14:08:55%22
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?n=2&q=status:merged+-is:wip+repo:mediawiki/composer
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?n=2&q=status:abandoned+-is:wip+repo:mediawiki/composer
+INFO:root:Processingmediawiki/composer/console
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?n=2&q=status:merged+-is:wip+repo:mediawiki/composer/console+mergedafter:%222023-02-15 14:08:58%22
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?n=2&q=status:abandoned+-is:wip+repo:mediawiki/composer/console+after:%222023-02-15 14:08:58%22
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?n=2&q=status:merged+-is:wip+repo:mediawiki/composer/console+mergedafter:%222022-12-17 14:08:59%22
+INFO:root:Processingmediawiki/composer
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?n=2&q=status:merged+-is:wip+repo:mediawiki/composer+mergedafter:%222023-02-15 14:09:21%22
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?n=2&q=status:abandoned+-is:wip+repo:mediawiki/composer+after:%222023-02-15 14:09:21%22
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?n=2&q=status:merged+-is:wip+repo:mediawiki/composer+mergedafter:%222022-12-17 14:09:22%22
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?n=2&q=status:abandoned+-is:wip+repo:mediawiki/composer+after:%222022-12-17 14:09:22%22
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?n=2&q=status:merged+-is:wip+repo:mediawiki/composer+mergedafter:%222022-03-17 14:09:23%22
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?n=2&q=status:abandoned+-is:wip+repo:mediawiki/composer+after:%222022-03-17 14:09:23%22
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?n=2&q=status:merged+-is:wip+repo:mediawiki/composer
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?n=2&q=status:abandoned+-is:wip+repo:mediawiki/composer
+INFO:root:Processingmediawiki/composer/console
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?n=2&q=status:merged+-is:wip+repo:mediawiki/composer/console+mergedafter:%222023-02-15 14:09:26%22
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?n=2&q=status:abandoned+-is:wip+repo:mediawiki/composer/console+after:%222023-02-15 14:09:26%22
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?n=2&q=status:merged+-is:wip+repo:mediawiki/composer/console+mergedafter:%222022-12-17 14:09:27%22
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?n=2&q=status:abandoned+-is:wip+repo:mediawiki/composer/console+after:%222022-12-17 14:09:27%22
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?n=2&q=status:merged+-is:wip+repo:mediawiki/composer/console+mergedafter:%222022-03-17 14:09:28%22
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?n=2&q=status:abandoned+-is:wip+repo:mediawiki/composer/console+after:%222022-03-17 14:09:28%22
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?n=2&q=status:merged+-is:wip+repo:mediawiki/composer/console
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?n=2&q=status:abandoned+-is:wip+repo:mediawiki/composer/console
+INFO:root:Processingmediawiki/composer/project
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?n=2&q=status:merged+-is:wip+repo:mediawiki/composer/project+mergedafter:%222023-02-15 14:09:31%22
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?n=2&q=status:abandoned+-is:wip+repo:mediawiki/composer/project+after:%222023-02-15 14:09:31%22
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?n=2&q=status:merged+-is:wip+repo:mediawiki/composer/project+mergedafter:%222022-12-17 14:09:32%22
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?n=2&q=status:abandoned+-is:wip+repo:mediawiki/composer/project+after:%222022-12-17 14:09:32%22
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?n=2&q=status:merged+-is:wip+repo:mediawiki/composer/project+mergedafter:%222022-03-17 14:09:33%22
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?n=2&q=status:abandoned+-is:wip+repo:mediawiki/composer/project+after:%222022-03-17 14:09:33%22
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?n=2&q=status:merged+-is:wip+repo:mediawiki/composer/project
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?n=2&q=status:abandoned+-is:wip+repo:mediawiki/composer/project
+INFO:root:Processingmediawiki/core
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?n=2&q=status:merged+-is:wip+repo:mediawiki/core+mergedafter:%222023-02-15 14:09:40%22
+INFO:root:Processingmediawiki/composer
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?n=2&q=status:merged+-is:wip+repo:mediawiki/composer
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?n=2&q=status:abandoned+-is:wip+repo:mediawiki/composer
+INFO:root:Processingmediawiki/composer/console
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?n=2&q=status:merged+-is:wip+repo:mediawiki/composer/console
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?n=2&q=status:abandoned+-is:wip+repo:mediawiki/composer/console
+INFO:root:Processingmediawiki/composer/project
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?n=2&q=status:merged+-is:wip+repo:mediawiki/composer/project
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?n=2&q=status:abandoned+-is:wip+repo:mediawiki/composer/project
+INFO:root:Processingmediawiki/core
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?n=2&q=status:merged+-is:wip+repo:mediawiki/core
+INFO:root:Processingmediawiki/composer
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?n=2&q=status:merged+-is:wip+repo:mediawiki/composer+mergedafter:%222023-02-15 14:12:51%22
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?n=2&q=status:abandoned+-is:wip+repo:mediawiki/composer+after:%222023-02-15 14:12:51%22
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?n=2&q=status:merged+-is:wip+repo:mediawiki/composer+mergedafter:%222022-12-17 14:12:52%22
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?n=2&q=status:abandoned+-is:wip+repo:mediawiki/composer+after:%222022-12-17 14:12:52%22
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?n=2&q=status:merged+-is:wip+repo:mediawiki/composer+mergedafter:%222022-03-17 14:12:54%22
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?n=2&q=status:abandoned+-is:wip+repo:mediawiki/composer+after:%222022-03-17 14:12:54%22
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?n=2&q=status:merged+-is:wip+repo:mediawiki/composer
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?n=2&q=status:abandoned+-is:wip+repo:mediawiki/composer
+INFO:root:Processingmediawiki/composer/console
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?n=2&q=status:merged+-is:wip+repo:mediawiki/composer/console+mergedafter:%222023-02-15 14:12:56%22
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?n=2&q=status:abandoned+-is:wip+repo:mediawiki/composer/console+after:%222023-02-15 14:12:56%22
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?n=2&q=status:merged+-is:wip+repo:mediawiki/composer/console+mergedafter:%222022-12-17 14:12:57%22
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?n=2&q=status:abandoned+-is:wip+repo:mediawiki/composer/console+after:%222022-12-17 14:12:57%22
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?n=2&q=status:merged+-is:wip+repo:mediawiki/composer/console+mergedafter:%222022-03-17 14:12:59%22
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?n=2&q=status:abandoned+-is:wip+repo:mediawiki/composer/console+after:%222022-03-17 14:12:59%22
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?n=2&q=status:merged+-is:wip+repo:mediawiki/composer/console
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?n=2&q=status:abandoned+-is:wip+repo:mediawiki/composer/console
+INFO:root:Processingmediawiki/composer/project
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?n=2&q=status:merged+-is:wip+repo:mediawiki/composer/project+mergedafter:%222023-02-15 14:13:01%22
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?n=2&q=status:abandoned+-is:wip+repo:mediawiki/composer/project+after:%222023-02-15 14:13:01%22
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?n=2&q=status:merged+-is:wip+repo:mediawiki/composer/project+mergedafter:%222022-12-17 14:13:03%22
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?n=2&q=status:abandoned+-is:wip+repo:mediawiki/composer/project+after:%222022-12-17 14:13:03%22
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?n=2&q=status:merged+-is:wip+repo:mediawiki/composer/project+mergedafter:%222022-03-17 14:13:04%22
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?n=2&q=status:abandoned+-is:wip+repo:mediawiki/composer/project+after:%222022-03-17 14:13:04%22
+INFO:root:Processingmediawiki/composer
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?q=status:merged+-is:wip+repo:mediawiki/composer+mergedafter:%222023-02-15 14:13:49%22
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?n=2&q=status:abandoned+-is:wip+repo:mediawiki/composer+after:%222023-02-15 14:13:49%22
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?q=status:merged+-is:wip+repo:mediawiki/composer+mergedafter:%222022-12-17 14:13:50%22
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?n=2&q=status:abandoned+-is:wip+repo:mediawiki/composer+after:%222022-12-17 14:13:50%22
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?q=status:merged+-is:wip+repo:mediawiki/composer+mergedafter:%222022-03-17 14:13:52%22
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?n=2&q=status:abandoned+-is:wip+repo:mediawiki/composer+after:%222022-03-17 14:13:52%22
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?q=status:merged+-is:wip+repo:mediawiki/composer
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?n=2&q=status:abandoned+-is:wip+repo:mediawiki/composer
+INFO:root:Processingmediawiki/composer/console
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?q=status:merged+-is:wip+repo:mediawiki/composer/console+mergedafter:%222023-02-15 14:13:54%22
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?n=2&q=status:abandoned+-is:wip+repo:mediawiki/composer/console+after:%222023-02-15 14:13:54%22
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?q=status:merged+-is:wip+repo:mediawiki/composer/console+mergedafter:%222022-12-17 14:13:55%22
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?n=2&q=status:abandoned+-is:wip+repo:mediawiki/composer/console+after:%222022-12-17 14:13:55%22
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?q=status:merged+-is:wip+repo:mediawiki/composer/console+mergedafter:%222022-03-17 14:13:57%22
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?n=2&q=status:abandoned+-is:wip+repo:mediawiki/composer/console+after:%222022-03-17 14:13:57%22
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?q=status:merged+-is:wip+repo:mediawiki/composer/console
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?n=2&q=status:abandoned+-is:wip+repo:mediawiki/composer/console
+INFO:root:Processingmediawiki/composer/project
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?q=status:merged+-is:wip+repo:mediawiki/composer/project+mergedafter:%222023-02-15 14:14:00%22
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?n=2&q=status:abandoned+-is:wip+repo:mediawiki/composer/project+after:%222023-02-15 14:14:00%22
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?q=status:merged+-is:wip+repo:mediawiki/composer/project+mergedafter:%222022-12-17 14:14:01%22
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?n=2&q=status:abandoned+-is:wip+repo:mediawiki/composer/project+after:%222022-12-17 14:14:01%22
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?q=status:merged+-is:wip+repo:mediawiki/composer/project+mergedafter:%222022-03-17 14:14:02%22
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?n=2&q=status:abandoned+-is:wip+repo:mediawiki/composer/project+after:%222022-03-17 14:14:02%22
+INFO:root:Processingmediawiki/composer
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?q=status:merged+-is:wip+repo:mediawiki/composer+mergedafter:%222023-02-15 14:14:48%22
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?n=2&q=status:abandoned+-is:wip+repo:mediawiki/composer+after:%222023-02-15 14:14:48%22
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?q=status:merged+-is:wip+repo:mediawiki/composer+mergedafter:%222022-12-17 14:14:49%22
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?n=2&q=status:abandoned+-is:wip+repo:mediawiki/composer+after:%222022-12-17 14:14:49%22
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?q=status:merged+-is:wip+repo:mediawiki/composer+mergedafter:%222022-03-17 14:14:50%22
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?n=2&q=status:abandoned+-is:wip+repo:mediawiki/composer+after:%222022-03-17 14:14:50%22
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?q=status:merged+-is:wip+repo:mediawiki/composer
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?n=2&q=status:abandoned+-is:wip+repo:mediawiki/composer
+INFO:root:Processingmediawiki/composer/console
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?q=status:merged+-is:wip+repo:mediawiki/composer/console+mergedafter:%222023-02-15 14:14:52%22
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?n=2&q=status:abandoned+-is:wip+repo:mediawiki/composer/console+after:%222023-02-15 14:14:52%22
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?q=status:merged+-is:wip+repo:mediawiki/composer/console+mergedafter:%222022-12-17 14:14:54%22
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?n=2&q=status:abandoned+-is:wip+repo:mediawiki/composer/console+after:%222022-12-17 14:14:54%22
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?q=status:merged+-is:wip+repo:mediawiki/composer/console+mergedafter:%222022-03-17 14:14:55%22
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?n=2&q=status:abandoned+-is:wip+repo:mediawiki/composer/console+after:%222022-03-17 14:14:55%22
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?q=status:merged+-is:wip+repo:mediawiki/composer/console
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?n=2&q=status:abandoned+-is:wip+repo:mediawiki/composer/console
+INFO:root:Processingmediawiki/composer/project
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?q=status:merged+-is:wip+repo:mediawiki/composer/project+mergedafter:%222023-02-15 14:14:57%22
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?n=2&q=status:abandoned+-is:wip+repo:mediawiki/composer/project+after:%222023-02-15 14:14:57%22
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?q=status:merged+-is:wip+repo:mediawiki/composer/project+mergedafter:%222022-12-17 14:14:59%22
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?n=2&q=status:abandoned+-is:wip+repo:mediawiki/composer/project+after:%222022-12-17 14:14:59%22
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?q=status:merged+-is:wip+repo:mediawiki/composer/project+mergedafter:%222022-03-17 14:15:00%22
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?n=2&q=status:abandoned+-is:wip+repo:mediawiki/composer/project+after:%222022-03-17 14:15:00%22
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?q=status:merged+-is:wip+repo:mediawiki/composer/project
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?n=2&q=status:abandoned+-is:wip+repo:mediawiki/composer/project
+INFO:root:Processingmediawiki/composer
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?q=status:merged+-is:wip+repo:mediawiki/composer+mergedafter:%222023-02-15 14:15:40%22
+DEBUG:root:Request made for abandoned changes: https://gerrit.wikimedia.org/r/a/changes/?q=status:abandoned+-is:wip+repo:mediawiki/composer+after:%222023-02-15 14:15:40%22
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?q=status:merged+-is:wip+repo:mediawiki/composer+mergedafter:%222022-12-17 14:15:44%22
+DEBUG:root:Request made for abandoned changes: https://gerrit.wikimedia.org/r/a/changes/?q=status:abandoned+-is:wip+repo:mediawiki/composer+after:%222022-12-17 14:15:44%22
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?q=status:merged+-is:wip+repo:mediawiki/composer+mergedafter:%222022-03-17 14:15:47%22
+DEBUG:root:Request made for abandoned changes: https://gerrit.wikimedia.org/r/a/changes/?q=status:abandoned+-is:wip+repo:mediawiki/composer+after:%222022-03-17 14:15:47%22
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?q=status:merged+-is:wip+repo:mediawiki/composer
+DEBUG:root:Request made for abandoned changes: https://gerrit.wikimedia.org/r/a/changes/?q=status:abandoned+-is:wip+repo:mediawiki/composer
+INFO:root:Processingmediawiki/composer/console
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?q=status:merged+-is:wip+repo:mediawiki/composer/console+mergedafter:%222023-02-15 14:15:51%22
+DEBUG:root:Request made for abandoned changes: https://gerrit.wikimedia.org/r/a/changes/?q=status:abandoned+-is:wip+repo:mediawiki/composer/console+after:%222023-02-15 14:15:51%22
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?q=status:merged+-is:wip+repo:mediawiki/composer/console+mergedafter:%222022-12-17 14:15:53%22
+DEBUG:root:Request made for abandoned changes: https://gerrit.wikimedia.org/r/a/changes/?q=status:abandoned+-is:wip+repo:mediawiki/composer/console+after:%222022-12-17 14:15:53%22
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?q=status:merged+-is:wip+repo:mediawiki/composer/console+mergedafter:%222022-03-17 14:15:54%22
+DEBUG:root:Request made for abandoned changes: https://gerrit.wikimedia.org/r/a/changes/?q=status:abandoned+-is:wip+repo:mediawiki/composer/console+after:%222022-03-17 14:15:54%22
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?q=status:merged+-is:wip+repo:mediawiki/composer/console
+DEBUG:root:Request made for abandoned changes: https://gerrit.wikimedia.org/r/a/changes/?q=status:abandoned+-is:wip+repo:mediawiki/composer/console
+INFO:root:Processingmediawiki/composer/project
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?q=status:merged+-is:wip+repo:mediawiki/composer/project+mergedafter:%222023-02-15 14:15:56%22
+DEBUG:root:Request made for abandoned changes: https://gerrit.wikimedia.org/r/a/changes/?q=status:abandoned+-is:wip+repo:mediawiki/composer/project+after:%222023-02-15 14:15:56%22
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?q=status:merged+-is:wip+repo:mediawiki/composer/project+mergedafter:%222022-12-17 14:15:57%22
+DEBUG:root:Request made for abandoned changes: https://gerrit.wikimedia.org/r/a/changes/?q=status:abandoned+-is:wip+repo:mediawiki/composer/project+after:%222022-12-17 14:15:57%22
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?q=status:merged+-is:wip+repo:mediawiki/composer/project+mergedafter:%222022-03-17 14:15:59%22
+DEBUG:root:Request made for abandoned changes: https://gerrit.wikimedia.org/r/a/changes/?q=status:abandoned+-is:wip+repo:mediawiki/composer/project+after:%222022-03-17 14:15:59%22
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?q=status:merged+-is:wip+repo:mediawiki/composer/project
+DEBUG:root:Request made for abandoned changes: https://gerrit.wikimedia.org/r/a/changes/?q=status:abandoned+-is:wip+repo:mediawiki/composer/project
+INFO:root:Processingmediawiki/core
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?q=status:merged+-is:wip+repo:mediawiki/core+mergedafter:%222023-02-15 14:16:01%22
+DEBUG:root:Request made for abandoned changes: https://gerrit.wikimedia.org/r/a/changes/?q=status:abandoned+-is:wip+repo:mediawiki/core+after:%222023-02-15 14:16:01%22
+INFO:root:Processingmediawiki/debian
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?q=status:merged+-is:wip+repo:mediawiki/debian+mergedafter:%222023-02-15 14:16:03%22
+DEBUG:root:Request made for abandoned changes: https://gerrit.wikimedia.org/r/a/changes/?q=status:abandoned+-is:wip+repo:mediawiki/debian+after:%222023-02-15 14:16:03%22
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?q=status:merged+-is:wip+repo:mediawiki/debian+mergedafter:%222022-12-17 14:16:04%22
+DEBUG:root:Request made for abandoned changes: https://gerrit.wikimedia.org/r/a/changes/?q=status:abandoned+-is:wip+repo:mediawiki/debian+after:%222022-12-17 14:16:04%22
+INFO:root:Processingmediawiki/composer
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?o=LABELS&q=status:merged+-is:wip+repo:mediawiki/composer+mergedafter:%222023-02-15 14:19:17%22
+DEBUG:root:Request made for abandoned changes: https://gerrit.wikimedia.org/r/a/changes/?o=LABELS&q=status:abandoned+-is:wip+repo:mediawiki/composer+after:%222023-02-15 14:19:17%22
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?o=LABELS&q=status:merged+-is:wip+repo:mediawiki/composer+mergedafter:%222022-12-17 14:19:18%22
+DEBUG:root:Request made for abandoned changes: https://gerrit.wikimedia.org/r/a/changes/?o=LABELS&q=status:abandoned+-is:wip+repo:mediawiki/composer+after:%222022-12-17 14:19:18%22
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?o=LABELS&q=status:merged+-is:wip+repo:mediawiki/composer+mergedafter:%222022-03-17 14:19:19%22
+DEBUG:root:Request made for abandoned changes: https://gerrit.wikimedia.org/r/a/changes/?o=LABELS&q=status:abandoned+-is:wip+repo:mediawiki/composer+after:%222022-03-17 14:19:19%22
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?o=LABELS&q=status:merged+-is:wip+repo:mediawiki/composer
+DEBUG:root:Request made for abandoned changes: https://gerrit.wikimedia.org/r/a/changes/?o=LABELS&q=status:abandoned+-is:wip+repo:mediawiki/composer
+INFO:root:Processingmediawiki/composer/console
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?o=LABELS&q=status:merged+-is:wip+repo:mediawiki/composer/console+mergedafter:%222023-02-15 14:19:22%22
+DEBUG:root:Request made for abandoned changes: https://gerrit.wikimedia.org/r/a/changes/?o=LABELS&q=status:abandoned+-is:wip+repo:mediawiki/composer/console+after:%222023-02-15 14:19:22%22
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?o=LABELS&q=status:merged+-is:wip+repo:mediawiki/composer/console+mergedafter:%222022-12-17 14:19:23%22
+DEBUG:root:Request made for abandoned changes: https://gerrit.wikimedia.org/r/a/changes/?o=LABELS&q=status:abandoned+-is:wip+repo:mediawiki/composer/console+after:%222022-12-17 14:19:23%22
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?o=LABELS&q=status:merged+-is:wip+repo:mediawiki/composer/console+mergedafter:%222022-03-17 14:19:24%22
+DEBUG:root:Request made for abandoned changes: https://gerrit.wikimedia.org/r/a/changes/?o=LABELS&q=status:abandoned+-is:wip+repo:mediawiki/composer/console+after:%222022-03-17 14:19:24%22
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?o=LABELS&q=status:merged+-is:wip+repo:mediawiki/composer/console
+DEBUG:root:Request made for abandoned changes: https://gerrit.wikimedia.org/r/a/changes/?o=LABELS&q=status:abandoned+-is:wip+repo:mediawiki/composer/console
+INFO:root:Processingmediawiki/composer/project
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?o=LABELS&q=status:merged+-is:wip+repo:mediawiki/composer/project+mergedafter:%222023-02-15 14:19:26%22
+DEBUG:root:Request made for abandoned changes: https://gerrit.wikimedia.org/r/a/changes/?o=LABELS&q=status:abandoned+-is:wip+repo:mediawiki/composer/project+after:%222023-02-15 14:19:26%22
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?o=LABELS&q=status:merged+-is:wip+repo:mediawiki/composer/project+mergedafter:%222022-12-17 14:19:28%22
+INFO:root:Processingmediawiki/composer
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?o=LABELS&q=status:merged+-is:wip+repo:mediawiki/composer+mergedafter:%222023-02-15 14:21:55%22
+DEBUG:root:Request made for abandoned changes: https://gerrit.wikimedia.org/r/a/changes/?o=LABELS&q=status:abandoned+-is:wip+repo:mediawiki/composer+after:%222023-02-15 14:21:55%22
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?o=LABELS&q=status:merged+-is:wip+repo:mediawiki/composer+mergedafter:%222022-12-17 14:21:56%22
+DEBUG:root:Request made for abandoned changes: https://gerrit.wikimedia.org/r/a/changes/?o=LABELS&q=status:abandoned+-is:wip+repo:mediawiki/composer+after:%222022-12-17 14:21:56%22
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?o=LABELS&q=status:merged+-is:wip+repo:mediawiki/composer+mergedafter:%222022-03-17 14:21:57%22
+DEBUG:root:Request made for abandoned changes: https://gerrit.wikimedia.org/r/a/changes/?o=LABELS&q=status:abandoned+-is:wip+repo:mediawiki/composer+after:%222022-03-17 14:21:57%22
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?o=LABELS&q=status:merged+-is:wip+repo:mediawiki/composer
+DEBUG:root:Request made for abandoned changes: https://gerrit.wikimedia.org/r/a/changes/?o=LABELS&q=status:abandoned+-is:wip+repo:mediawiki/composer
+INFO:root:Processingmediawiki/composer/console
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?o=LABELS&q=status:merged+-is:wip+repo:mediawiki/composer/console+mergedafter:%222023-02-15 14:21:59%22
+DEBUG:root:Request made for abandoned changes: https://gerrit.wikimedia.org/r/a/changes/?o=LABELS&q=status:abandoned+-is:wip+repo:mediawiki/composer/console+after:%222023-02-15 14:21:59%22
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?o=LABELS&q=status:merged+-is:wip+repo:mediawiki/composer/console+mergedafter:%222022-12-17 14:22:00%22
+DEBUG:root:Request made for abandoned changes: https://gerrit.wikimedia.org/r/a/changes/?o=LABELS&q=status:abandoned+-is:wip+repo:mediawiki/composer/console+after:%222022-12-17 14:22:00%22
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?o=LABELS&q=status:merged+-is:wip+repo:mediawiki/composer/console+mergedafter:%222022-03-17 14:22:02%22
+DEBUG:root:Request made for abandoned changes: https://gerrit.wikimedia.org/r/a/changes/?o=LABELS&q=status:abandoned+-is:wip+repo:mediawiki/composer/console+after:%222022-03-17 14:22:02%22
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?o=LABELS&q=status:merged+-is:wip+repo:mediawiki/composer/console
+DEBUG:root:Request made for abandoned changes: https://gerrit.wikimedia.org/r/a/changes/?o=LABELS&q=status:abandoned+-is:wip+repo:mediawiki/composer/console
+INFO:root:Processingmediawiki/composer/project
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?o=LABELS&q=status:merged+-is:wip+repo:mediawiki/composer/project+mergedafter:%222023-02-15 14:22:04%22
+DEBUG:root:Request made for abandoned changes: https://gerrit.wikimedia.org/r/a/changes/?o=LABELS&q=status:abandoned+-is:wip+repo:mediawiki/composer/project+after:%222023-02-15 14:22:04%22
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?o=LABELS&q=status:merged+-is:wip+repo:mediawiki/composer/project+mergedafter:%222022-12-17 14:22:05%22
+DEBUG:root:Request made for abandoned changes: https://gerrit.wikimedia.org/r/a/changes/?o=LABELS&q=status:abandoned+-is:wip+repo:mediawiki/composer/project+after:%222022-12-17 14:22:05%22
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?o=LABELS&q=status:merged+-is:wip+repo:mediawiki/composer/project+mergedafter:%222022-03-17 14:22:06%22
+DEBUG:root:Request made for abandoned changes: https://gerrit.wikimedia.org/r/a/changes/?o=LABELS&q=status:abandoned+-is:wip+repo:mediawiki/composer/project+after:%222022-03-17 14:22:06%22
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?o=LABELS&q=status:merged+-is:wip+repo:mediawiki/composer/project
+DEBUG:root:Request made for abandoned changes: https://gerrit.wikimedia.org/r/a/changes/?o=LABELS&q=status:abandoned+-is:wip+repo:mediawiki/composer/project
+INFO:root:Processingmediawiki/composer
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?o=LABELS&q=status:merged+-is:wip+repo:mediawiki/composer+mergedafter:%222023-02-15 14:38:29%22
+DEBUG:root:Request made for abandoned changes: https://gerrit.wikimedia.org/r/a/changes/?o=LABELS&q=status:abandoned+-is:wip+repo:mediawiki/composer+after:%222023-02-15 14:38:29%22
+DEBUG:root:Request made for open changes: https://gerrit.wikimedia.org/r/a/changes/?o=LABELS&q=status:open+-label:Code-Review=0+-is:wip+repo:mediawiki/composer+after:%222023-02-15 14:38:29%22
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?o=LABELS&q=status:merged+-is:wip+repo:mediawiki/composer+mergedafter:%222022-12-17 14:38:31%22
+DEBUG:root:Request made for abandoned changes: https://gerrit.wikimedia.org/r/a/changes/?o=LABELS&q=status:abandoned+-is:wip+repo:mediawiki/composer+after:%222022-12-17 14:38:31%22
+DEBUG:root:Request made for open changes: https://gerrit.wikimedia.org/r/a/changes/?o=LABELS&q=status:open+-label:Code-Review=0+-is:wip+repo:mediawiki/composer+after:%222022-12-17 14:38:31%22
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?o=LABELS&q=status:merged+-is:wip+repo:mediawiki/composer+mergedafter:%222022-03-17 14:38:33%22
+DEBUG:root:Request made for abandoned changes: https://gerrit.wikimedia.org/r/a/changes/?o=LABELS&q=status:abandoned+-is:wip+repo:mediawiki/composer+after:%222022-03-17 14:38:33%22
+DEBUG:root:Request made for open changes: https://gerrit.wikimedia.org/r/a/changes/?o=LABELS&q=status:open+-label:Code-Review=0+-is:wip+repo:mediawiki/composer+after:%222022-03-17 14:38:33%22
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?o=LABELS&q=status:merged+-is:wip+repo:mediawiki/composer
+INFO:root:Processingmediawiki/composer
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?o=LABELS&q=status:merged+-is:wip+repo:mediawiki/composer+mergedafter:%222023-02-15 14:39:30%22
+DEBUG:root:Request made for abandoned changes: https://gerrit.wikimedia.org/r/a/changes/?o=LABELS&q=status:abandoned+-is:wip+repo:mediawiki/composer+after:%222023-02-15 14:39:30%22
+DEBUG:root:Request made for open changes: https://gerrit.wikimedia.org/r/a/changes/?o=LABELS&q=status:open+-label:Code-Review=0+-is:wip+repo:mediawiki/composer+after:%222023-02-15 14:39:30%22
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?o=LABELS&q=status:merged+-is:wip+repo:mediawiki/composer+mergedafter:%222022-12-17 14:39:32%22
+DEBUG:root:Request made for abandoned changes: https://gerrit.wikimedia.org/r/a/changes/?o=LABELS&q=status:abandoned+-is:wip+repo:mediawiki/composer+after:%222022-12-17 14:39:32%22
+DEBUG:root:Request made for open changes: https://gerrit.wikimedia.org/r/a/changes/?o=LABELS&q=status:open+-label:Code-Review=0+-is:wip+repo:mediawiki/composer+after:%222022-12-17 14:39:32%22
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?o=LABELS&q=status:merged+-is:wip+repo:mediawiki/composer+mergedafter:%222022-03-17 14:39:35%22
+DEBUG:root:Request made for abandoned changes: https://gerrit.wikimedia.org/r/a/changes/?o=LABELS&q=status:abandoned+-is:wip+repo:mediawiki/composer+after:%222022-03-17 14:39:35%22
+DEBUG:root:Request made for open changes: https://gerrit.wikimedia.org/r/a/changes/?o=LABELS&q=status:open+-label:Code-Review=0+-is:wip+repo:mediawiki/composer+after:%222022-03-17 14:39:35%22
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?o=LABELS&q=status:merged+-is:wip+repo:mediawiki/composer
+DEBUG:root:Request made for abandoned changes: https://gerrit.wikimedia.org/r/a/changes/?o=LABELS&q=status:abandoned+-is:wip+repo:mediawiki/composer
+DEBUG:root:Request made for open changes: https://gerrit.wikimedia.org/r/a/changes/?o=LABELS&q=status:open+-label:Code-Review=0+-is:wip+repo:mediawiki/composer
+INFO:root:Processingmediawiki/composer/console
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?o=LABELS&q=status:merged+-is:wip+repo:mediawiki/composer/console+mergedafter:%222023-02-15 14:39:44%22
+DEBUG:root:Request made for abandoned changes: https://gerrit.wikimedia.org/r/a/changes/?o=LABELS&q=status:abandoned+-is:wip+repo:mediawiki/composer/console+after:%222023-02-15 14:39:44%22
+DEBUG:root:Request made for open changes: https://gerrit.wikimedia.org/r/a/changes/?o=LABELS&q=status:open+-label:Code-Review=0+-is:wip+repo:mediawiki/composer/console+after:%222023-02-15 14:39:44%22
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?o=LABELS&q=status:merged+-is:wip+repo:mediawiki/composer/console+mergedafter:%222022-12-17 14:39:48%22
+DEBUG:root:Request made for abandoned changes: https://gerrit.wikimedia.org/r/a/changes/?o=LABELS&q=status:abandoned+-is:wip+repo:mediawiki/composer/console+after:%222022-12-17 14:39:48%22
+DEBUG:root:Request made for open changes: https://gerrit.wikimedia.org/r/a/changes/?o=LABELS&q=status:open+-label:Code-Review=0+-is:wip+repo:mediawiki/composer/console+after:%222022-12-17 14:39:48%22
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?o=LABELS&q=status:merged+-is:wip+repo:mediawiki/composer/console+mergedafter:%222022-03-17 14:39:51%22
+DEBUG:root:Request made for abandoned changes: https://gerrit.wikimedia.org/r/a/changes/?o=LABELS&q=status:abandoned+-is:wip+repo:mediawiki/composer/console+after:%222022-03-17 14:39:51%22
+DEBUG:root:Request made for open changes: https://gerrit.wikimedia.org/r/a/changes/?o=LABELS&q=status:open+-label:Code-Review=0+-is:wip+repo:mediawiki/composer/console+after:%222022-03-17 14:39:51%22
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?o=LABELS&q=status:merged+-is:wip+repo:mediawiki/composer/console
+DEBUG:root:Request made for abandoned changes: https://gerrit.wikimedia.org/r/a/changes/?o=LABELS&q=status:abandoned+-is:wip+repo:mediawiki/composer/console
+DEBUG:root:Request made for open changes: https://gerrit.wikimedia.org/r/a/changes/?o=LABELS&q=status:open+-label:Code-Review=0+-is:wip+repo:mediawiki/composer/console
+INFO:root:Processingmediawiki/composer/project
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?o=LABELS&q=status:merged+-is:wip+repo:mediawiki/composer/project+mergedafter:%222023-02-15 14:39:54%22
+DEBUG:root:Request made for abandoned changes: https://gerrit.wikimedia.org/r/a/changes/?o=LABELS&q=status:abandoned+-is:wip+repo:mediawiki/composer/project+after:%222023-02-15 14:39:54%22
+DEBUG:root:Request made for open changes: https://gerrit.wikimedia.org/r/a/changes/?o=LABELS&q=status:open+-label:Code-Review=0+-is:wip+repo:mediawiki/composer/project+after:%222023-02-15 14:39:54%22
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?o=LABELS&q=status:merged+-is:wip+repo:mediawiki/composer/project+mergedafter:%222022-12-17 14:39:56%22
+DEBUG:root:Request made for abandoned changes: https://gerrit.wikimedia.org/r/a/changes/?o=LABELS&q=status:abandoned+-is:wip+repo:mediawiki/composer/project+after:%222022-12-17 14:39:56%22
+DEBUG:root:Request made for open changes: https://gerrit.wikimedia.org/r/a/changes/?o=LABELS&q=status:open+-label:Code-Review=0+-is:wip+repo:mediawiki/composer/project+after:%222022-12-17 14:39:56%22
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?o=LABELS&q=status:merged+-is:wip+repo:mediawiki/composer/project+mergedafter:%222022-03-17 14:39:57%22
+DEBUG:root:Request made for abandoned changes: https://gerrit.wikimedia.org/r/a/changes/?o=LABELS&q=status:abandoned+-is:wip+repo:mediawiki/composer/project+after:%222022-03-17 14:39:57%22
+DEBUG:root:Request made for open changes: https://gerrit.wikimedia.org/r/a/changes/?o=LABELS&q=status:open+-label:Code-Review=0+-is:wip+repo:mediawiki/composer/project+after:%222022-03-17 14:39:57%22
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?o=LABELS&q=status:merged+-is:wip+repo:mediawiki/composer/project
+DEBUG:root:Request made for abandoned changes: https://gerrit.wikimedia.org/r/a/changes/?o=LABELS&q=status:abandoned+-is:wip+repo:mediawiki/composer/project
+DEBUG:root:Request made for open changes: https://gerrit.wikimedia.org/r/a/changes/?o=LABELS&q=status:open+-label:Code-Review=0+-is:wip+repo:mediawiki/composer/project
+INFO:root:Processingmediawiki/core
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?o=LABELS&q=status:merged+-is:wip+repo:mediawiki/core+mergedafter:%222023-02-15 14:40:00%22
+DEBUG:root:Request made for abandoned changes: https://gerrit.wikimedia.org/r/a/changes/?o=LABELS&q=status:abandoned+-is:wip+repo:mediawiki/core+after:%222023-02-15 14:40:00%22
+DEBUG:root:Request made for open changes: https://gerrit.wikimedia.org/r/a/changes/?o=LABELS&q=status:open+-label:Code-Review=0+-is:wip+repo:mediawiki/core+after:%222023-02-15 14:40:00%22
+INFO:root:Processingmediawiki/debian
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?o=LABELS&q=status:merged+-is:wip+repo:mediawiki/debian+mergedafter:%222023-02-15 14:40:03%22
+DEBUG:root:Request made for abandoned changes: https://gerrit.wikimedia.org/r/a/changes/?o=LABELS&q=status:abandoned+-is:wip+repo:mediawiki/debian+after:%222023-02-15 14:40:03%22
+DEBUG:root:Request made for open changes: https://gerrit.wikimedia.org/r/a/changes/?o=LABELS&q=status:open+-label:Code-Review=0+-is:wip+repo:mediawiki/debian+after:%222023-02-15 14:40:03%22
+INFO:root:Processingmediawiki/composer
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?o=LABELS&q=status:merged+-is:wip+repo:mediawiki/composer+mergedafter:%222023-02-15 14:41:06%22
+DEBUG:root:Request made for abandoned changes: https://gerrit.wikimedia.org/r/a/changes/?o=LABELS&q=status:abandoned+-is:wip+repo:mediawiki/composer+after:%222023-02-15 14:41:06%22
+DEBUG:root:Request made for open changes: https://gerrit.wikimedia.org/r/a/changes/?o=LABELS&q=status:open+-label:Code-Review=0+-is:wip+repo:mediawiki/composer+after:%222023-02-15 14:41:06%22
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?o=LABELS&q=status:merged+-is:wip+repo:mediawiki/composer+mergedafter:%222022-12-17 14:41:10%22
+DEBUG:root:Request made for abandoned changes: https://gerrit.wikimedia.org/r/a/changes/?o=LABELS&q=status:abandoned+-is:wip+repo:mediawiki/composer+after:%222022-12-17 14:41:10%22
+DEBUG:root:Request made for open changes: https://gerrit.wikimedia.org/r/a/changes/?o=LABELS&q=status:open+-label:Code-Review=0+-is:wip+repo:mediawiki/composer+after:%222022-12-17 14:41:10%22
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?o=LABELS&q=status:merged+-is:wip+repo:mediawiki/composer+mergedafter:%222022-03-17 14:41:14%22
+DEBUG:root:Request made for abandoned changes: https://gerrit.wikimedia.org/r/a/changes/?o=LABELS&q=status:abandoned+-is:wip+repo:mediawiki/composer+after:%222022-03-17 14:41:14%22
+DEBUG:root:Request made for open changes: https://gerrit.wikimedia.org/r/a/changes/?o=LABELS&q=status:open+-label:Code-Review=0+-is:wip+repo:mediawiki/composer+after:%222022-03-17 14:41:14%22
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?o=LABELS&q=status:merged+-is:wip+repo:mediawiki/composer
+DEBUG:root:Request made for abandoned changes: https://gerrit.wikimedia.org/r/a/changes/?o=LABELS&q=status:abandoned+-is:wip+repo:mediawiki/composer
+DEBUG:root:Request made for open changes: https://gerrit.wikimedia.org/r/a/changes/?o=LABELS&q=status:open+-label:Code-Review=0+-is:wip+repo:mediawiki/composer
+INFO:root:Processingmediawiki/composer/console
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?o=LABELS&q=status:merged+-is:wip+repo:mediawiki/composer/console+mergedafter:%222023-02-15 14:41:18%22
+DEBUG:root:Request made for abandoned changes: https://gerrit.wikimedia.org/r/a/changes/?o=LABELS&q=status:abandoned+-is:wip+repo:mediawiki/composer/console+after:%222023-02-15 14:41:18%22
+DEBUG:root:Request made for open changes: https://gerrit.wikimedia.org/r/a/changes/?o=LABELS&q=status:open+-label:Code-Review=0+-is:wip+repo:mediawiki/composer/console+after:%222023-02-15 14:41:18%22
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?o=LABELS&q=status:merged+-is:wip+repo:mediawiki/composer/console+mergedafter:%222022-12-17 14:41:20%22
+DEBUG:root:Request made for abandoned changes: https://gerrit.wikimedia.org/r/a/changes/?o=LABELS&q=status:abandoned+-is:wip+repo:mediawiki/composer/console+after:%222022-12-17 14:41:20%22
+DEBUG:root:Request made for open changes: https://gerrit.wikimedia.org/r/a/changes/?o=LABELS&q=status:open+-label:Code-Review=0+-is:wip+repo:mediawiki/composer/console+after:%222022-12-17 14:41:20%22
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?o=LABELS&q=status:merged+-is:wip+repo:mediawiki/composer/console+mergedafter:%222022-03-17 14:41:22%22
+DEBUG:root:Request made for abandoned changes: https://gerrit.wikimedia.org/r/a/changes/?o=LABELS&q=status:abandoned+-is:wip+repo:mediawiki/composer/console+after:%222022-03-17 14:41:22%22
+DEBUG:root:Request made for open changes: https://gerrit.wikimedia.org/r/a/changes/?o=LABELS&q=status:open+-label:Code-Review=0+-is:wip+repo:mediawiki/composer/console+after:%222022-03-17 14:41:22%22
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?o=LABELS&q=status:merged+-is:wip+repo:mediawiki/composer/console
+DEBUG:root:Request made for abandoned changes: https://gerrit.wikimedia.org/r/a/changes/?o=LABELS&q=status:abandoned+-is:wip+repo:mediawiki/composer/console
+DEBUG:root:Request made for open changes: https://gerrit.wikimedia.org/r/a/changes/?o=LABELS&q=status:open+-label:Code-Review=0+-is:wip+repo:mediawiki/composer/console
+INFO:root:Processingmediawiki/composer/project
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?o=LABELS&q=status:merged+-is:wip+repo:mediawiki/composer/project+mergedafter:%222023-02-15 14:41:25%22
+DEBUG:root:Request made for abandoned changes: https://gerrit.wikimedia.org/r/a/changes/?o=LABELS&q=status:abandoned+-is:wip+repo:mediawiki/composer/project+after:%222023-02-15 14:41:25%22
+DEBUG:root:Request made for open changes: https://gerrit.wikimedia.org/r/a/changes/?o=LABELS&q=status:open+-label:Code-Review=0+-is:wip+repo:mediawiki/composer/project+after:%222023-02-15 14:41:25%22
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?o=LABELS&q=status:merged+-is:wip+repo:mediawiki/composer/project+mergedafter:%222022-12-17 14:41:26%22
+DEBUG:root:Request made for abandoned changes: https://gerrit.wikimedia.org/r/a/changes/?o=LABELS&q=status:abandoned+-is:wip+repo:mediawiki/composer/project+after:%222022-12-17 14:41:26%22
+DEBUG:root:Request made for open changes: https://gerrit.wikimedia.org/r/a/changes/?o=LABELS&q=status:open+-label:Code-Review=0+-is:wip+repo:mediawiki/composer/project+after:%222022-12-17 14:41:26%22
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?o=LABELS&q=status:merged+-is:wip+repo:mediawiki/composer/project+mergedafter:%222022-03-17 14:41:28%22
+DEBUG:root:Request made for abandoned changes: https://gerrit.wikimedia.org/r/a/changes/?o=LABELS&q=status:abandoned+-is:wip+repo:mediawiki/composer/project+after:%222022-03-17 14:41:28%22
+DEBUG:root:Request made for open changes: https://gerrit.wikimedia.org/r/a/changes/?o=LABELS&q=status:open+-label:Code-Review=0+-is:wip+repo:mediawiki/composer/project+after:%222022-03-17 14:41:28%22
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?o=LABELS&q=status:merged+-is:wip+repo:mediawiki/composer/project
+DEBUG:root:Request made for abandoned changes: https://gerrit.wikimedia.org/r/a/changes/?o=LABELS&q=status:abandoned+-is:wip+repo:mediawiki/composer/project
+DEBUG:root:Request made for open changes: https://gerrit.wikimedia.org/r/a/changes/?o=LABELS&q=status:open+-label:Code-Review=0+-is:wip+repo:mediawiki/composer/project
+INFO:root:Processingmediawiki/core
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?o=LABELS&q=status:merged+-is:wip+repo:mediawiki/core+mergedafter:%222023-02-15 14:41:31%22
+DEBUG:root:Request made for abandoned changes: https://gerrit.wikimedia.org/r/a/changes/?o=LABELS&q=status:abandoned+-is:wip+repo:mediawiki/core+after:%222023-02-15 14:41:31%22
+DEBUG:root:Request made for open changes: https://gerrit.wikimedia.org/r/a/changes/?o=LABELS&q=status:open+-label:Code-Review=0+-is:wip+repo:mediawiki/core+after:%222023-02-15 14:41:31%22
+INFO:root:Processing mediawiki/core
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?o=LABELS&q=status:merged+-is:wip+repo:mediawiki/core+mergedafter:%222023-02-15 14:44:34%22
+DEBUG:root:Request made for abandoned changes: https://gerrit.wikimedia.org/r/a/changes/?o=LABELS&q=status:abandoned+-is:wip+repo:mediawiki/core+after:%222023-02-15 14:44:34%22
+DEBUG:root:Request made for open changes: https://gerrit.wikimedia.org/r/a/changes/?o=LABELS&q=status:open+-label:Code-Review=0+-is:wip+repo:mediawiki/core+after:%222023-02-15 14:44:34%22
+INFO:root:Processing mediawiki/core
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&q=status:merged+-is:wip+repo:mediawiki/core+mergedafter:%222023-02-15 14:47:44%22
+INFO:root:Processing mediawiki/core
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&q=status:merged+-is:wip+repo:mediawiki/core+mergedafter:%222023-02-15 14:48:26%22
+DEBUG:root:Request made for abandoned changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&q=status:abandoned+-is:wip+repo:mediawiki/core+after:%222023-02-15 14:48:26%22
+DEBUG:root:Request made for open changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&q=status:open+-label:Code-Review=0+-is:wip+repo:mediawiki/core+after:%222023-02-15 14:48:26%22
+INFO:root:Processing mediawiki/core
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&q=status:merged+-is:wip+repo:mediawiki/core+mergedafter:%222023-02-15 14:54:38%22
+DEBUG:root:Request made for abandoned changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&q=status:abandoned+-is:wip+repo:mediawiki/core+after:%222023-02-15 14:54:38%22
+DEBUG:root:Request made for open changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&q=status:open+-label:Code-Review=0+-is:wip+repo:mediawiki/core+after:%222023-02-15 14:54:38%22
+INFO:root:Processing mediawiki/core
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:merged+-is:wip+repo:mediawiki/core+mergedafter:%222023-02-15 14:56:26%22
+DEBUG:root:Request made for abandoned changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:abandoned+-is:wip+repo:mediawiki/core+after:%222023-02-15 14:56:26%22
+DEBUG:root:Request made for open changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:open+-label:Code-Review=0+-is:wip+repo:mediawiki/core+after:%222023-02-15 14:56:26%22
+INFO:root:Processing mediawiki/core
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:merged+-is:wip+repo:mediawiki/core+mergedafter:%222023-02-15 15:02:56%22
+DEBUG:root:Request made for abandoned changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:abandoned+-is:wip+repo:mediawiki/core+after:%222023-02-15 15:02:56%22
+DEBUG:root:Request made for open changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:open+-label:Code-Review=0+-is:wip+repo:mediawiki/core+after:%222023-02-15 15:02:56%22
+INFO:root:Processing mediawiki/core
+DEBUG:root:Trying has changes from last 30 days
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:merged+-is:wip+repo:mediawiki/core+mergedafter:%222023-02-15 15:05:22%22
+DEBUG:root:Request made for abandoned changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:abandoned+-is:wip+repo:mediawiki/core+after:%222023-02-15 15:05:22%22
+DEBUG:root:Request made for open changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:open+-label:Code-Review=0+-is:wip+repo:mediawiki/core+after:%222023-02-15 15:05:22%22
+DEBUG:root:Successful with has changes from last 30 days
+INFO:root:Processing mediawiki/core
+DEBUG:root:Trying has changes from last 30 days
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:merged+-is:wip+repo:mediawiki/core+mergedafter:%222023-02-15 15:13:11%22
+INFO:root:Processing mediawiki/core
+DEBUG:root:Trying has changes from last 30 days
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:merged+-is:wip+repo:mediawiki/core+mergedafter:%222023-02-15 15:14:24%22
+INFO:root:Processing mediawiki/core
+DEBUG:root:Trying has changes from last 30 days
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:merged+-is:wip+repo:mediawiki/core+mergedafter:%222023-02-15 15:14:49%22
+INFO:root:Processing mediawiki/core
+DEBUG:root:Trying has changes from last 30 days
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:merged+-is:wip+repo:mediawiki/core+mergedafter:%222023-02-15 15:16:53%22
+INFO:root:Processing mediawiki/core
+DEBUG:root:Trying has changes from last 30 days
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:merged+-is:wip+repo:mediawiki/core+mergedafter:%222023-02-15 15:26:52%22
+DEBUG:root:Request made for abandoned changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:abandoned+-is:wip+repo:mediawiki/core+after:%222023-02-15 15:26:52%22
+DEBUG:root:Request made for open changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:open+-label:Code-Review=0+-is:wip+repo:mediawiki/core+after:%222023-02-15 15:26:52%22
+DEBUG:root:Successful with has changes from last 30 days
+INFO:root:Processing mediawiki/composer
+DEBUG:root:Trying has changes from last 30 days
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:merged+-is:wip+repo:mediawiki/composer+mergedafter:%222023-02-15 15:29:50%22
+DEBUG:root:Request made for abandoned changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:abandoned+-is:wip+repo:mediawiki/composer+after:%222023-02-15 15:29:50%22
+DEBUG:root:Request made for open changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:open+-label:Code-Review=0+-is:wip+repo:mediawiki/composer+after:%222023-02-15 15:29:50%22
+DEBUG:root:Skipped has changes from last 30 days
+DEBUG:root:Trying has changes from last 3 months
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:merged+-is:wip+repo:mediawiki/composer+mergedafter:%222022-12-17 15:29:52%22
+DEBUG:root:Request made for abandoned changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:abandoned+-is:wip+repo:mediawiki/composer+after:%222022-12-17 15:29:52%22
+DEBUG:root:Request made for open changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:open+-label:Code-Review=0+-is:wip+repo:mediawiki/composer+after:%222022-12-17 15:29:52%22
+DEBUG:root:Skipped has changes from last 3 months
+DEBUG:root:Trying has changes from last year
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:merged+-is:wip+repo:mediawiki/composer+mergedafter:%222022-03-17 15:29:54%22
+DEBUG:root:Request made for abandoned changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:abandoned+-is:wip+repo:mediawiki/composer+after:%222022-03-17 15:29:54%22
+DEBUG:root:Request made for open changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:open+-label:Code-Review=0+-is:wip+repo:mediawiki/composer+after:%222022-03-17 15:29:54%22
+DEBUG:root:Skipped has changes from last year
+DEBUG:root:Trying has changes from all time
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:merged+-is:wip+repo:mediawiki/composer
+DEBUG:root:Request made for abandoned changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:abandoned+-is:wip+repo:mediawiki/composer
+DEBUG:root:Request made for open changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:open+-label:Code-Review=0+-is:wip+repo:mediawiki/composer
+DEBUG:root:Successful with has changes from all time
+INFO:root:Processing mediawiki/composer/console
+DEBUG:root:Trying has changes from last 30 days
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:merged+-is:wip+repo:mediawiki/composer/console+mergedafter:%222023-02-15 15:29:56%22
+DEBUG:root:Request made for abandoned changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:abandoned+-is:wip+repo:mediawiki/composer/console+after:%222023-02-15 15:29:56%22
+DEBUG:root:Request made for open changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:open+-label:Code-Review=0+-is:wip+repo:mediawiki/composer/console+after:%222023-02-15 15:29:56%22
+DEBUG:root:Skipped has changes from last 30 days
+DEBUG:root:Trying has changes from last 3 months
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:merged+-is:wip+repo:mediawiki/composer/console+mergedafter:%222022-12-17 15:29:58%22
+DEBUG:root:Request made for abandoned changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:abandoned+-is:wip+repo:mediawiki/composer/console+after:%222022-12-17 15:29:58%22
+DEBUG:root:Request made for open changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:open+-label:Code-Review=0+-is:wip+repo:mediawiki/composer/console+after:%222022-12-17 15:29:58%22
+DEBUG:root:Skipped has changes from last 3 months
+DEBUG:root:Trying has changes from last year
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:merged+-is:wip+repo:mediawiki/composer/console+mergedafter:%222022-03-17 15:29:59%22
+DEBUG:root:Request made for abandoned changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:abandoned+-is:wip+repo:mediawiki/composer/console+after:%222022-03-17 15:29:59%22
+DEBUG:root:Request made for open changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:open+-label:Code-Review=0+-is:wip+repo:mediawiki/composer/console+after:%222022-03-17 15:29:59%22
+DEBUG:root:Skipped has changes from last year
+DEBUG:root:Trying has changes from all time
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:merged+-is:wip+repo:mediawiki/composer/console
+DEBUG:root:Request made for abandoned changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:abandoned+-is:wip+repo:mediawiki/composer/console
+DEBUG:root:Request made for open changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:open+-label:Code-Review=0+-is:wip+repo:mediawiki/composer/console
+DEBUG:root:Successful with has changes from all time
+INFO:root:Processing mediawiki/composer/project
+DEBUG:root:Trying has changes from last 30 days
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:merged+-is:wip+repo:mediawiki/composer/project+mergedafter:%222023-02-15 15:30:03%22
+DEBUG:root:Request made for abandoned changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:abandoned+-is:wip+repo:mediawiki/composer/project+after:%222023-02-15 15:30:03%22
+DEBUG:root:Request made for open changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:open+-label:Code-Review=0+-is:wip+repo:mediawiki/composer/project+after:%222023-02-15 15:30:03%22
+DEBUG:root:Skipped has changes from last 30 days
+DEBUG:root:Trying has changes from last 3 months
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:merged+-is:wip+repo:mediawiki/composer/project+mergedafter:%222022-12-17 15:30:05%22
+DEBUG:root:Request made for abandoned changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:abandoned+-is:wip+repo:mediawiki/composer/project+after:%222022-12-17 15:30:05%22
+DEBUG:root:Request made for open changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:open+-label:Code-Review=0+-is:wip+repo:mediawiki/composer/project+after:%222022-12-17 15:30:05%22
+DEBUG:root:Skipped has changes from last 3 months
+DEBUG:root:Trying has changes from last year
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:merged+-is:wip+repo:mediawiki/composer/project+mergedafter:%222022-03-17 15:30:06%22
+DEBUG:root:Request made for abandoned changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:abandoned+-is:wip+repo:mediawiki/composer/project+after:%222022-03-17 15:30:06%22
+DEBUG:root:Request made for open changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:open+-label:Code-Review=0+-is:wip+repo:mediawiki/composer/project+after:%222022-03-17 15:30:06%22
+DEBUG:root:Skipped has changes from last year
+DEBUG:root:Trying has changes from all time
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:merged+-is:wip+repo:mediawiki/composer/project
+DEBUG:root:Request made for abandoned changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:abandoned+-is:wip+repo:mediawiki/composer/project
+DEBUG:root:Request made for open changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:open+-label:Code-Review=0+-is:wip+repo:mediawiki/composer/project
+DEBUG:root:Successful with has changes from all time
+INFO:root:Processing mediawiki/core
+DEBUG:root:Trying has changes from last 30 days
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:merged+-is:wip+repo:mediawiki/core+mergedafter:%222023-02-15 15:30:10%22
+DEBUG:root:Request made for abandoned changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:abandoned+-is:wip+repo:mediawiki/core+after:%222023-02-15 15:30:10%22
+DEBUG:root:Request made for open changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:open+-label:Code-Review=0+-is:wip+repo:mediawiki/core+after:%222023-02-15 15:30:10%22
+DEBUG:root:Successful with has changes from last 30 days
+INFO:root:Processing mediawiki/debian
+DEBUG:root:Trying has changes from last 30 days
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:merged+-is:wip+repo:mediawiki/debian+mergedafter:%222023-02-15 15:30:13%22
+DEBUG:root:Request made for abandoned changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:abandoned+-is:wip+repo:mediawiki/debian+after:%222023-02-15 15:30:13%22
+DEBUG:root:Request made for open changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:open+-label:Code-Review=0+-is:wip+repo:mediawiki/debian+after:%222023-02-15 15:30:13%22
+DEBUG:root:Skipped has changes from last 30 days
+DEBUG:root:Trying has changes from last 3 months
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:merged+-is:wip+repo:mediawiki/debian+mergedafter:%222022-12-17 15:30:14%22
+DEBUG:root:Request made for abandoned changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:abandoned+-is:wip+repo:mediawiki/debian+after:%222022-12-17 15:30:14%22
+DEBUG:root:Request made for open changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:open+-label:Code-Review=0+-is:wip+repo:mediawiki/debian+after:%222022-12-17 15:30:14%22
+DEBUG:root:Skipped has changes from last 3 months
+DEBUG:root:Trying has changes from last year
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:merged+-is:wip+repo:mediawiki/debian+mergedafter:%222022-03-17 15:30:15%22
+DEBUG:root:Request made for abandoned changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:abandoned+-is:wip+repo:mediawiki/debian+after:%222022-03-17 15:30:15%22
+DEBUG:root:Request made for open changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:open+-label:Code-Review=0+-is:wip+repo:mediawiki/debian+after:%222022-03-17 15:30:15%22
+DEBUG:root:Skipped has changes from last year
+DEBUG:root:Trying has changes from all time
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:merged+-is:wip+repo:mediawiki/debian
+DEBUG:root:Request made for abandoned changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:abandoned+-is:wip+repo:mediawiki/debian
+INFO:root:Processing mediawiki/composer
+DEBUG:root:Trying has changes from last 30 days
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:merged+-is:wip+repo:mediawiki/composer+mergedafter:%222023-02-15 15:31:41%22
+DEBUG:root:Request made for abandoned changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:abandoned+-is:wip+repo:mediawiki/composer+after:%222023-02-15 15:31:41%22
+DEBUG:root:Request made for open changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:open+-label:Code-Review=0+-is:wip+repo:mediawiki/composer+after:%222023-02-15 15:31:41%22
+DEBUG:root:Skipped has changes from last 30 days
+DEBUG:root:Trying has changes from last 3 months
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:merged+-is:wip+repo:mediawiki/composer+mergedafter:%222022-12-17 15:31:46%22
+DEBUG:root:Request made for abandoned changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:abandoned+-is:wip+repo:mediawiki/composer+after:%222022-12-17 15:31:46%22
+DEBUG:root:Request made for open changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:open+-label:Code-Review=0+-is:wip+repo:mediawiki/composer+after:%222022-12-17 15:31:46%22
+DEBUG:root:Skipped has changes from last 3 months
+DEBUG:root:Trying has changes from last year
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:merged+-is:wip+repo:mediawiki/composer+mergedafter:%222022-03-17 15:31:51%22
+DEBUG:root:Request made for abandoned changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:abandoned+-is:wip+repo:mediawiki/composer+after:%222022-03-17 15:31:51%22
+DEBUG:root:Request made for open changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:open+-label:Code-Review=0+-is:wip+repo:mediawiki/composer+after:%222022-03-17 15:31:51%22
+DEBUG:root:Skipped has changes from last year
+DEBUG:root:Trying has changes from all time
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:merged+-is:wip+repo:mediawiki/composer
+DEBUG:root:Request made for abandoned changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:abandoned+-is:wip+repo:mediawiki/composer
+DEBUG:root:Request made for open changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:open+-label:Code-Review=0+-is:wip+repo:mediawiki/composer
+DEBUG:root:Successful with has changes from all time
+INFO:root:Processing mediawiki/composer/console
+DEBUG:root:Trying has changes from last 30 days
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:merged+-is:wip+repo:mediawiki/composer/console+mergedafter:%222023-02-15 15:31:54%22
+DEBUG:root:Request made for abandoned changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:abandoned+-is:wip+repo:mediawiki/composer/console+after:%222023-02-15 15:31:54%22
+DEBUG:root:Request made for open changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:open+-label:Code-Review=0+-is:wip+repo:mediawiki/composer/console+after:%222023-02-15 15:31:54%22
+DEBUG:root:Skipped has changes from last 30 days
+DEBUG:root:Trying has changes from last 3 months
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:merged+-is:wip+repo:mediawiki/composer/console+mergedafter:%222022-12-17 15:31:56%22
+DEBUG:root:Request made for abandoned changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:abandoned+-is:wip+repo:mediawiki/composer/console+after:%222022-12-17 15:31:56%22
+DEBUG:root:Request made for open changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:open+-label:Code-Review=0+-is:wip+repo:mediawiki/composer/console+after:%222022-12-17 15:31:56%22
+DEBUG:root:Skipped has changes from last 3 months
+DEBUG:root:Trying has changes from last year
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:merged+-is:wip+repo:mediawiki/composer/console+mergedafter:%222022-03-17 15:31:58%22
+DEBUG:root:Request made for abandoned changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:abandoned+-is:wip+repo:mediawiki/composer/console+after:%222022-03-17 15:31:58%22
+DEBUG:root:Request made for open changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:open+-label:Code-Review=0+-is:wip+repo:mediawiki/composer/console+after:%222022-03-17 15:31:58%22
+DEBUG:root:Skipped has changes from last year
+DEBUG:root:Trying has changes from all time
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:merged+-is:wip+repo:mediawiki/composer/console
+INFO:root:Processing mediawiki/composer
+DEBUG:root:Trying has changes from last 30 days
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:merged+-is:wip+repo:mediawiki/composer+mergedafter:%222023-02-15 15:32:57%22
+DEBUG:root:Request made for abandoned changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:abandoned+-is:wip+repo:mediawiki/composer+after:%222023-02-15 15:32:57%22
+DEBUG:root:Request made for open changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:open+-label:Code-Review=0+-is:wip+repo:mediawiki/composer+after:%222023-02-15 15:32:57%22
+DEBUG:root:Skipped has changes from last 30 days
+DEBUG:root:Trying has changes from last 3 months
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:merged+-is:wip+repo:mediawiki/composer+mergedafter:%222022-12-17 15:32:59%22
+DEBUG:root:Request made for abandoned changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:abandoned+-is:wip+repo:mediawiki/composer+after:%222022-12-17 15:32:59%22
+DEBUG:root:Request made for open changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:open+-label:Code-Review=0+-is:wip+repo:mediawiki/composer+after:%222022-12-17 15:32:59%22
+DEBUG:root:Skipped has changes from last 3 months
+DEBUG:root:Trying has changes from last year
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:merged+-is:wip+repo:mediawiki/composer+mergedafter:%222022-03-17 15:33:00%22
+DEBUG:root:Request made for abandoned changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:abandoned+-is:wip+repo:mediawiki/composer+after:%222022-03-17 15:33:00%22
+DEBUG:root:Request made for open changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:open+-label:Code-Review=0+-is:wip+repo:mediawiki/composer+after:%222022-03-17 15:33:00%22
+DEBUG:root:Skipped has changes from last year
+DEBUG:root:Trying has changes from all time
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:merged+-is:wip+repo:mediawiki/composer
+DEBUG:root:Request made for abandoned changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:abandoned+-is:wip+repo:mediawiki/composer
+DEBUG:root:Request made for open changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:open+-label:Code-Review=0+-is:wip+repo:mediawiki/composer
+DEBUG:root:Successful with has changes from all time
+INFO:root:Processing mediawiki/composer/console
+DEBUG:root:Trying has changes from last 30 days
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:merged+-is:wip+repo:mediawiki/composer/console+mergedafter:%222023-02-15 15:33:04%22
+DEBUG:root:Request made for abandoned changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:abandoned+-is:wip+repo:mediawiki/composer/console+after:%222023-02-15 15:33:04%22
+DEBUG:root:Request made for open changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:open+-label:Code-Review=0+-is:wip+repo:mediawiki/composer/console+after:%222023-02-15 15:33:04%22
+DEBUG:root:Skipped has changes from last 30 days
+DEBUG:root:Trying has changes from last 3 months
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:merged+-is:wip+repo:mediawiki/composer/console+mergedafter:%222022-12-17 15:33:05%22
+DEBUG:root:Request made for abandoned changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:abandoned+-is:wip+repo:mediawiki/composer/console+after:%222022-12-17 15:33:05%22
+DEBUG:root:Request made for open changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:open+-label:Code-Review=0+-is:wip+repo:mediawiki/composer/console+after:%222022-12-17 15:33:05%22
+DEBUG:root:Skipped has changes from last 3 months
+DEBUG:root:Trying has changes from last year
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:merged+-is:wip+repo:mediawiki/composer/console+mergedafter:%222022-03-17 15:33:07%22
+DEBUG:root:Request made for abandoned changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:abandoned+-is:wip+repo:mediawiki/composer/console+after:%222022-03-17 15:33:07%22
+DEBUG:root:Request made for open changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:open+-label:Code-Review=0+-is:wip+repo:mediawiki/composer/console+after:%222022-03-17 15:33:07%22
+DEBUG:root:Skipped has changes from last year
+DEBUG:root:Trying has changes from all time
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:merged+-is:wip+repo:mediawiki/composer/console
+INFO:root:Processing mediawiki/composer
+DEBUG:root:Trying has changes from last 30 days
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:merged+-is:wip+repo:mediawiki/composer+mergedafter:%222023-02-15 15:33:17%22
+DEBUG:root:Request made for abandoned changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:abandoned+-is:wip+repo:mediawiki/composer+after:%222023-02-15 15:33:17%22
+DEBUG:root:Request made for open changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:open+-label:Code-Review=0+-is:wip+repo:mediawiki/composer+after:%222023-02-15 15:33:17%22
+DEBUG:root:Skipped has changes from last 30 days
+DEBUG:root:Trying has changes from last 3 months
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:merged+-is:wip+repo:mediawiki/composer+mergedafter:%222022-12-17 15:33:18%22
+DEBUG:root:Request made for abandoned changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:abandoned+-is:wip+repo:mediawiki/composer+after:%222022-12-17 15:33:18%22
+DEBUG:root:Request made for open changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:open+-label:Code-Review=0+-is:wip+repo:mediawiki/composer+after:%222022-12-17 15:33:18%22
+DEBUG:root:Skipped has changes from last 3 months
+DEBUG:root:Trying has changes from last year
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:merged+-is:wip+repo:mediawiki/composer+mergedafter:%222022-03-17 15:33:20%22
+DEBUG:root:Request made for abandoned changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:abandoned+-is:wip+repo:mediawiki/composer+after:%222022-03-17 15:33:20%22
+DEBUG:root:Request made for open changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:open+-label:Code-Review=0+-is:wip+repo:mediawiki/composer+after:%222022-03-17 15:33:20%22
+DEBUG:root:Skipped has changes from last year
+DEBUG:root:Trying has changes from all time
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:merged+-is:wip+repo:mediawiki/composer
+DEBUG:root:Request made for abandoned changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:abandoned+-is:wip+repo:mediawiki/composer
+DEBUG:root:Request made for open changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:open+-label:Code-Review=0+-is:wip+repo:mediawiki/composer
+DEBUG:root:Successful with has changes from all time
+INFO:root:Processing mediawiki/composer/console
+DEBUG:root:Trying has changes from last 30 days
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:merged+-is:wip+repo:mediawiki/composer/console+mergedafter:%222023-02-15 15:33:23%22
+DEBUG:root:Request made for abandoned changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:abandoned+-is:wip+repo:mediawiki/composer/console+after:%222023-02-15 15:33:23%22
+DEBUG:root:Request made for open changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:open+-label:Code-Review=0+-is:wip+repo:mediawiki/composer/console+after:%222023-02-15 15:33:23%22
+DEBUG:root:Skipped has changes from last 30 days
+DEBUG:root:Trying has changes from last 3 months
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:merged+-is:wip+repo:mediawiki/composer/console+mergedafter:%222022-12-17 15:33:25%22
+DEBUG:root:Request made for abandoned changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:abandoned+-is:wip+repo:mediawiki/composer/console+after:%222022-12-17 15:33:25%22
+DEBUG:root:Request made for open changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:open+-label:Code-Review=0+-is:wip+repo:mediawiki/composer/console+after:%222022-12-17 15:33:25%22
+DEBUG:root:Skipped has changes from last 3 months
+DEBUG:root:Trying has changes from last year
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:merged+-is:wip+repo:mediawiki/composer/console+mergedafter:%222022-03-17 15:33:26%22
+DEBUG:root:Request made for abandoned changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:abandoned+-is:wip+repo:mediawiki/composer/console+after:%222022-03-17 15:33:26%22
+DEBUG:root:Request made for open changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:open+-label:Code-Review=0+-is:wip+repo:mediawiki/composer/console+after:%222022-03-17 15:33:26%22
+DEBUG:root:Skipped has changes from last year
+DEBUG:root:Trying has changes from all time
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:merged+-is:wip+repo:mediawiki/composer/console
+DEBUG:root:Request made for abandoned changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:abandoned+-is:wip+repo:mediawiki/composer/console
+DEBUG:root:Request made for open changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:open+-label:Code-Review=0+-is:wip+repo:mediawiki/composer/console
+DEBUG:root:Successful with has changes from all time
+INFO:root:Processing mediawiki/composer/project
+DEBUG:root:Trying has changes from last 30 days
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:merged+-is:wip+repo:mediawiki/composer/project+mergedafter:%222023-02-15 15:33:29%22
+DEBUG:root:Request made for abandoned changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:abandoned+-is:wip+repo:mediawiki/composer/project+after:%222023-02-15 15:33:29%22
+DEBUG:root:Request made for open changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:open+-label:Code-Review=0+-is:wip+repo:mediawiki/composer/project+after:%222023-02-15 15:33:29%22
+DEBUG:root:Skipped has changes from last 30 days
+DEBUG:root:Trying has changes from last 3 months
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:merged+-is:wip+repo:mediawiki/composer/project+mergedafter:%222022-12-17 15:33:31%22
+DEBUG:root:Request made for abandoned changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:abandoned+-is:wip+repo:mediawiki/composer/project+after:%222022-12-17 15:33:31%22
+DEBUG:root:Request made for open changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:open+-label:Code-Review=0+-is:wip+repo:mediawiki/composer/project+after:%222022-12-17 15:33:31%22
+DEBUG:root:Skipped has changes from last 3 months
+DEBUG:root:Trying has changes from last year
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:merged+-is:wip+repo:mediawiki/composer/project+mergedafter:%222022-03-17 15:33:33%22
+DEBUG:root:Request made for abandoned changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:abandoned+-is:wip+repo:mediawiki/composer/project+after:%222022-03-17 15:33:33%22
+DEBUG:root:Request made for open changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:open+-label:Code-Review=0+-is:wip+repo:mediawiki/composer/project+after:%222022-03-17 15:33:33%22
+DEBUG:root:Skipped has changes from last year
+DEBUG:root:Trying has changes from all time
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:merged+-is:wip+repo:mediawiki/composer/project
+DEBUG:root:Request made for abandoned changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:abandoned+-is:wip+repo:mediawiki/composer/project
+DEBUG:root:Request made for open changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:open+-label:Code-Review=0+-is:wip+repo:mediawiki/composer/project
+DEBUG:root:Successful with has changes from all time
+INFO:root:Processing mediawiki/core
+DEBUG:root:Trying has changes from last 30 days
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:merged+-is:wip+repo:mediawiki/core+mergedafter:%222023-02-15 15:33:42%22
+DEBUG:root:Request made for abandoned changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:abandoned+-is:wip+repo:mediawiki/core+after:%222023-02-15 15:33:42%22
+DEBUG:root:Request made for open changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:open+-label:Code-Review=0+-is:wip+repo:mediawiki/core+after:%222023-02-15 15:33:42%22
+DEBUG:root:Successful with has changes from last 30 days
+INFO:root:Processing mediawiki/debian
+DEBUG:root:Trying has changes from last 30 days
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:merged+-is:wip+repo:mediawiki/debian+mergedafter:%222023-02-15 15:33:45%22
+DEBUG:root:Request made for abandoned changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:abandoned+-is:wip+repo:mediawiki/debian+after:%222023-02-15 15:33:45%22
+DEBUG:root:Request made for open changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:open+-label:Code-Review=0+-is:wip+repo:mediawiki/debian+after:%222023-02-15 15:33:45%22
+DEBUG:root:Skipped has changes from last 30 days
+DEBUG:root:Trying has changes from last 3 months
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:merged+-is:wip+repo:mediawiki/debian+mergedafter:%222022-12-17 15:33:47%22
+DEBUG:root:Request made for abandoned changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:abandoned+-is:wip+repo:mediawiki/debian+after:%222022-12-17 15:33:47%22
+DEBUG:root:Request made for open changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:open+-label:Code-Review=0+-is:wip+repo:mediawiki/debian+after:%222022-12-17 15:33:47%22
+DEBUG:root:Skipped has changes from last 3 months
+DEBUG:root:Trying has changes from last year
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:merged+-is:wip+repo:mediawiki/debian+mergedafter:%222022-03-17 15:33:48%22
+DEBUG:root:Request made for abandoned changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:abandoned+-is:wip+repo:mediawiki/debian+after:%222022-03-17 15:33:48%22
+DEBUG:root:Request made for open changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:open+-label:Code-Review=0+-is:wip+repo:mediawiki/debian+after:%222022-03-17 15:33:48%22
+DEBUG:root:Skipped has changes from last year
+DEBUG:root:Trying has changes from all time
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:merged+-is:wip+repo:mediawiki/debian
+DEBUG:root:Request made for abandoned changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:abandoned+-is:wip+repo:mediawiki/debian
+DEBUG:root:Request made for open changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:open+-label:Code-Review=0+-is:wip+repo:mediawiki/debian
+DEBUG:root:Successful with has changes from all time
+INFO:root:Processing mediawiki/event-schemas
+DEBUG:root:Trying has changes from last 30 days
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:merged+-is:wip+repo:mediawiki/event-schemas+mergedafter:%222023-02-15 15:33:53%22
+DEBUG:root:Request made for abandoned changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:abandoned+-is:wip+repo:mediawiki/event-schemas+after:%222023-02-15 15:33:53%22
+DEBUG:root:Request made for open changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:open+-label:Code-Review=0+-is:wip+repo:mediawiki/event-schemas+after:%222023-02-15 15:33:53%22
+DEBUG:root:Skipped has changes from last 30 days
+DEBUG:root:Trying has changes from last 3 months
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:merged+-is:wip+repo:mediawiki/event-schemas+mergedafter:%222022-12-17 15:33:55%22
+DEBUG:root:Request made for abandoned changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:abandoned+-is:wip+repo:mediawiki/event-schemas+after:%222022-12-17 15:33:55%22
+DEBUG:root:Request made for open changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:open+-label:Code-Review=0+-is:wip+repo:mediawiki/event-schemas+after:%222022-12-17 15:33:55%22
+DEBUG:root:Skipped has changes from last 3 months
+DEBUG:root:Trying has changes from last year
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:merged+-is:wip+repo:mediawiki/event-schemas+mergedafter:%222022-03-17 15:33:57%22
+DEBUG:root:Request made for abandoned changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:abandoned+-is:wip+repo:mediawiki/event-schemas+after:%222022-03-17 15:33:57%22
+DEBUG:root:Request made for open changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:open+-label:Code-Review=0+-is:wip+repo:mediawiki/event-schemas+after:%222022-03-17 15:33:57%22
+DEBUG:root:Skipped has changes from last year
+DEBUG:root:Trying has changes from all time
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:merged+-is:wip+repo:mediawiki/event-schemas
+DEBUG:root:Request made for abandoned changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:abandoned+-is:wip+repo:mediawiki/event-schemas
+DEBUG:root:Request made for open changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:open+-label:Code-Review=0+-is:wip+repo:mediawiki/event-schemas
+DEBUG:root:Successful with has changes from all time
+INFO:root:Processing mediawiki/extensions
+DEBUG:root:Trying has changes from last 30 days
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:merged+-is:wip+repo:mediawiki/extensions+mergedafter:%222023-02-15 15:34:02%22
+DEBUG:root:Request made for abandoned changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:abandoned+-is:wip+repo:mediawiki/extensions+after:%222023-02-15 15:34:02%22
+DEBUG:root:Request made for open changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:open+-label:Code-Review=0+-is:wip+repo:mediawiki/extensions+after:%222023-02-15 15:34:02%22
+DEBUG:root:Skipped has changes from last 30 days
+DEBUG:root:Trying has changes from last 3 months
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:merged+-is:wip+repo:mediawiki/extensions+mergedafter:%222022-12-17 15:34:04%22
+DEBUG:root:Request made for abandoned changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:abandoned+-is:wip+repo:mediawiki/extensions+after:%222022-12-17 15:34:04%22
+DEBUG:root:Request made for open changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:open+-label:Code-Review=0+-is:wip+repo:mediawiki/extensions+after:%222022-12-17 15:34:04%22
+DEBUG:root:Skipped has changes from last 3 months
+DEBUG:root:Trying has changes from last year
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:merged+-is:wip+repo:mediawiki/extensions+mergedafter:%222022-03-17 15:34:05%22
+DEBUG:root:Request made for abandoned changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:abandoned+-is:wip+repo:mediawiki/extensions+after:%222022-03-17 15:34:05%22
+DEBUG:root:Request made for open changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:open+-label:Code-Review=0+-is:wip+repo:mediawiki/extensions+after:%222022-03-17 15:34:05%22
+DEBUG:root:Skipped has changes from last year
+DEBUG:root:Trying has changes from all time
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:merged+-is:wip+repo:mediawiki/extensions
+DEBUG:root:Request made for abandoned changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:abandoned+-is:wip+repo:mediawiki/extensions
+DEBUG:root:Request made for open changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:open+-label:Code-Review=0+-is:wip+repo:mediawiki/extensions
+DEBUG:root:Successful with has changes from all time
+INFO:root:Processing mediawiki/extensions/3D
+DEBUG:root:Trying has changes from last 30 days
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:merged+-is:wip+repo:mediawiki/extensions/3D+mergedafter:%222023-02-15 15:34:11%22
+DEBUG:root:Request made for abandoned changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:abandoned+-is:wip+repo:mediawiki/extensions/3D+after:%222023-02-15 15:34:11%22
+DEBUG:root:Request made for open changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:open+-label:Code-Review=0+-is:wip+repo:mediawiki/extensions/3D+after:%222023-02-15 15:34:11%22
+DEBUG:root:Skipped has changes from last 30 days
+DEBUG:root:Trying has changes from last 3 months
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:merged+-is:wip+repo:mediawiki/extensions/3D+mergedafter:%222022-12-17 15:34:13%22
+DEBUG:root:Request made for abandoned changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:abandoned+-is:wip+repo:mediawiki/extensions/3D+after:%222022-12-17 15:34:13%22
+DEBUG:root:Request made for open changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:open+-label:Code-Review=0+-is:wip+repo:mediawiki/extensions/3D+after:%222022-12-17 15:34:13%22
+DEBUG:root:Skipped has changes from last 3 months
+DEBUG:root:Trying has changes from last year
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:merged+-is:wip+repo:mediawiki/extensions/3D+mergedafter:%222022-03-17 15:34:15%22
+DEBUG:root:Request made for abandoned changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:abandoned+-is:wip+repo:mediawiki/extensions/3D+after:%222022-03-17 15:34:15%22
+DEBUG:root:Request made for open changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:open+-label:Code-Review=0+-is:wip+repo:mediawiki/extensions/3D+after:%222022-03-17 15:34:15%22
+DEBUG:root:Skipped has changes from last year
+DEBUG:root:Trying has changes from all time
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:merged+-is:wip+repo:mediawiki/extensions/3D
+DEBUG:root:Request made for abandoned changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:abandoned+-is:wip+repo:mediawiki/extensions/3D
+DEBUG:root:Request made for open changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:open+-label:Code-Review=0+-is:wip+repo:mediawiki/extensions/3D
+DEBUG:root:Successful with has changes from all time
+INFO:root:Processing mediawiki/extensions/AControlImageLink
+DEBUG:root:Trying has changes from last 30 days
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:merged+-is:wip+repo:mediawiki/extensions/AControlImageLink+mergedafter:%222023-02-15 15:34:20%22
+INFO:root:Processing mediawiki/composer
+DEBUG:root:Trying has changes from last 30 days
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:merged+-is:wip+repo:mediawiki/composer+mergedafter:%222023-02-15 15:36:38%22
+DEBUG:root:Request made for abandoned changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:abandoned+-is:wip+repo:mediawiki/composer+after:%222023-02-15 15:36:38%22
+DEBUG:root:Request made for open changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:open+-label:Code-Review=0+-is:wip+repo:mediawiki/composer+after:%222023-02-15 15:36:38%22
+DEBUG:root:Skipped has changes from last 30 days
+DEBUG:root:Trying has changes from last 3 months
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:merged+-is:wip+repo:mediawiki/composer+mergedafter:%222022-12-17 15:36:39%22
+DEBUG:root:Request made for abandoned changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:abandoned+-is:wip+repo:mediawiki/composer+after:%222022-12-17 15:36:39%22
+DEBUG:root:Request made for open changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:open+-label:Code-Review=0+-is:wip+repo:mediawiki/composer+after:%222022-12-17 15:36:39%22
+DEBUG:root:Skipped has changes from last 3 months
+DEBUG:root:Trying has changes from last year
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:merged+-is:wip+repo:mediawiki/composer+mergedafter:%222022-03-17 15:36:41%22
+DEBUG:root:Request made for abandoned changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:abandoned+-is:wip+repo:mediawiki/composer+after:%222022-03-17 15:36:41%22
+DEBUG:root:Request made for open changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:open+-label:Code-Review=0+-is:wip+repo:mediawiki/composer+after:%222022-03-17 15:36:41%22
+DEBUG:root:Skipped has changes from last year
+DEBUG:root:Trying has changes from all time
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:merged+-is:wip+repo:mediawiki/composer
+DEBUG:root:Request made for abandoned changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:abandoned+-is:wip+repo:mediawiki/composer
+DEBUG:root:Request made for open changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:open+-label:Code-Review=0+-is:wip+repo:mediawiki/composer
+DEBUG:root:Successful with has changes from all time
+INFO:root:Processing mediawiki/composer/console
+DEBUG:root:Trying has changes from last 30 days
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:merged+-is:wip+repo:mediawiki/composer/console+mergedafter:%222023-02-15 15:36:44%22
+DEBUG:root:Request made for abandoned changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:abandoned+-is:wip+repo:mediawiki/composer/console+after:%222023-02-15 15:36:44%22
+DEBUG:root:Request made for open changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:open+-label:Code-Review=0+-is:wip+repo:mediawiki/composer/console+after:%222023-02-15 15:36:44%22
+DEBUG:root:Skipped has changes from last 30 days
+DEBUG:root:Trying has changes from last 3 months
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:merged+-is:wip+repo:mediawiki/composer/console+mergedafter:%222022-12-17 15:36:46%22
+DEBUG:root:Request made for abandoned changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:abandoned+-is:wip+repo:mediawiki/composer/console+after:%222022-12-17 15:36:46%22
+DEBUG:root:Request made for open changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:open+-label:Code-Review=0+-is:wip+repo:mediawiki/composer/console+after:%222022-12-17 15:36:46%22
+DEBUG:root:Skipped has changes from last 3 months
+DEBUG:root:Trying has changes from last year
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:merged+-is:wip+repo:mediawiki/composer/console+mergedafter:%222022-03-17 15:36:48%22
+DEBUG:root:Request made for abandoned changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:abandoned+-is:wip+repo:mediawiki/composer/console+after:%222022-03-17 15:36:48%22
+DEBUG:root:Request made for open changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:open+-label:Code-Review=0+-is:wip+repo:mediawiki/composer/console+after:%222022-03-17 15:36:48%22
+DEBUG:root:Skipped has changes from last year
+DEBUG:root:Trying has changes from all time
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:merged+-is:wip+repo:mediawiki/composer/console
+DEBUG:root:Request made for abandoned changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:abandoned+-is:wip+repo:mediawiki/composer/console
+DEBUG:root:Request made for open changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:open+-label:Code-Review=0+-is:wip+repo:mediawiki/composer/console
+DEBUG:root:Successful with has changes from all time
+INFO:root:Processing mediawiki/composer/project
+DEBUG:root:Trying has changes from last 30 days
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:merged+-is:wip+repo:mediawiki/composer/project+mergedafter:%222023-02-15 15:36:51%22
+DEBUG:root:Request made for abandoned changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:abandoned+-is:wip+repo:mediawiki/composer/project+after:%222023-02-15 15:36:51%22
+DEBUG:root:Request made for open changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:open+-label:Code-Review=0+-is:wip+repo:mediawiki/composer/project+after:%222023-02-15 15:36:51%22
+DEBUG:root:Skipped has changes from last 30 days
+DEBUG:root:Trying has changes from last 3 months
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:merged+-is:wip+repo:mediawiki/composer/project+mergedafter:%222022-12-17 15:36:53%22
+DEBUG:root:Request made for abandoned changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:abandoned+-is:wip+repo:mediawiki/composer/project+after:%222022-12-17 15:36:53%22
+DEBUG:root:Request made for open changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:open+-label:Code-Review=0+-is:wip+repo:mediawiki/composer/project+after:%222022-12-17 15:36:53%22
+DEBUG:root:Skipped has changes from last 3 months
+DEBUG:root:Trying has changes from last year
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:merged+-is:wip+repo:mediawiki/composer/project+mergedafter:%222022-03-17 15:36:55%22
+DEBUG:root:Request made for abandoned changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:abandoned+-is:wip+repo:mediawiki/composer/project+after:%222022-03-17 15:36:55%22
+DEBUG:root:Request made for open changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:open+-label:Code-Review=0+-is:wip+repo:mediawiki/composer/project+after:%222022-03-17 15:36:55%22
+DEBUG:root:Skipped has changes from last year
+DEBUG:root:Trying has changes from all time
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:merged+-is:wip+repo:mediawiki/composer/project
+DEBUG:root:Request made for abandoned changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:abandoned+-is:wip+repo:mediawiki/composer/project
+DEBUG:root:Request made for open changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:open+-label:Code-Review=0+-is:wip+repo:mediawiki/composer/project
+DEBUG:root:Successful with has changes from all time
+INFO:root:Processing mediawiki/core
+DEBUG:root:Trying has changes from last 30 days
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:merged+-is:wip+repo:mediawiki/core+mergedafter:%222023-02-15 15:36:58%22
+DEBUG:root:Request made for abandoned changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:abandoned+-is:wip+repo:mediawiki/core+after:%222023-02-15 15:36:58%22
+DEBUG:root:Request made for open changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:open+-label:Code-Review=0+-is:wip+repo:mediawiki/core+after:%222023-02-15 15:36:58%22
+DEBUG:root:Successful with has changes from last 30 days
+INFO:root:Processing mediawiki/debian
+DEBUG:root:Trying has changes from last 30 days
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:merged+-is:wip+repo:mediawiki/debian+mergedafter:%222023-02-15 15:37:01%22
+DEBUG:root:Request made for abandoned changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:abandoned+-is:wip+repo:mediawiki/debian+after:%222023-02-15 15:37:01%22
+DEBUG:root:Request made for open changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:open+-label:Code-Review=0+-is:wip+repo:mediawiki/debian+after:%222023-02-15 15:37:01%22
+DEBUG:root:Skipped has changes from last 30 days
+DEBUG:root:Trying has changes from last 3 months
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:merged+-is:wip+repo:mediawiki/debian+mergedafter:%222022-12-17 15:37:03%22
+DEBUG:root:Request made for abandoned changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:abandoned+-is:wip+repo:mediawiki/debian+after:%222022-12-17 15:37:03%22
+DEBUG:root:Request made for open changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:open+-label:Code-Review=0+-is:wip+repo:mediawiki/debian+after:%222022-12-17 15:37:03%22
+DEBUG:root:Skipped has changes from last 3 months
+DEBUG:root:Trying has changes from last year
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:merged+-is:wip+repo:mediawiki/debian+mergedafter:%222022-03-17 15:37:04%22
+DEBUG:root:Request made for abandoned changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:abandoned+-is:wip+repo:mediawiki/debian+after:%222022-03-17 15:37:04%22
+DEBUG:root:Request made for open changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:open+-label:Code-Review=0+-is:wip+repo:mediawiki/debian+after:%222022-03-17 15:37:04%22
+DEBUG:root:Skipped has changes from last year
+DEBUG:root:Trying has changes from all time
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:merged+-is:wip+repo:mediawiki/debian
+DEBUG:root:Request made for abandoned changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:abandoned+-is:wip+repo:mediawiki/debian
+DEBUG:root:Request made for open changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:open+-label:Code-Review=0+-is:wip+repo:mediawiki/debian
+DEBUG:root:Successful with has changes from all time
+INFO:root:Processing mediawiki/event-schemas
+DEBUG:root:Trying has changes from last 30 days
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:merged+-is:wip+repo:mediawiki/event-schemas+mergedafter:%222023-02-15 15:37:08%22
+DEBUG:root:Request made for abandoned changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:abandoned+-is:wip+repo:mediawiki/event-schemas+after:%222023-02-15 15:37:08%22
+DEBUG:root:Request made for open changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:open+-label:Code-Review=0+-is:wip+repo:mediawiki/event-schemas+after:%222023-02-15 15:37:08%22
+DEBUG:root:Skipped has changes from last 30 days
+DEBUG:root:Trying has changes from last 3 months
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:merged+-is:wip+repo:mediawiki/event-schemas+mergedafter:%222022-12-17 15:37:09%22
+DEBUG:root:Request made for abandoned changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:abandoned+-is:wip+repo:mediawiki/event-schemas+after:%222022-12-17 15:37:09%22
+DEBUG:root:Request made for open changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:open+-label:Code-Review=0+-is:wip+repo:mediawiki/event-schemas+after:%222022-12-17 15:37:09%22
+DEBUG:root:Skipped has changes from last 3 months
+DEBUG:root:Trying has changes from last year
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:merged+-is:wip+repo:mediawiki/event-schemas+mergedafter:%222022-03-17 15:37:11%22
+DEBUG:root:Request made for abandoned changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:abandoned+-is:wip+repo:mediawiki/event-schemas+after:%222022-03-17 15:37:11%22
+DEBUG:root:Request made for open changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:open+-label:Code-Review=0+-is:wip+repo:mediawiki/event-schemas+after:%222022-03-17 15:37:11%22
+DEBUG:root:Skipped has changes from last year
+DEBUG:root:Trying has changes from all time
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:merged+-is:wip+repo:mediawiki/event-schemas
+DEBUG:root:Request made for abandoned changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:abandoned+-is:wip+repo:mediawiki/event-schemas
+DEBUG:root:Request made for open changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:open+-label:Code-Review=0+-is:wip+repo:mediawiki/event-schemas
+DEBUG:root:Successful with has changes from all time
+INFO:root:Processing mediawiki/extensions
+DEBUG:root:Trying has changes from last 30 days
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:merged+-is:wip+repo:mediawiki/extensions+mergedafter:%222023-02-15 15:37:15%22
+DEBUG:root:Request made for abandoned changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:abandoned+-is:wip+repo:mediawiki/extensions+after:%222023-02-15 15:37:15%22
+DEBUG:root:Request made for open changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:open+-label:Code-Review=0+-is:wip+repo:mediawiki/extensions+after:%222023-02-15 15:37:15%22
+DEBUG:root:Skipped has changes from last 30 days
+DEBUG:root:Trying has changes from last 3 months
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:merged+-is:wip+repo:mediawiki/extensions+mergedafter:%222022-12-17 15:37:17%22
+DEBUG:root:Request made for abandoned changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:abandoned+-is:wip+repo:mediawiki/extensions+after:%222022-12-17 15:37:17%22
+DEBUG:root:Request made for open changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:open+-label:Code-Review=0+-is:wip+repo:mediawiki/extensions+after:%222022-12-17 15:37:17%22
+DEBUG:root:Skipped has changes from last 3 months
+DEBUG:root:Trying has changes from last year
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:merged+-is:wip+repo:mediawiki/extensions+mergedafter:%222022-03-17 15:37:20%22
+DEBUG:root:Request made for abandoned changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:abandoned+-is:wip+repo:mediawiki/extensions+after:%222022-03-17 15:37:20%22
+DEBUG:root:Request made for open changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:open+-label:Code-Review=0+-is:wip+repo:mediawiki/extensions+after:%222022-03-17 15:37:20%22
+DEBUG:root:Skipped has changes from last year
+DEBUG:root:Trying has changes from all time
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:merged+-is:wip+repo:mediawiki/extensions
+DEBUG:root:Request made for abandoned changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:abandoned+-is:wip+repo:mediawiki/extensions
+DEBUG:root:Request made for open changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:open+-label:Code-Review=0+-is:wip+repo:mediawiki/extensions
+DEBUG:root:Successful with has changes from all time
+INFO:root:Processing mediawiki/extensions/3D
+DEBUG:root:Trying has changes from last 30 days
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:merged+-is:wip+repo:mediawiki/extensions/3D+mergedafter:%222023-02-15 15:37:26%22
+DEBUG:root:Request made for abandoned changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:abandoned+-is:wip+repo:mediawiki/extensions/3D+after:%222023-02-15 15:37:26%22
+DEBUG:root:Request made for open changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:open+-label:Code-Review=0+-is:wip+repo:mediawiki/extensions/3D+after:%222023-02-15 15:37:26%22
+DEBUG:root:Skipped has changes from last 30 days
+DEBUG:root:Trying has changes from last 3 months
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:merged+-is:wip+repo:mediawiki/extensions/3D+mergedafter:%222022-12-17 15:37:28%22
+DEBUG:root:Request made for abandoned changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:abandoned+-is:wip+repo:mediawiki/extensions/3D+after:%222022-12-17 15:37:28%22
+DEBUG:root:Request made for open changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:open+-label:Code-Review=0+-is:wip+repo:mediawiki/extensions/3D+after:%222022-12-17 15:37:28%22
+DEBUG:root:Skipped has changes from last 3 months
+DEBUG:root:Trying has changes from last year
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:merged+-is:wip+repo:mediawiki/extensions/3D+mergedafter:%222022-03-17 15:37:30%22
+DEBUG:root:Request made for abandoned changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:abandoned+-is:wip+repo:mediawiki/extensions/3D+after:%222022-03-17 15:37:30%22
+DEBUG:root:Request made for open changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:open+-label:Code-Review=0+-is:wip+repo:mediawiki/extensions/3D+after:%222022-03-17 15:37:30%22
+DEBUG:root:Skipped has changes from last year
+DEBUG:root:Trying has changes from all time
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:merged+-is:wip+repo:mediawiki/extensions/3D
+DEBUG:root:Request made for abandoned changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:abandoned+-is:wip+repo:mediawiki/extensions/3D
+DEBUG:root:Request made for open changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:open+-label:Code-Review=0+-is:wip+repo:mediawiki/extensions/3D
+DEBUG:root:Successful with has changes from all time
+INFO:root:Processing mediawiki/extensions/AControlImageLink
+DEBUG:root:Trying has changes from last 30 days
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:merged+-is:wip+repo:mediawiki/extensions/AControlImageLink+mergedafter:%222023-02-15 15:37:36%22
+DEBUG:root:Request made for abandoned changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:abandoned+-is:wip+repo:mediawiki/extensions/AControlImageLink+after:%222023-02-15 15:37:36%22
+DEBUG:root:Request made for open changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:open+-label:Code-Review=0+-is:wip+repo:mediawiki/extensions/AControlImageLink+after:%222023-02-15 15:37:36%22
+DEBUG:root:Skipped has changes from last 30 days
+DEBUG:root:Trying has changes from last 3 months
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:merged+-is:wip+repo:mediawiki/extensions/AControlImageLink+mergedafter:%222022-12-17 15:37:41%22
+DEBUG:root:Request made for abandoned changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:abandoned+-is:wip+repo:mediawiki/extensions/AControlImageLink+after:%222022-12-17 15:37:41%22
+DEBUG:root:Request made for open changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:open+-label:Code-Review=0+-is:wip+repo:mediawiki/extensions/AControlImageLink+after:%222022-12-17 15:37:41%22
+DEBUG:root:Skipped has changes from last 3 months
+DEBUG:root:Trying has changes from last year
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:merged+-is:wip+repo:mediawiki/extensions/AControlImageLink+mergedafter:%222022-03-17 15:37:44%22
+DEBUG:root:Request made for abandoned changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:abandoned+-is:wip+repo:mediawiki/extensions/AControlImageLink+after:%222022-03-17 15:37:44%22
+DEBUG:root:Request made for open changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:open+-label:Code-Review=0+-is:wip+repo:mediawiki/extensions/AControlImageLink+after:%222022-03-17 15:37:44%22
+DEBUG:root:Skipped has changes from last year
+DEBUG:root:Trying has changes from all time
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:merged+-is:wip+repo:mediawiki/extensions/AControlImageLink
+DEBUG:root:Request made for abandoned changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:abandoned+-is:wip+repo:mediawiki/extensions/AControlImageLink
+DEBUG:root:Request made for open changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:open+-label:Code-Review=0+-is:wip+repo:mediawiki/extensions/AControlImageLink
+DEBUG:root:Successful with has changes from all time
+INFO:root:Processing mediawiki/composer
+DEBUG:root:Trying has changes from last 30 days
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:merged+-is:wip+repo:mediawiki/composer+mergedafter:%222023-02-15 15:38:44%22
+DEBUG:root:Request made for abandoned changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:abandoned+-is:wip+repo:mediawiki/composer+after:%222023-02-15 15:38:44%22
+DEBUG:root:Request made for open changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:open+-label:Code-Review=0+-is:wip+repo:mediawiki/composer+after:%222023-02-15 15:38:44%22
+DEBUG:root:Skipped has changes from last 30 days
+DEBUG:root:Trying has changes from last 3 months
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:merged+-is:wip+repo:mediawiki/composer+mergedafter:%222022-12-17 15:38:48%22
+DEBUG:root:Request made for abandoned changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:abandoned+-is:wip+repo:mediawiki/composer+after:%222022-12-17 15:38:48%22
+DEBUG:root:Request made for open changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:open+-label:Code-Review=0+-is:wip+repo:mediawiki/composer+after:%222022-12-17 15:38:48%22
+DEBUG:root:Skipped has changes from last 3 months
+DEBUG:root:Trying has changes from last year
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:merged+-is:wip+repo:mediawiki/composer+mergedafter:%222022-03-17 15:38:51%22
+DEBUG:root:Request made for abandoned changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:abandoned+-is:wip+repo:mediawiki/composer+after:%222022-03-17 15:38:51%22
+DEBUG:root:Request made for open changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:open+-label:Code-Review=0+-is:wip+repo:mediawiki/composer+after:%222022-03-17 15:38:51%22
+DEBUG:root:Skipped has changes from last year
+DEBUG:root:Trying has changes from all time
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:merged+-is:wip+repo:mediawiki/composer
+DEBUG:root:Request made for abandoned changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:abandoned+-is:wip+repo:mediawiki/composer
+DEBUG:root:Request made for open changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:open+-label:Code-Review=0+-is:wip+repo:mediawiki/composer
+DEBUG:root:Successful with has changes from all time
+INFO:root:Processing mediawiki/composer/console
+DEBUG:root:Trying has changes from last 30 days
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:merged+-is:wip+repo:mediawiki/composer/console+mergedafter:%222023-02-15 15:38:56%22
+DEBUG:root:Request made for abandoned changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:abandoned+-is:wip+repo:mediawiki/composer/console+after:%222023-02-15 15:38:56%22
+DEBUG:root:Request made for open changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:open+-label:Code-Review=0+-is:wip+repo:mediawiki/composer/console+after:%222023-02-15 15:38:56%22
+DEBUG:root:Skipped has changes from last 30 days
+DEBUG:root:Trying has changes from last 3 months
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:merged+-is:wip+repo:mediawiki/composer/console+mergedafter:%222022-12-17 15:38:59%22
+DEBUG:root:Request made for abandoned changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:abandoned+-is:wip+repo:mediawiki/composer/console+after:%222022-12-17 15:38:59%22
+DEBUG:root:Request made for open changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:open+-label:Code-Review=0+-is:wip+repo:mediawiki/composer/console+after:%222022-12-17 15:38:59%22
+DEBUG:root:Skipped has changes from last 3 months
+DEBUG:root:Trying has changes from last year
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:merged+-is:wip+repo:mediawiki/composer/console+mergedafter:%222022-03-17 15:39:02%22
+DEBUG:root:Request made for abandoned changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:abandoned+-is:wip+repo:mediawiki/composer/console+after:%222022-03-17 15:39:02%22
+DEBUG:root:Request made for open changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:open+-label:Code-Review=0+-is:wip+repo:mediawiki/composer/console+after:%222022-03-17 15:39:02%22
+DEBUG:root:Skipped has changes from last year
+DEBUG:root:Trying has changes from all time
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:merged+-is:wip+repo:mediawiki/composer/console
+DEBUG:root:Request made for abandoned changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:abandoned+-is:wip+repo:mediawiki/composer/console
+DEBUG:root:Request made for open changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:open+-label:Code-Review=0+-is:wip+repo:mediawiki/composer/console
+DEBUG:root:Successful with has changes from all time
+INFO:root:Processing mediawiki/composer/project
+DEBUG:root:Trying has changes from last 30 days
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:merged+-is:wip+repo:mediawiki/composer/project+mergedafter:%222023-02-15 15:39:07%22
+DEBUG:root:Request made for abandoned changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:abandoned+-is:wip+repo:mediawiki/composer/project+after:%222023-02-15 15:39:07%22
+DEBUG:root:Request made for open changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:open+-label:Code-Review=0+-is:wip+repo:mediawiki/composer/project+after:%222023-02-15 15:39:07%22
+DEBUG:root:Skipped has changes from last 30 days
+DEBUG:root:Trying has changes from last 3 months
+DEBUG:root:Request made for merged changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:merged+-is:wip+repo:mediawiki/composer/project+mergedafter:%222022-12-17 15:39:10%22
+DEBUG:root:Request made for abandoned changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:abandoned+-is:wip+repo:mediawiki/composer/project+after:%222022-12-17 15:39:10%22
+DEBUG:root:Request made for open changes: https://gerrit.wikimedia.org/r/a/changes/?o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&q=status:open+-label:Code-Review=0+-is:wip+repo:mediawiki/composer/project+after:%222022-12-17 15:39:10%22
+DEBUG:root:Skipped has changes from last 3 months
+DEBUG:root:Trying has changes from last year

@@ -9,6 +9,9 @@ import requests
 from data_collection.generate_elastic_search_query import ElasticSearchQueryBuilder
 from secrets import Secrets
 
+# Hide urllib3's logs for "info" and "debug" type as these are unlikely to be useful when inspecting the logs
+logging.getLogger("urllib3").setLevel(logging.WARNING)
+
 root_path = os.path.dirname(__file__)
 
 extensions_list = [ line.strip() for line in open(os.path.join(root_path, "../extensions_list.txt"), "r").readlines() ]

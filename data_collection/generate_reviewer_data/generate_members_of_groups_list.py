@@ -1,12 +1,10 @@
 import json
 import time
-import more_itertools
 import requests
 from data_collection import common
 import logging
 
 logging.basicConfig(filename="logs_for_generate_members_of_groups.txt", level=logging.DEBUG)
-logging.getLogger("urllib3").setLevel(logging.WARNING)
 
 def generate_members_of_repository(repositories, output_file_name='', recursive=True, return_instead=False, check_only=None):
     """
