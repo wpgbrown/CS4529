@@ -1,6 +1,6 @@
 import json
 
-from data_collection import common
+import common
 
 """
 Splits the list of groups into ones that are specific to extensions.

@@ -1,7 +1,7 @@
 import json
 import time
 import requests
-from data_collection import common
+import common
 import logging
 
 logging.basicConfig(filename="logs_for_generate_members_of_groups.txt", level=logging.DEBUG)
@@ -73,6 +73,8 @@ def generate_members_of_repository(repositories, output_file_name='', recursive=
         json.dump(final_data, open(output_file_name, "w"))
 
 # Generate group member data for all mediawiki/*
-group_data_per_repository = json.load(open(common.path_relative_to_root("raw_data/groups_with_access_to_extensions.json")))
-group_data_per_repository.update(json.load(open(common.path_relative_to_root("raw_data/groups_with_access_to_all_other_repos.json"))))
-generate_members_of_repository(group_data_per_repository, common.path_relative_to_root("raw_data/members_of_mediawiki_repos.json"))
+group_data_per_repository = json.load(open(
+    common.path_relative_to_root("data_collection/raw_data/groups_with_access_to_extensions.json")))
+group_data_per_repository.update(json.load(open(
+    common.path_relative_to_root("data_collection/raw_data/groups_with_access_to_all_other_repos.json"))))
+generate_members_of_repository(group_data_per_repository, common.path_relative_to_root("data_collection/raw_data/members_of_mediawiki_repos.json"))

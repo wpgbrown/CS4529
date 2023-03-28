@@ -3,9 +3,7 @@ import logging
 import os
 from json import JSONDecodeError
 from typing import Union
-
 import requests
-
 from data_collection.generate_elastic_search_query import ElasticSearchQueryBuilder
 from secrets import Secrets
 
@@ -14,7 +12,7 @@ logging.getLogger("urllib3").setLevel(logging.WARNING)
 
 root_path = os.path.dirname(__file__)
 
-extensions_list = [ line.strip() for line in open(os.path.join(root_path, "../extensions_list.txt"), "r").readlines() ]
+extensions_list = [line.strip() for line in open(os.path.join(root_path, "extensions_list.txt"), "r").readlines()]
 extensions_repository_list = [ "mediawiki/extensions/" + extension for extension in extensions_list ]
 
 group_exclude_list = ['2bc47fcadf4e44ec9a1a73bcfa06232554f47ce2', 'cc37d98e3a4301744a0c0a9249173ae170696072', 'd3fd0fc1835b11637da792ad2db82231dd8f73cb']

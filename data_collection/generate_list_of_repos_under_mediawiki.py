@@ -1,9 +1,9 @@
 import json
-import time
 import urllib.parse
 
 import requests
-from data_collection import common
+import common
+
 
 def generate_list_of_repos( output_file_name, prefix: str = '' ):
     """

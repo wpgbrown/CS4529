@@ -1,10 +1,10 @@
 import json
 import time
 import logging
-from data_collection import common
+import common
 from dateutil.relativedelta import relativedelta
 import datetime
-from data_collection.common import perform_elastic_search_request
+from common import perform_elastic_search_request
 from data_collection.generate_elastic_search_query import ElasticSearchQueryBuilder, \
     ElasticSearchAggregationGroupBuilder, ElasticSearchAggregationBuilder
 
@@ -34,7 +34,8 @@ def generate_comment_stats_for_repository(repository: str, cutoff_time: int = No
 
 comments_by_users_for_each_repo = {}
 try:
-    repos_and_associated_members = json.load(open(common.path_relative_to_root("raw_data/members_of_mediawiki_repos.json")))
+    repos_and_associated_members = json.load(open(
+        common.path_relative_to_root("data_collection/raw_data/members_of_mediawiki_repos.json")))
     for number_processed, repo in enumerate(repos_and_associated_members['groups_for_repository'].keys()):
         comments_by_users_for_each_repo[repo] = {}
         try:
@@ -65,4 +66,5 @@ try:
             print("Failed for ", repo)
             logging.error('Error thrown when processing ' + repo + '. Error: ' + str(repr(e)))
 finally:
-    json.dump(comments_by_users_for_each_repo, open(common.path_relative_to_root("raw_data/comments_by_author_for_repo.json"), "w"))
+    json.dump(comments_by_users_for_each_repo, open(
+        common.path_relative_to_root("data_collection/raw_data/comments_by_author_for_repo.json"), "w"))

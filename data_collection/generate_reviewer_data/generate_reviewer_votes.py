@@ -2,10 +2,10 @@ import json
 import time
 import logging
 from typing import AnyStr, Union
-from data_collection import common
+import common
 from dateutil.relativedelta import relativedelta
 import datetime
-from data_collection.common import perform_elastic_search_request
+from common import perform_elastic_search_request
 from data_collection.generate_elastic_search_query import ElasticSearchQueryBuilder, \
     ElasticSearchAggregationGroupBuilder, ElasticSearchAggregationBuilder, FiltersItemBuilder
 
@@ -56,7 +56,8 @@ def generate_votes_for_repository(repository: str, cutoff_time: int = None, filt
 
 author_vote_count_for_repo = {}
 try:
-    repos_and_associated_members = json.load(open(common.path_relative_to_root("raw_data/members_of_mediawiki_repos.json")))
+    repos_and_associated_members = json.load(open(
+        common.path_relative_to_root("data_collection/raw_data/members_of_mediawiki_repos.json")))
     for number_processed, (repo, associated_groups) in enumerate(repos_and_associated_members['groups_for_repository'].items()):
         author_vote_count_for_repo[repo] = {}
         try:
@@ -94,4 +95,4 @@ try:
             print("Failed for ", repo)
             logging.error('Error thrown when processing ' + repo + '. Error: ' + str(repr(e)))
 finally:
-    json.dump(author_vote_count_for_repo, open(common.path_relative_to_root("raw_data/reviewer_votes_for_repos.json"), "w"))
+    json.dump(author_vote_count_for_repo, open(common.path_relative_to_root("data_collection/raw_data/reviewer_votes_for_repos.json"), "w"))

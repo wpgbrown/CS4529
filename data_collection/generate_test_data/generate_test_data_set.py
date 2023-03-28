@@ -4,7 +4,7 @@ import urllib.parse
 import requests
 import time
 from dateutil.relativedelta import relativedelta
-from data_collection import common
+import common
 import logging
 
 logging.basicConfig(filename="logs_for_test_data_generation.txt", level=logging.DEBUG)
@@ -70,7 +70,7 @@ def generate_test_data_set_for_repo(repository: str, cutoff_time: str = None):
 
 test_data = {"has changes from last 30 days": {}, "has changes from last 3 months": {}, "has changes from last year": {}, "has changes from last 3 years": {}, "has changes from all time": {}}
 try:
-    repos = list(json.load(open(common.path_relative_to_root("raw_data/mediawiki_repos.json"), "r")).keys())
+    repos = list(json.load(open(common.path_relative_to_root("data_collection/raw_data/mediawiki_repos.json"), "r")).keys())
     for number_processed, repo in enumerate(repos):
         print("Processing", repo + ". Done", number_processed, "out of", len(repos))
         logging.info("Processing " + repo)
@@ -94,4 +94,4 @@ try:
             break
         time.sleep(1)
 finally:
-    json.dump(test_data, open(common.path_relative_to_root("raw_data/test_data_set.json"), "w"))
+    json.dump(test_data, open(common.path_relative_to_root("data_collection/raw_data/test_data_set.json"), "w"))
