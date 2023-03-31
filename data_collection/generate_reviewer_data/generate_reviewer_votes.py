@@ -63,31 +63,31 @@ try:
         try:
             print("Processing", repo + ". Completed", number_processed, "out of", len(repos_and_associated_members['groups_for_repository']))
             logging.info("Processing " + repo)
-            group_member_names = []
+            """group_member_names = []
             for group_uuid, group_name in associated_groups.items():
                 if group_uuid in common.group_exclude_list:
                     continue
-                group_member_names.extend(map(lambda author_info: author_info['name'], repos_and_associated_members['members_in_group'][group_uuid]))
+                group_member_names.extend(map(lambda author_info: author_info['username'], repos_and_associated_members['members_in_group'][group_uuid]))"""
             # De-duplicate members because they can be in more than one group
-            group_member_names = list(set(group_member_names))
+            # group_member_names = list(set(group_member_names))
             logging.debug("First trying all time")
             author_vote_count_for_repo[repo].update({
-                'all': generate_votes_for_repository(repo, filter=group_member_names)
+                'all': generate_votes_for_repository(repo) #, filter=group_member_names)
             })
             logging.debug("Trying from last year")
             one_year_ago = datetime.datetime.now() - relativedelta(years=1)
             author_vote_count_for_repo[repo].update({
-                'last year': generate_votes_for_repository(repo, filter=group_member_names, cutoff_time=int(time.mktime(one_year_ago.timetuple()) * 1_000))
+                'last year': generate_votes_for_repository(repo, cutoff_time=int(time.mktime(one_year_ago.timetuple()) * 1_000))
             })
             logging.debug("Trying from last 3 months")
             three_months_ago = datetime.datetime.now() - relativedelta(months=3)
             author_vote_count_for_repo[repo].update({
-                'last 3 months': generate_votes_for_repository(repo, filter=group_member_names, cutoff_time=int(time.mktime(three_months_ago.timetuple()) * 1_000))
+                'last 3 months': generate_votes_for_repository(repo, cutoff_time=int(time.mktime(three_months_ago.timetuple()) * 1_000))
             })
             logging.debug("Trying from last 30 days")
             thirty_days_ago = datetime.datetime.now() - relativedelta(days=30)
             author_vote_count_for_repo[repo].update({
-                'last 30 days': generate_votes_for_repository(repo, filter=group_member_names, cutoff_time=int(time.mktime(thirty_days_ago.timetuple()) * 1_000))
+                'last 30 days': generate_votes_for_repository(repo, cutoff_time=int(time.mktime(thirty_days_ago.timetuple()) * 1_000))
             })
             # Crude rate-limiting - 1 second should be enough to avoid issues
             time.sleep(1)
