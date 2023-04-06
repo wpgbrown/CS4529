@@ -7,3 +7,6 @@ more-itertools
 numpy
 tensorflow
 scikit-learn
+git-python
+pathvalidate
+python-dateutil

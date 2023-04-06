@@ -1,6 +1,9 @@
 import json
 import logging
 import os
+import urllib.parse
+import time
+from functools import lru_cache
 from json import JSONDecodeError
 from typing import Union
 import requests
@@ -20,7 +23,9 @@ group_exclude_list = ['2bc47fcadf4e44ec9a1a73bcfa06232554f47ce2', 'cc37d98e3a430
 
 secrets = Secrets()
 
-gerrit_api_url_prefix = 'https://gerrit.wikimedia.org/r/a/'
+gerrit_url_prefix = 'https://gerrit.wikimedia.org/r/'
+
+gerrit_api_url_prefix = gerrit_url_prefix + 'a/'
 
 elasticsearch_request_headers = {'kbn-xsrf': 'true', 'content-type': 'application/json'}
 gerrit_search_url = 'https://wikimedia.biterg.io/data/gerrit/_search'
@@ -57,3 +62,13 @@ def remove_gerrit_api_json_response_prefix( text_content: str ):
 
 def path_relative_to_root(relative_path):
     return os.path.join( root_path, relative_path )
+
+@lru_cache(maxsize=32)
+def get_main_branch_for_repository(repository: str):
+    # Rate-limiting API queries
+    time.sleep(0.5)
+    request_url = gerrit_api_url_prefix + 'projects/' + urllib.parse.quote(repository, safe='') + '/HEAD'
+    logging.debug("Request made for repo head: " + request_url)
+    return json.loads(remove_gerrit_api_json_response_prefix(
+        requests.get(request_url, auth=secrets.gerrit_http_credentials()).text
+    ))

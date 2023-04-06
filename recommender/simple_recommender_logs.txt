@@ -64,3 +64,7 @@ DEBUG:root:Request made for change info: https://gerrit.wikimedia.org/r/a/projec
 DEBUG:root:Request made for change info: https://gerrit.wikimedia.org/r/a/changes/mediawiki%2Fextensions%2FCheckUser~refs%2Fheads%2Fmaster~Ie06d9df7b7bb2f8bb67fccd589dfa16f167a73e6?o=CURRENT_REVISION&o=CURRENT_FILES&o=COMMIT_FOOTERS&o=TRACKING_IDS&o=SUBMIT_REQUIREMENTS
 DEBUG:root:Request made for change info: https://gerrit.wikimedia.org/r/a/projects/mediawiki%2Fextensions%2FCheckUser/HEAD
 DEBUG:root:Request made for change info: https://gerrit.wikimedia.org/r/a/changes/mediawiki%2Fextensions%2FCheckUser~refs%2Fheads%2Fmaster~Ie06d9df7b7bb2f8bb67fccd589dfa16f167a73e6?o=CURRENT_REVISION&o=CURRENT_FILES&o=COMMIT_FOOTERS&o=TRACKING_IDS&o=SUBMIT_REQUIREMENTS
+DEBUG:root:Request made for repo head: https://gerrit.wikimedia.org/r/a/projects/mediawiki%2Fextensions%2FCheckUser/HEAD
+DEBUG:root:Request made for change info: https://gerrit.wikimedia.org/r/a/changes/mediawiki%2Fextensions%2FCheckUser~refs%2Fheads%2Fmaster~Idd046451f9ce6095b6fa31c0b9820541544e5077?o=CURRENT_REVISION&o=CURRENT_FILES&o=COMMIT_FOOTERS&o=TRACKING_IDS&o=SUBMIT_REQUIREMENTS
+DEBUG:root:Request made for repo head: https://gerrit.wikimedia.org/r/a/projects/mediawiki%2Fextensions%2FCheckUser/HEAD
+DEBUG:root:Request made for change info: https://gerrit.wikimedia.org/r/a/changes/mediawiki%2Fextensions%2FCheckUser~refs%2Fheads%2Fmaster~Ifd3936b0c0e58450c034a8f69a69b1d8ea82bd65?o=CURRENT_REVISION&o=CURRENT_FILES&o=COMMIT_FOOTERS&o=TRACKING_IDS&o=SUBMIT_REQUIREMENTS

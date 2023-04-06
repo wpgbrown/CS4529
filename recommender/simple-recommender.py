@@ -12,6 +12,7 @@ from requests import HTTPError
 sys.path.insert(1, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 import common
 
+
 logging.basicConfig(filename="simple_recommender_logs.txt", level=logging.DEBUG)
 
 @lru_cache()
@@ -38,7 +39,7 @@ def recommend_reviewers_for_patch(change_id: str, repository: str = '', branch: 
                 change_id_for_request = branch + '~' + change_id_for_request
             change_id_for_request = repository + '~' + change_id_for_request
     change_id_for_request = urllib.parse.quote(change_id_for_request, safe='')
-    request_url = common.gerrit_api_url_prefix + 'changes/' + change_id_for_request + '?o=CURRENT_REVISION&o=CURRENT_FILES&o=COMMIT_FOOTERS&o=TRACKING_IDS&o=SUBMIT_REQUIREMENTS'
+    request_url = common.gerrit_api_url_prefix + 'changes/' + change_id_for_request + '?o=CURRENT_REVISION&o=CURRENT_FILES&o=COMMIT_FOOTERS&o=TRACKING_IDS'
     logging.debug("Request made for change info: " + request_url)
     response = requests.get(request_url, auth=common.secrets.gerrit_http_credentials())
     # Needed in case the user provides an unrecognised change ID, repository or branch.
@@ -50,22 +51,20 @@ def recommend_reviewers_for_patch(change_id: str, repository: str = '', branch: 
     #  even if they have been provided by the caller.
     repository = change_info['project']
     branch = change_info['branch']
+    # Get the files modified (added, changed or deleted) by the change
+    latest_revision_sha = list(change_info['revisions'].keys())[0]
+    files_modified_in_head = []
+    for filename, info in change_info['revisions'][latest_revision_sha]['files'].items():
+        # Add deleted and changed files to files modified from the base
+        files_modified_in_head
+    print("Files:", files)
+
     # Get previous reviewers for changes
     reviewer_votes_for_repo = get_reviewer_data()[repository]
     # Get reviewer to percentage votes performed by them over the period, as well as for each vote value
-    reviewer_to_all_votes_percentage =
+    # reviewer_to_all_votes_percentage =
     print(reviewer_votes_for_repo)
     return ["Dreamy Jazz"]
-
-@lru_cache(maxsize=32)
-def get_head_branch_for_repository(repository: str):
-    # Rate-limiting API queries
-    time.sleep(0.5)
-    request_url = common.gerrit_api_url_prefix + 'projects/' + urllib.parse.quote(repository, safe='') + '/HEAD'
-    logging.debug("Request made for change info: " + request_url)
-    return json.loads(common.remove_gerrit_api_json_response_prefix(
-        requests.get(request_url, auth=common.secrets.gerrit_http_credentials()).text
-    ))
 
 if __name__ == '__main__':
     argument_parser = argparse.ArgumentParser(description="A simple implementation of a tool that recommends reviewers for the MediaWiki project")
@@ -83,7 +82,7 @@ if __name__ == '__main__':
                 repository = input("Please enter the repository for this change ID: ")
                 branch = input("Please enter the branch or ref for the branch for this change ID (Enter for default for the HEAD): ")
                 if not len(branch.strip()):
-                    branch = get_head_branch_for_repository(repository)
+                    branch = common.get_main_branch_for_repository(repository)
                 change_ids_with_repo_and_branch.append({'change_id': change_id, 'repository': repository, 'branch': branch})
             except KeyboardInterrupt:
                 pass
@@ -107,7 +106,7 @@ if __name__ == '__main__':
             if len(branches) == 1:
                 change_dictionary['branch'] = repositories[0]
             elif len(branches) == 0:
-                change_dictionary['branch'] = get_head_branch_for_repository(change_dictionary['repository'])
+                change_dictionary['branch'] = common.get_main_branch_for_repository(change_dictionary['repository'])
             else:
                 change_dictionary['branch'] = repositories[index]
             change_ids_with_repo_and_branch.append(change_dictionary)
