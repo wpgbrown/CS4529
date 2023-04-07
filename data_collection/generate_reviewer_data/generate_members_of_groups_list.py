@@ -4,7 +4,11 @@ import requests
 import common
 import logging
 
-logging.basicConfig(filename="logs_for_generate_members_of_groups.txt", level=logging.DEBUG)
+if __name__ == "__main__":
+    logging.basicConfig(
+        filename=common.path_relative_to_root("logs/generate_members_of_groups.log.txt"),
+        level=logging.DEBUG
+    )
 
 def generate_members_of_repository(repositories, output_file_name='', recursive=True, return_instead=False, check_only=None):
     """

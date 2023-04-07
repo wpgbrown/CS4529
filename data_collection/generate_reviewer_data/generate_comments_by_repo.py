@@ -8,7 +8,11 @@ from common import perform_elastic_search_request
 from data_collection.generate_elastic_search_query import ElasticSearchQueryBuilder, \
     ElasticSearchAggregationGroupBuilder, ElasticSearchAggregationBuilder
 
-logging.basicConfig(filename="logs_for_generate_comments_by_repo.txt", level=logging.DEBUG)
+if __name__ == "__main__":
+    logging.basicConfig(
+        filename=common.path_relative_to_root("logs/generate_comments_by_repo.log.txt"),
+        level=logging.DEBUG
+    )
 
 def generate_comment_stats_for_repository(repository: str, cutoff_time: int = None):
     elastic_search_query_builder = ElasticSearchQueryBuilder() \

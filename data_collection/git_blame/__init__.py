@@ -27,7 +27,7 @@ class GitProgressPrinter(RemoteProgress):
         )
 
 if __name__ == "__main__":
-    logging.basicConfig(filename="logs_for_git_stats.txt", level=logging.DEBUG)
+    logging.basicConfig(filename=common.path_relative_to_root("logs/git_blame.log.txt"), level=logging.DEBUG)
 
 def get_bare_repo(repository: str) -> Repo:
     """

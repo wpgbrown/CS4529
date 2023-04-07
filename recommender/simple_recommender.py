@@ -8,16 +8,29 @@ import urllib.parse
 import time
 from functools import lru_cache
 from requests import HTTPError
+from data_collection import git_blame
+from data_collection.preprocessing import reviewer_votes_to_percentages, comment_counts_to_percentages
+
 # Add parent directory to the path incase it's not already there
 sys.path.insert(1, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 import common
 
-
-logging.basicConfig(filename="simple_recommender_logs.txt", level=logging.DEBUG)
+if __name__ == "__main__":
+    logging.basicConfig(filename=common.path_relative_to_root("logs/simple_recommender.log.txt"), level=logging.DEBUG)
 
 @lru_cache()
 def get_reviewer_data():
-    return json.load(open(common.path_relative_to_root('data_collection/raw_data/reviewer_votes_for_repos.json'), 'r'))
+    percentage_list = common.path_relative_to_root('data_collection/raw_data/comment_count_percentages_by_author_for_repo.json')
+    if not os.path.exists(percentage_list):
+        comment_counts_to_percentages.convert_data_to_percentages()
+    return json.load(open(percentage_list, 'r'))
+
+@lru_cache()
+def get_comment_data():
+    percentage_list = common.path_relative_to_root('data_collection/raw_data/reviewer_vote_percentages_for_repos.json')
+    if not os.path.exists(percentage_list):
+        reviewer_votes_to_percentages.convert_data_to_percentages()
+    return json.load(open(percentage_list, 'r'))
 
 def recommend_reviewers_for_patch(change_id: str, repository: str = '', branch: str = ''):
     """
@@ -53,17 +66,40 @@ def recommend_reviewers_for_patch(change_id: str, repository: str = '', branch: 
     branch = change_info['branch']
     # Get the files modified (added, changed or deleted) by the change
     latest_revision_sha = list(change_info['revisions'].keys())[0]
-    files_modified_in_head = []
+    files_modified_in_head_blame_stats = {}
     for filename, info in change_info['revisions'][latest_revision_sha]['files'].items():
         # Add deleted and changed files to files modified from the base
-        files_modified_in_head
-    print("Files:", files)
-
+        info: dict
+        if 'status' not in info.keys():
+            # File just modified (not created, moved or deleted), so other authors can likely help
+            files_modified_in_head_blame_stats[filename] = \
+                git_blame.git_blame_stats_for_head_of_branch(filename, repository, branch)
+        else:
+            match info['status']:
+                case 'D' | 'W':
+                    # File was either deleted or substantially re-written.
+                    # While this means none of or very little of the code
+                    #  already present will be kept if this is merged, said
+                    #  authors and committers are likely to provide some
+                    #  useful thoughts on this.
+                    files_modified_in_head_blame_stats[filename] = info.update(
+                        {'blame_stats': git_blame.git_blame_stats_for_head_of_branch(filename, repository, branch)}
+                    )
+                case 'R' | 'C':
+                    # File renamed or copied. The authors/committers of the file that was renamed
+                    #  or the file that was copied likely have understanding about whether a rename
+                    #  or copy would make sense here.
+                    # TODO: Test with a change that has a copied file.
+                    files_modified_in_head_blame_stats[filename] = info.update(
+                        {'blame_stats': git_blame.git_blame_stats_for_head_of_branch(info['old_path'], repository, branch)}
+                    )
+    logging.debug("Git blame files from base: " + str(files_modified_in_head_blame_stats))
     # Get previous reviewers for changes
     reviewer_votes_for_repo = get_reviewer_data()[repository]
-    # Get reviewer to percentage votes performed by them over the period, as well as for each vote value
-    # reviewer_to_all_votes_percentage =
-    print(reviewer_votes_for_repo)
+    logging.debug("Reviewer votes: " + str(reviewer_votes_for_repo))
+    # Get authors of previous comments
+    comments_for_repo = get_comment_data()[repository]
+    logging.debug("Comments: " + str(reviewer_votes_for_repo))
     return ["Dreamy Jazz"]
 
 if __name__ == '__main__':
@@ -94,9 +130,11 @@ if __name__ == '__main__':
         if len(repositories) != 1 and len(repositories) != len(change_ids):
             argument_parser.error("If specifying multiple repositories the same number of change IDs must be provided")
         if len(branches) > 1 and len(branches) != len(change_ids):
-            argument_parser.error("If specifying multiple branches the same number of branches must be provided.")
-        if (len(repositories) != 1 or len(branches) > 1) and len(repositories) != len(branches):
+            argument_parser.error("If specifying multiple branches the same number of change IDs must be provided.")
+        if len(repositories) != 1 and 1 < len(branches) != len(repositories):
             argument_parser.error("If specifying multiple repositories the same number of branches must be specified.")
+        if 1 < len(branches) != len(repositories) > 1:
+            argument_parser.error("If specifying multiple branches the same number of repositories must be specified.")
         for index, change_id in enumerate(change_ids):
             change_dictionary = {'change_id': change_id}
             if len(repositories) == 1:

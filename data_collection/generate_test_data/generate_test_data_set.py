@@ -7,7 +7,11 @@ from dateutil.relativedelta import relativedelta
 import common
 import logging
 
-logging.basicConfig(filename="logs_for_test_data_generation.txt", level=logging.DEBUG)
+if __name__ == "__main__":
+    logging.basicConfig(
+        filename=common.path_relative_to_root("logs/generate_test_data_set.log.txt"),
+        level=logging.DEBUG
+    )
 
 def filter_information_for_changes(changes: list) -> dict:
     filtered_changes = {}

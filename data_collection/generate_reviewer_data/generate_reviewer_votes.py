@@ -9,7 +9,11 @@ from common import perform_elastic_search_request
 from data_collection.generate_elastic_search_query import ElasticSearchQueryBuilder, \
     ElasticSearchAggregationGroupBuilder, ElasticSearchAggregationBuilder, FiltersItemBuilder
 
-logging.basicConfig(filename="logs_for_generate_author_votes.txt", level=logging.DEBUG)
+if __name__ == "__main__":
+    logging.basicConfig(
+        filename=common.path_relative_to_root("logs/generate_reviewer_votes.log.txt"),
+        level=logging.DEBU
+    )
 
 def generate_votes_for_repository(repository: str, cutoff_time: int = None, filter: Union[AnyStr, list, None] = None):
     elastic_search_query_builder = ElasticSearchQueryBuilder() \
