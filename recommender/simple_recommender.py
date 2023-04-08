@@ -10,6 +10,7 @@ from functools import lru_cache
 from requests import HTTPError
 from data_collection import git_blame
 from data_collection.preprocessing import reviewer_votes_to_percentages, comment_counts_to_percentages
+from recommender import Recommendations, RecommendedReviewer
 
 # Add parent directory to the path incase it's not already there
 sys.path.insert(1, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -20,14 +21,14 @@ if __name__ == "__main__":
 
 @lru_cache()
 def get_reviewer_data():
-    percentage_list = common.path_relative_to_root('data_collection/raw_data/comment_count_percentages_by_author_for_repo.json')
+    percentage_list = common.path_relative_to_root('data_collection/raw_data/reviewer_vote_percentages_for_repos.json')
     if not os.path.exists(percentage_list):
         comment_counts_to_percentages.convert_data_to_percentages()
     return json.load(open(percentage_list, 'r'))
 
 @lru_cache()
 def get_comment_data():
-    percentage_list = common.path_relative_to_root('data_collection/raw_data/reviewer_vote_percentages_for_repos.json')
+    percentage_list = common.path_relative_to_root('data_collection/raw_data/comment_count_percentages_by_author_for_repo.json')
     if not os.path.exists(percentage_list):
         reviewer_votes_to_percentages.convert_data_to_percentages()
     return json.load(open(percentage_list, 'r'))
@@ -58,21 +59,20 @@ def recommend_reviewers_for_patch(change_id: str, repository: str = '', branch: 
     # Needed in case the user provides an unrecognised change ID, repository or branch.
     response.raise_for_status()
     change_info = json.loads(common.remove_gerrit_api_json_response_prefix(response.text))
-    # Debug
-    print(change_info)
+    logging.debug("Returned change info: " + str(change_info))
     # Update repository and branch to the values found in the metadata as these are cleaner
     #  even if they have been provided by the caller.
     repository = change_info['project']
     branch = change_info['branch']
     # Get the files modified (added, changed or deleted) by the change
     latest_revision_sha = list(change_info['revisions'].keys())[0]
-    files_modified_in_head_blame_stats = {}
+    git_blame_stats_for_files_in_head = {}
     for filename, info in change_info['revisions'][latest_revision_sha]['files'].items():
         # Add deleted and changed files to files modified from the base
         info: dict
         if 'status' not in info.keys():
             # File just modified (not created, moved or deleted), so other authors can likely help
-            files_modified_in_head_blame_stats[filename] = \
+            git_blame_stats_for_files_in_head[filename] = \
                 git_blame.git_blame_stats_for_head_of_branch(filename, repository, branch)
         else:
             match info['status']:
@@ -82,7 +82,7 @@ def recommend_reviewers_for_patch(change_id: str, repository: str = '', branch: 
                     #  already present will be kept if this is merged, said
                     #  authors and committers are likely to provide some
                     #  useful thoughts on this.
-                    files_modified_in_head_blame_stats[filename] = info.update(
+                    git_blame_stats_for_files_in_head[filename] = info.update(
                         {'blame_stats': git_blame.git_blame_stats_for_head_of_branch(filename, repository, branch)}
                     )
                 case 'R' | 'C':
@@ -90,17 +90,22 @@ def recommend_reviewers_for_patch(change_id: str, repository: str = '', branch: 
                     #  or the file that was copied likely have understanding about whether a rename
                     #  or copy would make sense here.
                     # TODO: Test with a change that has a copied file.
-                    files_modified_in_head_blame_stats[filename] = info.update(
+                    git_blame_stats_for_files_in_head[filename] = info.update(
                         {'blame_stats': git_blame.git_blame_stats_for_head_of_branch(info['old_path'], repository, branch)}
                     )
-    logging.debug("Git blame files from base: " + str(files_modified_in_head_blame_stats))
+    logging.debug("Git blame files from base: " + str(git_blame_stats_for_files_in_head))
     # Get previous reviewers for changes
     reviewer_votes_for_repo = get_reviewer_data()[repository]
     logging.debug("Reviewer votes: " + str(reviewer_votes_for_repo))
     # Get authors of previous comments
     comments_for_repo = get_comment_data()[repository]
-    logging.debug("Comments: " + str(reviewer_votes_for_repo))
-    return ["Dreamy Jazz"]
+    logging.debug("Comments: " + str(comments_for_repo))
+    recommended_reviewers = Recommendations()
+    for file, info in git_blame_stats_for_files_in_head.items():
+        for author_email, author_info in info['authors'].items():
+            reviewer = RecommendedReviewer(author_email)
+    # TODO: Filter list for users with +2?
+    return recommended_reviewers
 
 if __name__ == '__main__':
     argument_parser = argparse.ArgumentParser(description="A simple implementation of a tool that recommends reviewers for the MediaWiki project")
@@ -148,8 +153,7 @@ if __name__ == '__main__':
             else:
                 change_dictionary['branch'] = repositories[index]
             change_ids_with_repo_and_branch.append(change_dictionary)
-    # Debug
-    print(change_ids_with_repo_and_branch)
+    logging.info("Recommending with the following inputs: " + str(change_ids_with_repo_and_branch))
     for change in change_ids_with_repo_and_branch:
         try:
             recommended_reviewers = recommend_reviewers_for_patch(change['change_id'], change["repository"], change["branch"])

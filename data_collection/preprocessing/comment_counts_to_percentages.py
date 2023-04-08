@@ -19,7 +19,6 @@ def convert_data_to_percentages():
             # Divide value for each reviewer by the total to get a percentage
             for reviewer in data_for_period.keys():
                 percentage_representation[repo][period][reviewer] /= total
-
     json.dump(percentage_representation, open(common.path_relative_to_root("data_collection/raw_data/comment_count_percentages_by_author_for_repo.json"), "w"))
 
 if __name__ == "__main__":

@@ -57,8 +57,8 @@ def get_bare_repo(repository: str) -> Repo:
         repo = Repo(bare_cloned_repository_path)
         # Check if we should fetch the latest HEADs
         #  based on the last time an update was called.
-        fetch_head_file = bare_cloned_repository_path + "/FETCH_HEAD"
-        fetch_expiry = time.mktime((datetime.datetime.now() - relativedelta(hours=2)).timetuple())
+        fetch_head_file = bare_cloned_repository_path + "/FETCH_HEAD" # TODO: Change back to 2 hours for below. For debug
+        fetch_expiry = time.mktime((datetime.datetime.now() - relativedelta(weeks=2)).timetuple())
         if not os.path.exists(fetch_head_file) or os.stat(fetch_head_file).st_ctime < fetch_expiry:
             # Update the HEADs for the branches
             logging.debug("Updating heads by a fetch")
