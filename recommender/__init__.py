@@ -328,6 +328,7 @@ class Recommendations:
             return self._recommendations_by_name[name]
         return None
 
+    def get_reviewer_by_email_or_create_new(self, email: str) -> RecommendedReviewer:
         """
 
         :param email:
