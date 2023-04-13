@@ -60,6 +60,14 @@ def get_comment_data():
         reviewer_votes_to_percentages.convert_data_to_percentages()
     return json.load(open(percentage_list, 'r'))
 
+#TODO: Make this part of the Recommender classes
+def add_name_or_merge_if_already_used(recommendations: Recommendations, recommended_reviewer: RecommendedReviewer, name: str):
+    if recommendations.get_reviewer_by_name(name) is not None:
+        if recommendations.get_reviewer_by_name(name) is not recommended_reviewer:
+            recommendations.merge_reviewer_entries(recommended_reviewer, recommendations.get_reviewer_by_name(name))
+    else:
+        recommended_reviewer.names.add(name)
+
 def recommend_reviewers_for_patch(change_id: str, repository: str = '', branch: str = ''):
     """
     Recommends reviewers for a given patch identified by the change ID, repository and branch.
@@ -191,22 +199,45 @@ def recommend_reviewers_for_patch(change_id: str, repository: str = '', branch: 
     users_with_rights_to_merge = get_members_of_repo(repository)
     logging.debug("users with right to merge: " + str(users_with_rights_to_merge))
     for user in users_with_rights_to_merge:
+        reviewer = None
+        flag = None
+        # TODO: Fix nasty looking code
         if 'email' in user and user['email']:
-            reviewer = recommendations.get_reviewer_by_email_or_create_new(user['email'])
-        elif 'name' in user and user['name']:
-            reviewer = recommendations.get_reviewer_by_name_or_create_new(user['name'])
-        elif 'username' in user and user['username']:
-            reviewer = recommendations.get_reviewer_by_name_or_create_new(user['username'])
-        elif 'display_name' in user and user['display_name']:
-            reviewer = recommendations.get_reviewer_by_name_or_create_new(user['display_name'])
-        else:
+            if recommendations.get_reviewer_by_email(user['email']):
+                flag = False
+                reviewer = recommendations.get_reviewer_by_email(user['email'])
+                if 'name' in user and user['name']:
+                    add_name_or_merge_if_already_used(recommendations, reviewer, user['name'])
+                if 'username' in user and user['username']:
+                    add_name_or_merge_if_already_used(recommendations, reviewer, user['username'])
+                if 'display_name' in user and user['display_name']:
+                    add_name_or_merge_if_already_used(recommendations, reviewer, user['display_name'])
+            else:
+                flag = True
+        if flag is None or flag is True:
+            if 'name' in user and user['name'] and not reviewer:
+                reviewer = recommendations.get_reviewer_by_name(user['name'])
+                if reviewer:
+                    if flag:
+                        reviewer.email = user['email']
+                    if 'username' in user and user['username']:
+                        add_name_or_merge_if_already_used(recommendations, reviewer, user['username'])
+                    if 'display_name' in user and user['display_name']:
+                        add_name_or_merge_if_already_used(recommendations, reviewer, user['display_name'])
+            if 'username' in user and user['username'] and not reviewer:
+                reviewer = recommendations.get_reviewer_by_name(user['username'])
+                if reviewer:
+                    if flag:
+                        reviewer.email = user['email']
+                    if 'display_name' in user and user['display_name']:
+                        add_name_or_merge_if_already_used(recommendations, reviewer, user['display_name'])
+            if 'display_name' in user and user['display_name'] and not reviewer:
+                reviewer = recommendations.get_reviewer_by_name(user['display_name'])
+                if flag and reviewer:
+                    reviewer.email = user['email']
+        if reviewer is None:
+            # TODO: Add to the list? Maybe not?
             continue
-        if 'name' in user and user['name']:
-            reviewer.names.add(user['name'])
-        if 'username' in user and user['username']:
-            reviewer.names.add(user['username'])
-        if 'display_name' in user and user['display_name']:
-            reviewer.names.add(user['display_name'])
         reviewer.has_rights_to_merge = True
     for reviewer in filter(lambda x: x.has_rights_to_merge is not True, recommendations.recommendations):
         reviewer.has_rights_to_merge = False
@@ -217,7 +248,9 @@ if __name__ == '__main__':
     argument_parser.add_argument('change_id', nargs='+', help="The change ID(s) of the changes you want to get recommended reviewers for")
     argument_parser.add_argument('--repository', nargs='+', help="The repository for these changes. Specifying one repository applies to all changes. Multiple repositories apply to each change in order.", required=True)
     argument_parser.add_argument('--branch', nargs='+', help="The branch these change IDs are on (default is the main branch). Specifying one branch applies to all changes. Multiple branches apply to each change in order.", default=[], required=False)
+    argument_parser.add_argument('--stats', action='store_true', help="Show stats about the recommendations.")
     change_ids_with_repo_and_branch = []
+    command_line_arguments = None
     if not len(sys.argv) > 1:
         # Ask for the user's input
         while True:
@@ -233,10 +266,10 @@ if __name__ == '__main__':
             except KeyboardInterrupt:
                 pass
     else:
-        arguments = argument_parser.parse_args()
-        change_ids = arguments.change_id
-        repositories = arguments.repository
-        branches = arguments.branch
+        command_line_arguments = argument_parser.parse_args()
+        change_ids = command_line_arguments.change_id
+        repositories = command_line_arguments.repository
+        branches = command_line_arguments.branch
         if len(repositories) != 1 and len(repositories) != len(change_ids):
             argument_parser.error("If specifying multiple repositories the same number of change IDs must be provided")
         if len(branches) > 1 and len(branches) != len(change_ids):
@@ -263,7 +296,12 @@ if __name__ == '__main__':
         try:
             recommended_reviewers = recommend_reviewers_for_patch(change['change_id'], change["repository"], change["branch"])
             logging.debug("Recommendations: " + str(recommended_reviewers))
-            for recommendation in recommended_reviewers.ordered_by_score():
+            top_10_recommendations = recommended_reviewers.top_n(10)
+            for recommendation in top_10_recommendations:
                 print(recommendation)
+            if command_line_arguments and command_line_arguments.stats:
+                print("Recommendation stats for change", change['change_id'])
+                print("Users recommended:", len(top_10_recommendations))
+                print("Users recommended with rights to merge:", len(list(filter(lambda x: x.has_rights_to_merge, top_10_recommendations))))
         except HTTPError as e:
             print("Recommendations for change", change["change_id"], "failed with HTTP status code", str(e.response.status_code) + ". Check that this is correct and try again later.")

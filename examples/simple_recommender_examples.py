@@ -2,7 +2,7 @@ import subprocess
 import common
 
 # One from one repo
-subprocess.run(["/usr/bin/python3", common.path_relative_to_root("recommender/simple_recommender.py"), "I1d148e18d81d1122838b9dc7e994190f4e796ddf", "--repository", "mediawiki/extensions/CheckUser"], cwd=common.path_relative_to_root(""))
+subprocess.run(["/usr/bin/python3", common.path_relative_to_root("recommender/simple_recommender.py"), "I1d148e18d81d1122838b9dc7e994190f4e796ddf", "--repository", "mediawiki/extensions/CheckUser", "--stats"], cwd=common.path_relative_to_root(""))
 
 # Two from same repo
 # subprocess.run(["/usr/bin/python3", common.path_relative_to_root("recommender/simple_recommender.py"), "I1d148e18d81d1122838b9dc7e994190f4e796ddf", "Idd046451f9ce6095b6fa31c0b9820541544e5077", "--repository", "mediawiki/extensions/CheckUser"], cwd=common.path_relative_to_root(""))

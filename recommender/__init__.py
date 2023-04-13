@@ -112,15 +112,18 @@ class RecommendedReviewer:
         return_string = "Recommending"
         if len(self.email or ''):
             return_string += " " + self.email
-            if len(self.names):
-                return_string += " known by username"
+        else:
+            return_string += " user"
         if len(self.names):
+            return_string += " known by username"
+            if len(self.names) != 1:
+                return_string += "s"
             if len(self.names) == 1:
                 return_string += " " + self.names[0]
             elif len(self.names) == 2:
-                return_string += "s %s and %s" % (self.names[0], self.names[1])
+                return_string += " %s and %s" % (self.names[0], self.names[1])
             else:
-                return_string += "s %s and %s" % (", ".join(self.names[:-1]), self.names[-1])
+                return_string += " %s and %s" % (", ".join(self.names[:-1]), self.names[-1])
         return return_string + " with score %s" % str(self.score)
 
 class Names(Iterable, Sized):
@@ -164,7 +167,7 @@ class Names(Iterable, Sized):
     def __getitem__(self, index):
         return self._names[index]
 
-class Recommendations:
+class Recommendations(Sized):
     def __init__(self):
         self._recommendations_by_email = {}
         """Emails to RecommendedReviewer objects"""
@@ -176,6 +179,9 @@ class Recommendations:
     @property
     def recommendations(self):
         return dict(self._recommendations_by_email, **self._recommendations_by_name).values()
+
+    def __len__(self):
+        return len(self.recommendations)
 
     def ordered_by_score(self, filter_for_users_that_can_merge: bool = False) -> List[RecommendedReviewer]:
         """
@@ -214,13 +220,16 @@ class Recommendations:
             logging.debug("Adding recommendation with email " + recommendation.email)
             if recommendation.email in self._recommendations_by_email.keys():
                 logging.info("Recommendation by email already existed. Overwriting.")
+            if recommendation.email in common.email_exclude_list:
+                logging.info("User excluded with email " + recommendation.email)
+                return self
             self._recommendations_by_email[recommendation.email] = recommendation
             for name in recommendation.names:
                 # Check if any pre-existing reviewer item uses the same name.
                 # If so, then merge them into this recommendation.
                 if name in self._recommendations_by_name.keys():
                     logging.debug("Entries existed with a name that is also used by the one being added.")
-                    self._merge_reviewer_entries(recommendation, self._recommendations_by_name[name])
+                    self.merge_reviewer_entries(recommendation, self._recommendations_by_name[name])
             for name in recommendation.names:
                 self._update_index(name, recommendation.email)
         elif len(recommendation.names):
@@ -268,7 +277,7 @@ class Recommendations:
         if self.get_reviewer_by_email(recommended_reviewer.email):
             # Merge attributes from the entry that already has this email
             #  with the entry provided.
-            self._merge_reviewer_entries(recommended_reviewer, self.get_reviewer_by_email(recommended_reviewer.email))
+            self.merge_reviewer_entries(recommended_reviewer, self.get_reviewer_by_email(recommended_reviewer.email))
         self._recommendations_by_email[recommended_reviewer.email] = recommended_reviewer
         for name in recommended_reviewer.names:
             # Remove the object from the recommendations by name list
@@ -276,7 +285,7 @@ class Recommendations:
             # Add this name email pair to the index of names to emails
             self._update_index(name, recommended_reviewer.email)
 
-    def _merge_reviewer_entries(self, base: RecommendedReviewer, other_entry: RecommendedReviewer, remove_other_entry: bool = True):
+    def merge_reviewer_entries(self, base: RecommendedReviewer, other_entry: RecommendedReviewer, remove_other_entry: bool = True):
         """
         Merges the second entry into the first entry, attempts to remove
         the second entry from the recommendations list unless told otherwise.

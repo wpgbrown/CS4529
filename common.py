@@ -21,6 +21,8 @@ extensions_repository_list = [ "mediawiki/extensions/" + extension for extension
 
 group_exclude_list = ['2bc47fcadf4e44ec9a1a73bcfa06232554f47ce2', 'cc37d98e3a4301744a0c0a9249173ae170696072', 'd3fd0fc1835b11637da792ad2db82231dd8f73cb']
 
+email_exclude_list = ["tools.libraryupgrader@tools.wmflabs.org"]
+
 secrets = Secrets()
 
 gerrit_url_prefix = 'https://gerrit.wikimedia.org/r/'
