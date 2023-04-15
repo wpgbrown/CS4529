@@ -1,4 +1,4 @@
-secrets.py
+cs4529_secrets.py
 *.pyc
 .idea/
 *.log.txt

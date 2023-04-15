@@ -1,6 +1,6 @@
 """
 This interface class defines the secrets needed to run the python code in this
-repository. Define secrets.py with a class that extends this
+repository. Define cs4529_secrets.py with a class that extends this
 """
 
 from abc import ABCMeta, abstractmethod

@@ -8,7 +8,7 @@ from json import JSONDecodeError
 from typing import Union
 import requests
 from data_collection.generate_elastic_search_query import ElasticSearchQueryBuilder
-from secrets import Secrets
+from cs4529_secrets import Secrets
 
 # Hide urllib3's logs for "info" and "debug" type as these are unlikely to be useful when inspecting the logs
 logging.getLogger("urllib3").setLevel(logging.WARNING)
