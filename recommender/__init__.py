@@ -1,4 +1,5 @@
 import json
+import os
 import weakref
 from functools import lru_cache
 from weakref import ReferenceType
@@ -6,20 +7,27 @@ from collections.abc import Iterable, Sized
 import logging
 from typing import List, Union, Optional, Iterator, Any
 import itertools
-
+from data_collection.preprocessing import reviewer_votes_to_percentages, comment_counts_to_percentages
 import common
 
-
-class WeightingsBase:
+class TimePeriods(Iterable):
     ALL_TIME = 'all time'
     LAST_YEAR = 'last year'
     LAST_3_MONTHS = 'last three months'
     LAST_MONTH = 'last month'
+    DATE_RANGES = [ALL_TIME, LAST_YEAR, LAST_3_MONTHS, LAST_MONTH]
+
+    def __iter__(self):
+        return iter(self.DATE_RANGES)
+
+class WeightingsBase(TimePeriods):
     def __init__(self, weightings_file):
         weightings = json.load(open(weightings_file, 'r'))
         weightings: dict
         self._weightings = weightings
 
+    def __iter__(self):
+        return iter(self._weightings)
 
 @lru_cache(maxsize=1)
 def load_members_of_mediawiki_repos() -> dict:
@@ -30,6 +38,20 @@ def get_members_of_repo(repository: str) -> List[dict[str, Any]]:
     groups_with_rights_to_merge = load_members_of_mediawiki_repos()['groups_for_repository'][repository].keys()
     groups_with_rights_to_merge = list(filter(lambda x: x not in common.group_exclude_list, groups_with_rights_to_merge))
     return list(itertools.chain.from_iterable([members for group_id, members in load_members_of_mediawiki_repos()['members_in_group'].items() if group_id in groups_with_rights_to_merge]))
+
+@lru_cache(maxsize=1)
+def get_reviewer_data():
+    percentage_list = common.path_relative_to_root('data_collection/raw_data/reviewer_vote_percentages_for_repos.json')
+    if not os.path.exists(percentage_list):
+        comment_counts_to_percentages.convert_data_to_percentages()
+    return json.load(open(percentage_list, 'r'))
+
+@lru_cache(maxsize=1)
+def get_comment_data():
+    percentage_list = common.path_relative_to_root('data_collection/raw_data/comment_count_percentages_by_author_for_repo.json')
+    if not os.path.exists(percentage_list):
+        reviewer_votes_to_percentages.convert_data_to_percentages()
+    return json.load(open(percentage_list, 'r'))
 
 class RecommendedReviewer:
     def __init__(self, email: Optional[str] = None, names: Union[str, 'Names', List[str]] = None, score: float = 0, parent: Optional[ReferenceType] = None, has_rights_to_merge: Optional[bool] = None):

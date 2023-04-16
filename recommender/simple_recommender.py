@@ -6,11 +6,9 @@ import json
 import argparse
 import urllib.parse
 import time
-from functools import lru_cache
 from requests import HTTPError
 from data_collection import git_blame
-from data_collection.preprocessing import reviewer_votes_to_percentages, comment_counts_to_percentages
-from recommender import Recommendations, RecommendedReviewer, WeightingsBase, get_members_of_repo
+from recommender import Recommendations, RecommendedReviewer, WeightingsBase, get_members_of_repo, get_reviewer_data, get_comment_data
 
 # Add parent directory to the path incase it's not already there
 sys.path.insert(1, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -45,20 +43,6 @@ weightings = SimpleWeightings()
 
 if __name__ == "__main__":
     logging.basicConfig(filename=common.path_relative_to_root("logs/simple_recommender.log.txt"), level=logging.DEBUG)
-
-@lru_cache(maxsize=1)
-def get_reviewer_data():
-    percentage_list = common.path_relative_to_root('data_collection/raw_data/reviewer_vote_percentages_for_repos.json')
-    if not os.path.exists(percentage_list):
-        comment_counts_to_percentages.convert_data_to_percentages()
-    return json.load(open(percentage_list, 'r'))
-
-@lru_cache(maxsize=1)
-def get_comment_data():
-    percentage_list = common.path_relative_to_root('data_collection/raw_data/comment_count_percentages_by_author_for_repo.json')
-    if not os.path.exists(percentage_list):
-        reviewer_votes_to_percentages.convert_data_to_percentages()
-    return json.load(open(percentage_list, 'r'))
 
 #TODO: Make this part of the Recommender classes
 def add_name_or_merge_if_already_used(recommendations: Recommendations, recommended_reviewer: RecommendedReviewer, name: str):
