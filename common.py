@@ -3,9 +3,12 @@ import logging
 import os
 import urllib.parse
 import time
+from collections.abc import Iterable
 from functools import lru_cache
 from json import JSONDecodeError
 from typing import Union
+
+import ijson
 import requests
 from data_collection.generate_elastic_search_query import ElasticSearchQueryBuilder
 from cs4529_secrets import Secrets
@@ -74,3 +77,20 @@ def get_main_branch_for_repository(repository: str):
     return json.loads(remove_gerrit_api_json_response_prefix(
         requests.get(request_url, auth=secrets.gerrit_http_credentials()).text
     ))
+
+class TimePeriods(Iterable):
+    ALL_TIME = 'all time'
+    LAST_YEAR = 'last year'
+    LAST_3_MONTHS = 'last three months'
+    LAST_MONTH = 'last month'
+    DATE_RANGES = [ALL_TIME, LAST_YEAR, LAST_3_MONTHS, LAST_MONTH]
+
+    def __iter__(self):
+        return iter(self.DATE_RANGES)
+
+@lru_cache(maxsize=5)
+def get_test_data_for_repo(repository: str) -> dict[str, dict]:
+    # TODO: Update to not use the copied file
+    with open(path_relative_to_root('data_collection/raw_data/test_data_set.json'), 'rb') as f:
+        for item in ijson.items(f, repository):
+            return item

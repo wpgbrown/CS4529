@@ -10,3 +10,5 @@ scikit-learn
 pathvalidate
 python-dateutil
 GitPython
+seaborn
+ijson

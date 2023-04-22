@@ -9,18 +9,9 @@ from typing import List, Union, Optional, Iterator, Any
 import itertools
 from data_collection.preprocessing import reviewer_votes_to_percentages, comment_counts_to_percentages
 import common
+from common import TimePeriods
 
-class TimePeriods(Iterable):
-    ALL_TIME = 'all time'
-    LAST_YEAR = 'last year'
-    LAST_3_MONTHS = 'last three months'
-    LAST_MONTH = 'last month'
-    DATE_RANGES = [ALL_TIME, LAST_YEAR, LAST_3_MONTHS, LAST_MONTH]
-
-    def __iter__(self):
-        return iter(self.DATE_RANGES)
-
-class WeightingsBase(TimePeriods):
+class WeightingsBase(common.TimePeriods):
     def __init__(self, weightings_file):
         weightings = json.load(open(weightings_file, 'r'))
         weightings: dict

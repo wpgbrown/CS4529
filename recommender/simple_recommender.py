@@ -84,6 +84,7 @@ def recommend_reviewers_for_patch(change_id: str, repository: str = '', branch: 
     repository = change_info['project']
     branch = change_info['branch']
     # Initialise the recommendations list
+    # TODO: Divide git blame stats such that
     recommendations = Recommendations()
     # Get the files modified (added, changed or deleted) by the change
     latest_revision_sha = list(change_info['revisions'].keys())[0]

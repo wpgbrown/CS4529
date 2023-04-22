@@ -1,9 +1,7 @@
 import logging
-
 import pandas
 import numpy
 import re
-
 from pathvalidate import sanitize_filename
 from sklearn import metrics, preprocessing
 import common
@@ -11,29 +9,34 @@ from recommender import TimePeriods, get_reviewer_data, get_comment_data, get_me
     load_members_of_mediawiki_repos
 
 def preprocess_into_pandas_data_frame(repository: str) -> dict[str,pandas.DataFrame]:
+    # TODO: Cache using the generated pandas json file?
     return_data = {}
     reviewer_data = get_reviewer_data()[repository]
     for key in TimePeriods.DATE_RANGES:
         match key:
             case TimePeriods.LAST_MONTH:
-                key = "last 30 days"
+                key_temp = "last 30 days"
             case TimePeriods.LAST_3_MONTHS:
-                key = "last 3 months"
+                key_temp = "last 3 months"
             case TimePeriods.ALL_TIME:
-                key = "all"
-        return_data[key] = pandas.DataFrame.from_dict(reviewer_data[key]).transpose()
+                key_temp = "all"
+            case _:
+                key_temp = key
+        return_data[key] = pandas.DataFrame.from_dict(reviewer_data[key_temp]).transpose()
 
     comment_data = get_comment_data()[repository]
     for key in TimePeriods.DATE_RANGES:
         match key:
             case TimePeriods.LAST_MONTH:
-                key = "last 30 days"
+                key_temp = "last 30 days"
             case TimePeriods.LAST_3_MONTHS:
-                key = "last 3 months"
+                key_temp = "last 3 months"
             case TimePeriods.ALL_TIME:
-                key = "all"
+                key_temp = "all"
+            case _:
+                key_temp = key
         return_data[key]["Comments"] = 0
-        for username, comment_count in comment_data[key].items():
+        for username, comment_count in comment_data[key_temp].items():
             (return_data[key]).at[username, "Comments"] = comment_count
 
     # TODO: Git change stats here?
@@ -41,7 +44,7 @@ def preprocess_into_pandas_data_frame(repository: str) -> dict[str,pandas.DataFr
 
     users_with_rights_to_merge = get_members_of_repo(repository)
     logging.debug("users with right to merge: " + str(users_with_rights_to_merge))
-    for time_period_key, data_frame in return_data.items():
+    for data_frame in return_data.values():
         data_frame: pandas.DataFrame
         data_frame["Can merge changes?"] = False
         for user in users_with_rights_to_merge:
