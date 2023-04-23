@@ -25,10 +25,22 @@ def load_members_of_mediawiki_repos() -> dict:
     members_list = common.path_relative_to_root('data_collection/raw_data/members_of_mediawiki_repos.json')
     return json.load(open(members_list, 'r'))
 
+@lru_cache(maxsize=5)
 def get_members_of_repo(repository: str) -> List[dict[str, Any]]:
     groups_with_rights_to_merge = load_members_of_mediawiki_repos()['groups_for_repository'][repository].keys()
     groups_with_rights_to_merge = list(filter(lambda x: x not in common.group_exclude_list, groups_with_rights_to_merge))
-    return list(itertools.chain.from_iterable([members for group_id, members in load_members_of_mediawiki_repos()['members_in_group'].items() if group_id in groups_with_rights_to_merge]))
+    return list(filter(_get_members_of_repo_helper, list(itertools.chain.from_iterable([members for group_id, members in load_members_of_mediawiki_repos()['members_in_group'].items() if group_id in groups_with_rights_to_merge]))))
+
+def _get_members_of_repo_helper(user: dict) -> bool:
+    if 'name' in user and user['name'] in common.username_exclude_list:
+        return False
+    if 'username' in user and user['username'] in common.username_exclude_list:
+        return False
+    if 'display_name' in user and user['display_name'] in common.username_exclude_list:
+        return False
+    if 'email' in user and user['email'] in common.email_exclude_list:
+        return False
+    return True
 
 @lru_cache(maxsize=1)
 def get_reviewer_data():

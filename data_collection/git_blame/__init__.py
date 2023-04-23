@@ -29,12 +29,12 @@ class GitProgressPrinter(RemoteProgress):
 if __name__ == "__main__":
     logging.basicConfig(filename=common.path_relative_to_root("logs/git_blame.log.txt"), level=logging.DEBUG)
 
-def get_bare_repo(repository: str) -> Repo:
+def get_bare_repo(repository: str, update_heads: bool = False) -> Repo:
     """
-    Gets the Repo object for a bare cloned repo. If one already
-    exists the latest branches are fetched for
+    Gets the Repo object for a bare cloned repo.
 
     :param repository: The name of the repository
+    :param update_heads: Whether the HEADs should be updated if the bare repo already exists
     :return: A object allowing interaction with the bare cloned repository
     """
     bare_cloned_repository_path = common.path_relative_to_root(
@@ -42,6 +42,7 @@ def get_bare_repo(repository: str) -> Repo:
     )
     if not os.path.exists(bare_cloned_repository_path):
         logging.info("Cloning repo as it doesn't exist")
+        print("Cloning repository", repository + ". This may take a some time.")
         # Clone the repo if it doesn't already exist
         repo = Repo.clone_from(
             common.gerrit_url_prefix + urllib.parse.quote(repository, safe='') + '.git',
@@ -57,15 +58,17 @@ def get_bare_repo(repository: str) -> Repo:
         repo = Repo(bare_cloned_repository_path)
         # Check if we should fetch the latest HEADs
         #  based on the last time an update was called.
-        fetch_head_file = bare_cloned_repository_path + "/FETCH_HEAD" # TODO: Change back to 2 hours for below. For debug
-        fetch_expiry = time.mktime((datetime.datetime.now() - relativedelta(weeks=2)).timetuple())
-        if not os.path.exists(fetch_head_file) or os.stat(fetch_head_file).st_ctime < fetch_expiry:
-            # Update the HEADs for the branches
-            logging.debug("Updating heads by a fetch")
-            # First point HEAD to correct head
-            repo.head.reference = repo.create_head(common.get_main_branch_for_repository(repository))
-            # Then fetch heads
-            repo.remote().fetch("refs/heads/*:refs/heads/*", progress=GitProgressPrinter())
+        # TODO: Debouncing technique probably not working?
+        if update_heads:
+            fetch_head_file = bare_cloned_repository_path + "/FETCH_HEAD"
+            fetch_expiry = time.mktime((datetime.datetime.now() - relativedelta(hours=2)).timetuple())
+            if not os.path.exists(fetch_head_file) or os.stat(fetch_head_file).st_ctime < fetch_expiry:
+                # Update the HEADs for the branches
+                logging.debug("Updating heads by a fetch")
+                # First point HEAD to correct head
+                repo.head.reference = repo.create_head(common.get_main_branch_for_repository(repository))
+                # Then fetch heads
+                repo.remote().fetch("refs/heads/*:refs/heads/*", progress=GitProgressPrinter())
         return repo
 
 def git_blame_stats_for_head_of_branch(files: Union[List[str], str], repository: str, branch: Optional[str] = None, throw_on_missing_file: bool = False):
@@ -75,7 +78,7 @@ def git_blame_stats_for_head_of_branch(files: Union[List[str], str], repository:
     if not branch:
         branch = common.get_main_branch_for_repository(repository)
     # Update the HEAD to the specified branch
-    repo.head.reference = repo.create_head(branch)
+    repo.head.reference = next(filter(lambda x: x.path.replace('refs/heads/', '') == branch or x.path == branch, repo.heads))
     if isinstance(files, str):
         files = [files]
     authors = {}
@@ -139,4 +142,4 @@ def git_blame_stats_for_head_of_branch(files: Union[List[str], str], repository:
     }
 
 if __name__ == "__main__":
-    print(git_blame_stats_for_head_of_branch("src/Hooks.php", "mediawiki/extensions/CheckUser"))
+    print(git_blame_stats_for_head_of_branch("src/Hooks.php", "mediawiki/core"))

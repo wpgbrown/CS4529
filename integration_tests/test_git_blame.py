@@ -34,7 +34,7 @@ class TestGitBlame(unittest.TestCase):
     def test_get_bare_repo_head_references_main_branch(self):
         repo = git_blame.get_bare_repo("mediawiki/extensions/CheckUser")
         # Main branch name could change soon (e.g. master -> main), so make test needs to be resilent to this.
-        self.assertEquals(
+        self.assertEqual(
             repo.create_head(common.get_main_branch_for_repository("mediawiki/extensions/CheckUser")),
             repo.head.reference,
             "Repo does not have the main branch as it's HEAD"
@@ -42,7 +42,7 @@ class TestGitBlame(unittest.TestCase):
 
     def test_get_bare_repo_in_right_folder(self):
         repo = git_blame.get_bare_repo("mediawiki/extensions/CheckUser")
-        self.assertEquals(
+        self.assertEqual(
             common.path_relative_to_root("data_collection/raw_data/git_bare_repos/mediawiki-extensions-CheckUser"),
             repo.working_dir,
             "Repo was not created in the correct location"

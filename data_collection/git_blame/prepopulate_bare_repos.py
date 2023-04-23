@@ -16,9 +16,8 @@ if __name__ == "__main__":
         try:
             print("Processed", number_processed, "repos out of", str(len(repos_and_associated_members['groups_for_repository'])) + ". Currently processing", repo)
             logging.info("Processed " + str(number_processed) + " repos. Currently processing " + repo)
-            get_bare_repo(repo)
-            if number_processed > 606: # Temp for DEBUG
-                time.sleep(1)
+            get_bare_repo(repo, True)
+            time.sleep(1)
         except BaseException as e:
             logging.exception("Failed to download" + repo, exc_info=e)
             pass

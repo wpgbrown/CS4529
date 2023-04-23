@@ -23,26 +23,33 @@ def filter_information_for_changes(changes: list) -> dict:
         if "_more_changes" in change:
             logging.warning("Too many changes according to API")
         try:
-            filtered_changes[change['id']] = {
+            new_filtered_change = {
                 'change_id': change['change_id'],
                 'branch': change['branch'],
                 'reviewers': {},
                 'code_review_votes': []
             }
             if 'owner' in change:
-                filtered_changes[change['id']]['owner'] = change['owner']
-                if 'status' in filtered_changes[change['id']]['owner']:
-                    del filtered_changes[change['id']]['owner']['status']
+                new_filtered_change['owner'] = change['owner']
+                if 'tags' in change['owner'] and 'SERVICE_USER' in change['owner']['tags']:
+                    # Skip changes owned by bots (i.e. created by bots)
+                    continue
+                if 'status' in new_filtered_change['owner']:
+                    del new_filtered_change['owner']['status']
             if 'tracking_ids' in change:
-                filtered_changes[change['id']]['tracking_ids'] = change['tracking_ids']
-            if 'current_revision' in change and change['current_revision'] in change['revisions']:
-                filtered_changes[change['id']].update({
-                    'files': change['revisions'][change['current_revision']]['files']
-                })
+                new_filtered_change['tracking_ids'] = change['tracking_ids']
+            if 'current_revision' in change:
+                if change['current_revision'] in change['revisions']:
+                    new_filtered_change.update({
+                        'files': change['revisions'][change['current_revision']]['files']
+                    })
+                new_filtered_change['current_revision'] = change['current_revision']
+                if 'commit' in change['revisions'][change['current_revision']]:
+                    new_filtered_change['parent_shas'] = [x['commit'] for x in change['revisions'][change['current_revision']]['commit']['parents']]
             if 'total_comment_count' in change:
-                filtered_changes[change['id']]['comment_count'] = change['total_comment_count']
+                new_filtered_change['comment_count'] = change['total_comment_count']
             if 'unresolved_comment_count' in change and change['unresolved_comment_count'] != 0:
-                filtered_changes[change['id']]['unresolved_comment_count'] = change['unresolved_comment_count']
+                new_filtered_change['unresolved_comment_count'] = change['unresolved_comment_count']
             if 'Code-Review' in change['labels'] and 'all' in change['labels']['Code-Review']:
                 for code_review_vote in change['labels']['Code-Review']['all']:
                     if 'tags' in code_review_vote.keys() and 'SERVICE_USER' in code_review_vote['tags']:
@@ -53,26 +60,29 @@ def filter_information_for_changes(changes: list) -> dict:
                         del code_review_vote['status']
                     if 'permitted_voting_range' in code_review_vote:
                         del code_review_vote['permitted_voting_range']
-                    filtered_changes[change['id']]['code_review_votes'].append(code_review_vote)
+                    new_filtered_change['code_review_votes'].append(code_review_vote)
             for reviewer_type in change['reviewers']:
-                filtered_changes[change['id']]['reviewers'][reviewer_type] = []
+                new_filtered_change['reviewers'][reviewer_type] = []
                 for reviewer in change['reviewers'][reviewer_type]:
                     # Filter out bots by filtering out "service users" who should only be bots
                     if 'tags' not in reviewer.keys() or 'SERVICE_USER' not in reviewer['tags']:
                         # Filter out unused "status" text.
                         if 'status' in reviewer:
                             del reviewer['status']
-                        filtered_changes[change['id']]['reviewers'][reviewer_type].append(reviewer)
+                        new_filtered_change['reviewers'][reviewer_type].append(reviewer)
+            filtered_changes[change['id']] = new_filtered_change
         except BaseException as e:
             print("Error:", repr(e))
             logging.error("Error thrown when filtering data: " + str(repr(e)))
     return filtered_changes
 
+def base_test_data_request_url(repository: str) -> str:
+    return common.gerrit_api_url_prefix + "changes/?o=SKIP_DIFFSTAT&o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&o=CURRENT_REVISION&o=CURRENT_FILES&o=TRACKING_IDS&o=CURRENT_COMMIT&q=-is:wip+repo:" + repository
+
 def generate_test_data_set_for_repo(repository: str, cutoff_time: str = None):
     test_data = {"merged": [], "abandoned": [], "open": []}
     # Merged changes
-    # TODO: Move URL generation to function as much is duplicated
-    request_url = common.gerrit_api_url_prefix + "changes/?o=SKIP_DIFFSTAT&o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&o=CURRENT_REVISION&o=CURRENT_FILES&o=TRACKING_IDS&q=status:merged+-is:wip+repo:" + repository
+    request_url = base_test_data_request_url(repository) + "+status:merged"
     if cutoff_time is not None:
         request_url += "+mergedafter:" + urllib.parse.quote('"') + cutoff_time + urllib.parse.quote('"')
     logging.debug("Request made for merged changes: " + request_url)
@@ -83,16 +93,16 @@ def generate_test_data_set_for_repo(repository: str, cutoff_time: str = None):
         logging.debug("Returning early because merged count too small.")
         # Tell the caller to use a larger time period or all time.
         return None
-    # Open changes
-    request_url = common.gerrit_api_url_prefix + "changes/?o=SKIP_DIFFSTAT&o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&o=CURRENT_REVISION&o=CURRENT_FILES&o=TRACKING_IDS&q=status:open+-label:Code-Review=0+-is:wip+repo:" + repository
+    # Open changes with code review votes
+    request_url = base_test_data_request_url(repository) + "+status:open+-label:Code-Review=0"
     if cutoff_time is not None:
         request_url += "+after:" + urllib.parse.quote('"') + cutoff_time + urllib.parse.quote('"')
     logging.debug("Request made for open changes: " + request_url)
     test_data["open"] = filter_information_for_changes(json.loads(common.remove_gerrit_api_json_response_prefix(
         requests.get(request_url, auth=common.secrets.gerrit_http_credentials()).text
     )))
-    # Abandoned changes - cannot use "mergedafter" as abandoned changes are never merged.
-    request_url = common.gerrit_api_url_prefix + "changes/?o=SKIP_DIFFSTAT&o=DETAILED_LABELS&o=DETAILED_ACCOUNTS&o=CURRENT_REVISION&o=CURRENT_FILES&o=TRACKING_IDS&q=status:abandoned+-is:wip+repo:" + repository
+    # Abandoned changes with code review votes - cannot use "mergedafter" as abandoned changes are never merged.
+    request_url = base_test_data_request_url(repository) + "+status:abandoned+-label:Code-Review=0"
     if cutoff_time is not None:
         request_url += "+after:" + urllib.parse.quote('"') + cutoff_time + urllib.parse.quote('"')
     logging.debug("Request made for abandoned changes: " + request_url)
@@ -128,8 +138,8 @@ class StreamArray(list):
 # End from https://stackoverflow.com/a/45143995
 
 def generate_test_data_for_repos(repositories: List[str]):
-    test_data = {}
     for number_processed, repo in enumerate(repositories):
+        test_data = {}
         try:
             print("Processing", repo + ". Done", number_processed, "out of", len(repos))
             logging.info("Processing " + repo)
@@ -156,6 +166,8 @@ def generate_test_data_for_repos(repositories: List[str]):
             time.sleep(3)
             yield {repo: test_data}
         except BaseException as e:
+            if isinstance(e, GeneratorExit):
+                raise e
             print("Error:", repr(e))
             logging.error("Error thrown when generating data: " + str(repr(e)))
 
