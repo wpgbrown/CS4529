@@ -71,14 +71,32 @@ def get_bare_repo(repository: str, update_heads: bool = False) -> Repo:
                 repo.remote().fetch("refs/heads/*:refs/heads/*", progress=GitProgressPrinter())
         return repo
 
-def git_blame_stats_for_head_of_branch(files: Union[List[str], str], repository: str, branch: Optional[str] = None, throw_on_missing_file: bool = False):
+def git_blame_stats_for_head_of_branch(files: Union[List[str], str], repository: str, branch: Optional[str] = None, parent_commit_sha: str = None, throw_on_missing_file: bool = False):
     # Get the Repo object for the specified repository
     repo = get_bare_repo(repository)
-    # Use the "main" branch if no branch specified
+    # Use the "main" branch if no branch or parent sha specified
     if not branch:
         branch = common.get_main_branch_for_repository(repository)
-    # Update the HEAD to the specified branch
-    repo.head.reference = next(filter(lambda x: x.path.replace('refs/heads/', '') == branch or x.path == branch, repo.heads))
+    if branch:
+        if parent_commit_sha:
+            logging.debug("Moving to specified branch before trying commit")
+        else:
+            logging.debug("Using branch.")
+        # Update the HEAD to the specified branch if branch is specified
+        try:
+            repo.head.reference = next(filter(lambda x: x.path.replace('refs/heads/', '') == branch or x.path == branch, repo.heads))
+        except StopIteration:
+            # Use main branch instead.
+            branch = common.get_main_branch_for_repository(repository)
+            repo.head.reference = next(filter(lambda x: x.path.replace('refs/heads/', '') == branch or x.path == branch, repo.heads))
+    try:
+        if parent_commit_sha:
+            logging.debug("Using parent sha")
+            parent_commit_sha: str
+            # Update the HEAD to the specified sha commit
+            repo.head.reference = repo.commit(parent_commit_sha)
+    except ValueError:
+        logging.warning("Unable to find sha " + parent_commit_sha + ". Using branch instead.")
     if isinstance(files, str):
         files = [files]
     authors = {}
@@ -104,6 +122,11 @@ def git_blame_stats_for_head_of_branch(files: Union[List[str], str], repository:
                     ]:
                         # TODO: Does python copy by reference when adding to a list?
                         author_entry: Actor
+                        # Skip bots
+                        if author_entry.email in common.email_exclude_list:
+                            continue
+                        if author_entry.name in common.username_exclude_list:
+                            continue
                         result_dictionary: dict
                         if author_entry.email not in result_dictionary.keys():
                             result_dictionary[author_entry.email] = {

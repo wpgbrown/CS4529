@@ -26,7 +26,7 @@ group_exclude_list = ['2bc47fcadf4e44ec9a1a73bcfa06232554f47ce2', 'cc37d98e3a430
 
 email_exclude_list = ["tools.libraryupgrader@tools.wmflabs.org"]
 
-username_exclude_list = ["Libraryupgrader", "TrainBranchBot", "gerrit2", "Gerrit Code Review"]
+username_exclude_list = ["Libraryupgrader", "TrainBranchBot", "gerrit2", "Gerrit Code Review", "[BOT] Gerrit Code Review", "[BOT] Gerrit Patch Uploader"]
 
 secrets = Secrets()
 

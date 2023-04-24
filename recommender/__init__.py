@@ -355,6 +355,7 @@ class Recommendations(Sized):
         :return:
         """
         if name in self._names_to_emails.keys():
+            # TODO: This breaks if a user has more than one email. Example: Zabe.
             # First check if the index had an email associated with this name
             return self._recommendations_by_email[self._names_to_emails[name]]
         if name in self._recommendations_by_name.keys():

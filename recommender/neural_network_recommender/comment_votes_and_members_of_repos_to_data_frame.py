@@ -62,7 +62,8 @@ def preprocess_into_pandas_data_frame(repository: str) -> dict[str,pandas.DataFr
             elif 'display_name' in user and user['display_name'].strip() in data_frame.index:
                 data_frame.at[user['display_name'].strip(), "Can merge changes?"] = True
             elif 'name' in user:
-                data_frame.at[user['name'].strip(), "Can merge changes?"] = True
+                pass
+                # data_frame.at[user['name'].strip(), "Can merge changes?"] = True
     return return_data
 
 if __name__ == "__main__":

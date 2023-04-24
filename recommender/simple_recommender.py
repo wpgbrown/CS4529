@@ -79,17 +79,19 @@ def recommend_reviewers_for_patch(change_id: str, repository: str = '', branch: 
     response.raise_for_status()
     change_info = json.loads(common.remove_gerrit_api_json_response_prefix(response.text))
     logging.debug("Returned change info: " + str(change_info))
-    # Update repository and branch to the values found in the metadata as these are cleaner
-    #  even if they have been provided by the caller.
-    repository = change_info['project']
+    latest_revision_sha = list(change_info['revisions'].keys())[0]
+    change_info['files'] = change_info['revisions'][latest_revision_sha]['files']
+    return recommend_reviewers_for_patch_using_change_info(repository, change_info)
+
+def recommend_reviewers_for_patch_using_change_info(repository: str, change_info: dict):
     branch = change_info['branch']
     # Initialise the recommendations list
     # TODO: Divide git blame stats such that
     recommendations = Recommendations()
     # Get the files modified (added, changed or deleted) by the change
-    latest_revision_sha = list(change_info['revisions'].keys())[0]
+    # TODO: Combine with neural network code to use parent_sha if available.
     information_about_change_including_git_blame_stats_in_head = {}
-    for filename, info in change_info['revisions'][latest_revision_sha]['files'].items():
+    for filename, info in change_info['files'].items():
         # Add deleted and changed files to files modified from the base
         info: dict
         if 'status' not in info.keys():
@@ -120,7 +122,7 @@ def recommend_reviewers_for_patch(change_id: str, repository: str = '', branch: 
                         {'blame_stats': git_blame.git_blame_stats_for_head_of_branch(info['old_path'], repository, branch)}
                     )
     logging.debug("Git blame files from base: " + str(information_about_change_including_git_blame_stats_in_head))
-    total_delta_over_all_files = sum([info['size_delta'] for info in information_about_change_including_git_blame_stats_in_head.values()])
+    total_delta_over_all_files = sum([abs(info['size_delta']) for info in information_about_change_including_git_blame_stats_in_head.values()])
     for file, info in information_about_change_including_git_blame_stats_in_head.items():
         logging.debug(info)
         for author_email, author_info in info['blame_stats']['authors'].items():
