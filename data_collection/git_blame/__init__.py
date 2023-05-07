@@ -71,7 +71,33 @@ def get_bare_repo(repository: str, update_heads: bool = False) -> Repo:
                 repo.remote().fetch("refs/heads/*:refs/heads/*", progress=GitProgressPrinter())
         return repo
 
-def git_blame_stats_for_head_of_branch(files: Union[List[str], str], repository: str, branch: Optional[str] = None, parent_commit_sha: str = None, throw_on_missing_file: bool = False):
+def _generate_stats_for_commit(actor: Actor, commit_date, lines_count: int, result_dictionary: dict) -> None:
+    author_entry: Actor
+    # Skip bots
+    if actor.email in common.email_exclude_list:
+        return
+    if actor.name in common.username_exclude_list:
+        return
+    if actor.email not in result_dictionary.keys():
+        result_dictionary[actor.email] = {
+            'names': [],
+            'all_time_lines_count': 0,
+            'last_year_lines_count': 0,
+            'last_three_months_lines_count': 0,
+            'last_month_lines_count': 0,
+        }
+    if actor.name not in result_dictionary[actor.email]['names']:
+        result_dictionary[actor.email]['names'].append(actor.name)
+    result_dictionary[actor.email]['all_time_lines_count'] += lines_count
+    for relative_delta, key in [
+        (relativedelta(month=1), 'month'),
+        (relativedelta(months=3), 'three_months'),
+        (relativedelta(year=1), 'year'),
+    ]:
+        if commit_date > time.mktime((datetime.datetime.now() - relative_delta).timetuple()):
+            result_dictionary[actor.email]['last_' + key + '_lines_count'] += lines_count
+
+def git_blame_stats_for_head_of_branch(files: Union[List[str], str], repository: str, branch: Optional[str] = None, parent_commit_sha: str = None, throw_on_missing_file: bool = False, per_file: bool = False):
     # Get the Repo object for the specified repository
     repo = get_bare_repo(repository)
     # Use the "main" branch if no branch or parent sha specified
@@ -102,6 +128,9 @@ def git_blame_stats_for_head_of_branch(files: Union[List[str], str], repository:
     authors = {}
     committers = {}
     for file in files:
+        if per_file:
+            authors[file] = {}
+            committers[file] = {}
         try:
             for blame_entry in repo.blame_incremental(repo.head, file, w=True, M=True, C=True):
                 lines_count = blame_entry.linenos.stop - blame_entry.linenos.start
@@ -116,36 +145,21 @@ def git_blame_stats_for_head_of_branch(files: Union[List[str], str], repository:
                 commit_entries: List[Commit]
                 for commit_entry in commit_entries:
                     # Assign the author of the commit the lines in the file
-                    for author_entry, commit_date, result_dictionary in [
-                        (commit_entry.author, commit_entry.authored_date, authors),
-                        (commit_entry.committer, commit_entry.committed_date, committers)
-                    ]:
-                        # TODO: Does python copy by reference when adding to a list?
-                        author_entry: Actor
-                        # Skip bots
-                        if author_entry.email in common.email_exclude_list:
-                            continue
-                        if author_entry.name in common.username_exclude_list:
-                            continue
-                        result_dictionary: dict
-                        if author_entry.email not in result_dictionary.keys():
-                            result_dictionary[author_entry.email] = {
-                                'name': [],
-                                'all_time_lines_count': 0,
-                                'last_year_lines_count': 0,
-                                'last_three_months_lines_count': 0,
-                                'last_month_lines_count': 0,
-                            }
-                        if author_entry.name not in result_dictionary[author_entry.email]['name']:
-                            result_dictionary[author_entry.email]['name'].append(author_entry.name)
-                        result_dictionary[author_entry.email]['all_time_lines_count'] += lines_count
-                        for relative_delta, key in [
-                            (relativedelta(month=1), 'month'),
-                            (relativedelta(months=3), 'three_months'),
-                            (relativedelta(year=1), 'year'),
-                        ]:
-                            if commit_date > time.mktime((datetime.datetime.now() - relative_delta).timetuple()):
-                                result_dictionary[author_entry.email]['last_' + key + '_lines_count'] += lines_count
+                    if per_file:
+                        # If in "per file" mode add the stats to a separate list for this file.
+                        _generate_stats_for_commit(
+                            commit_entry.author, commit_entry.authored_date, lines_count, authors[file]
+                        )
+                        _generate_stats_for_commit(
+                            commit_entry.committer, commit_entry.committed_date, lines_count, committers[file]
+                        )
+                    else:
+                        _generate_stats_for_commit(
+                            commit_entry.author, commit_entry.authored_date, lines_count, authors
+                        )
+                        _generate_stats_for_commit(
+                            commit_entry.committer, commit_entry.committed_date, lines_count, committers
+                        )
         except GitCommandError as e:
             # Ignore missing files from the HEAD.
             #
@@ -165,4 +179,4 @@ def git_blame_stats_for_head_of_branch(files: Union[List[str], str], repository:
     }
 
 if __name__ == "__main__":
-    print(git_blame_stats_for_head_of_branch("src/Hooks.php", "mediawiki/core"))
+    print(git_blame_stats_for_head_of_branch("src/Hooks.php", "mediawiki/extensions/CheckUser"))

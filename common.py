@@ -1,15 +1,15 @@
 import json
 import logging
 import os
+import re
 import urllib.parse
 import time
-from collections.abc import Iterable
 from functools import lru_cache
 from json import JSONDecodeError
 from typing import Union
-import sqlite3
 import ijson
 import requests
+from pathvalidate import sanitize_filename
 from data_collection.generate_elastic_search_query import ElasticSearchQueryBuilder
 from cs4529_secrets import Secrets
 
@@ -24,7 +24,7 @@ extensions_repository_list = [ "mediawiki/extensions/" + extension for extension
 
 group_exclude_list = ['2bc47fcadf4e44ec9a1a73bcfa06232554f47ce2', 'cc37d98e3a4301744a0c0a9249173ae170696072', 'd3fd0fc1835b11637da792ad2db82231dd8f73cb']
 
-email_exclude_list = ["tools.libraryupgrader@tools.wmflabs.org"]
+email_exclude_list = ["tools.libraryupgrader@tools.wmflabs.org", "l10n-bot@translatewiki.net"]
 
 username_exclude_list = ["Libraryupgrader", "TrainBranchBot", "gerrit2", "Gerrit Code Review", "[BOT] Gerrit Code Review", "[BOT] Gerrit Patch Uploader"]
 
@@ -64,7 +64,7 @@ def perform_elastic_search_request(search_query: Union[str, ElasticSearchQueryBu
         return {'timed_out': True}
     return response
 
-def remove_gerrit_api_json_response_prefix( text_content: str ):
+def remove_gerrit_api_json_response_prefix(text_content: str) -> str:
     return text_content.replace(")]}'", "", 1).strip()
 
 def path_relative_to_root(relative_path):
@@ -80,15 +80,15 @@ def get_main_branch_for_repository(repository: str):
         requests.get(request_url, auth=secrets.gerrit_http_credentials()).text
     ))
 
-class TimePeriods(Iterable):
+def get_sanitised_filename(filename: str) -> str:
+    return sanitize_filename(re.sub(r'/', '-', filename))
+
+class TimePeriods:
     ALL_TIME = 'all time'
     LAST_YEAR = 'last year'
     LAST_3_MONTHS = 'last three months'
     LAST_MONTH = 'last month'
     DATE_RANGES = [ALL_TIME, LAST_YEAR, LAST_3_MONTHS, LAST_MONTH]
-
-    def __iter__(self):
-        return iter(self.DATE_RANGES)
 
 @lru_cache(maxsize=5)
 def get_test_data_for_repo(repository: str) -> tuple:

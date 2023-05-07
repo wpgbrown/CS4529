@@ -1,24 +1,24 @@
 import logging
 import pandas
-import numpy
 import re
 from pathvalidate import sanitize_filename
-from sklearn import metrics, preprocessing
 import common
-from recommender import TimePeriods, get_reviewer_data, get_comment_data, get_members_of_repo, \
+from recommender import get_reviewer_data, get_comment_data, get_members_of_repo, \
     load_members_of_mediawiki_repos
+
+# TODO: Move to __init__.py?
 
 def preprocess_into_pandas_data_frame(repository: str) -> dict[str,pandas.DataFrame]:
     # TODO: Cache using the generated pandas json file?
     return_data = {}
     reviewer_data = get_reviewer_data()[repository]
-    for key in TimePeriods.DATE_RANGES:
+    for key in common.TimePeriods.DATE_RANGES:
         match key:
-            case TimePeriods.LAST_MONTH:
+            case common.TimePeriods.LAST_MONTH:
                 key_temp = "last 30 days"
-            case TimePeriods.LAST_3_MONTHS:
+            case common.TimePeriods.LAST_3_MONTHS:
                 key_temp = "last 3 months"
-            case TimePeriods.ALL_TIME:
+            case common.TimePeriods.ALL_TIME:
                 key_temp = "all"
             case _:
                 key_temp = key
@@ -29,13 +29,13 @@ def preprocess_into_pandas_data_frame(repository: str) -> dict[str,pandas.DataFr
                 return_data[key].drop(username)
 
     comment_data = get_comment_data()[repository]
-    for key in TimePeriods.DATE_RANGES:
+    for key in common.TimePeriods.DATE_RANGES:
         match key:
-            case TimePeriods.LAST_MONTH:
+            case common.TimePeriods.LAST_MONTH:
                 key_temp = "last 30 days"
-            case TimePeriods.LAST_3_MONTHS:
+            case common.TimePeriods.LAST_3_MONTHS:
                 key_temp = "last 3 months"
-            case TimePeriods.ALL_TIME:
+            case common.TimePeriods.ALL_TIME:
                 key_temp = "all"
             case _:
                 key_temp = key
@@ -53,8 +53,8 @@ def preprocess_into_pandas_data_frame(repository: str) -> dict[str,pandas.DataFr
         data_frame: pandas.DataFrame
         data_frame["Can merge changes?"] = False
         for user in users_with_rights_to_merge:
-            if 'email' in user and user['email'].strip() in data_frame.index:
-                data_frame.at[user['email'].strip(), "Can merge changes?"] = True
+            if 'emails' in user and user['emails'].strip() in data_frame.index:
+                data_frame.at[user['emails'].strip(), "Can merge changes?"] = True
             elif 'name' in user and user['name'].strip() in data_frame.index:
                 data_frame.at[user['name'].strip(), "Can merge changes?"] = True
             elif 'username' in user and user['username'].strip() in data_frame.index:

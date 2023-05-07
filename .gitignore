@@ -2,3 +2,23 @@ cs4529_secrets.py
 *.pyc
 .idea/
 *.log.txt
+recommender/neural_network_recommender/models/
+recommender/neural_network_recommender/scalers/
+# Include example models
+!recommender/neural_network_recommender/models/generic_approved_clf.pickle
+!recommender/neural_network_recommender/models/generic_voted_clf.pickle
+!recommender/neural_network_recommender/models/mediawiki-extensions-CheckUser_voted_clf.pickle
+!recommender/neural_network_recommender/models/mediawiki-extensions-CheckUser_approved_clf.pickle
+!recommender/neural_network_recommender/models/mediawiki-extensions-CheckUser_merged_voted_clf.pickle
+!recommender/neural_network_recommender/models/mediawiki-extensions-CheckUser_merged_approved_clf.pickle
+!recommender/neural_network_recommender/models/mediawiki-extensions-CheckUser_open_voted_clf.pickle
+!recommender/neural_network_recommender/models/mediawiki-extensions-CheckUser_open_approved_clf.pickle
+# and their scalers
+!recommender/neural_network_recommender/models/generic_approved_scaler.pickle
+!recommender/neural_network_recommender/models/generic_voted_scaler.pickle
+!recommender/neural_network_recommender/models/mediawiki-extensions-CheckUser_voted_scaler.pickle
+!recommender/neural_network_recommender/models/mediawiki-extensions-CheckUser_approved_scaler.pickle
+!recommender/neural_network_recommender/models/mediawiki-extensions-CheckUser_merged_voted_scaler.pickle
+!recommender/neural_network_recommender/models/mediawiki-extensions-CheckUser_merged_approved_scaler.pickle
+!recommender/neural_network_recommender/models/mediawiki-extensions-CheckUser_open_voted_scaler.pickle
+!recommender/neural_network_recommender/models/mediawiki-extensions-CheckUser_open_approved_scaler.pickle

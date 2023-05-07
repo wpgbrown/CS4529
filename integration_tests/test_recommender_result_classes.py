@@ -22,31 +22,26 @@ class TestRecommendationsClass(unittest.TestCase):
         self.assertDictEqual(
             {},
             recommendation_list._recommendations_by_email,
-            "Recommendations by name list should start empty"
+            "Emails to reviewer index should start empty"
         )
         self.assertDictEqual(
             {},
-            recommendation_list._names_to_emails,
-            "Names to email index should start empty"
+            recommendation_list._recommendations_by_name,
+            "Names to reviewer index should start empty"
         )
 
-    def test_add_recommendation_to_results_by_email(self):
+    def test_add_recommendation_to_results_by_only_email(self):
         recommendations = recommender.Recommendations()
-        recommendations.add(recommender.RecommendedReviewer("test@test.com", "Test name", 30))
+        recommendations.add(recommender.RecommendedReviewer("test@test.com", [], 30))
         self.assertDictEqual(
             {},
             recommendations._recommendations_by_name,
-            "Recommendation should have been added to the by email list as an email was specified."
+            "Recommendation should not be in the name index as no name was given."
         )
         self.assertCountEqual(
             ["test@test.com"],
             recommendations._recommendations_by_email.keys(),
-            "Recommendation was not added to the list under it's email."
-        )
-        self.assertDictEqual(
-            {"Test name": "test@test.com"},
-            recommendations._names_to_emails,
-            "Index was not updated when recommendation was added."
+            "Recommendation was not added to the list under it's emails."
         )
         self.assertEqual(
             recommendations,
@@ -54,13 +49,13 @@ class TestRecommendationsClass(unittest.TestCase):
             "Weak reference to the recommendations list from the recommended reviewer was not correct"
         )
 
-    def test_add_recommendation_to_results_by_name(self):
+    def test_add_recommendation_to_results_by_only_name(self):
         recommendations = recommender.Recommendations()
         recommendations.add(recommender.RecommendedReviewer(None, "Test name", 20))
         self.assertDictEqual(
             {},
             recommendations._recommendations_by_email,
-            "Recommendation should not have been added to the by email list as no email was specified."
+            "Email to reviewer index should be empty as no email was provided."
         )
         self.assertCountEqual(
             ["Test name"],
@@ -71,6 +66,30 @@ class TestRecommendationsClass(unittest.TestCase):
             recommendations,
             recommendations.get_reviewer_by_name("Test name").parent_weak_ref(),
             "Weak reference to the recommendations list from the recommended reviewer was not correct"
+        )
+
+    def test_add_recommendation_to_results(self):
+        recommendations = recommender.Recommendations()
+        recommendations.add(recommender.RecommendedReviewer("test@test.com", "Test name", 20))
+        self.assertCountEqual(
+            ["test@test.com"],
+            recommendations._recommendations_by_email.keys(),
+            "Email to reviewer index should have the email."
+        )
+        self.assertCountEqual(
+            ["Test name"],
+            recommendations._recommendations_by_name.keys(),
+            "Recommendation was not added to the list under it's name."
+        )
+        self.assertEqual(
+            recommendations,
+            recommendations.get_reviewer_by_name("Test name").parent_weak_ref(),
+            "Weak reference to the recommendations list by the name from the recommended reviewer was not correct"
+        )
+        self.assertEqual(
+            recommendations,
+            recommendations.get_reviewer_by_email("test@test.com").parent_weak_ref(),
+            "Weak reference to the recommendations list by the email from the recommended reviewer was not correct"
         )
 
     def test_get_recommendations(self):
@@ -118,9 +137,9 @@ class TestRecommendedReviewerClass(unittest.TestCase):
     def test_create_recommended_reviewer_object(self):
         recommendation = recommender.RecommendedReviewer("test@test.com")
         self.assertEqual(
-            recommendation.email,
+            recommendation.emails,
             "test@test.com",
-            "Stored email was not correct"
+            "Stored emails was not correct"
         )
         self.assertEqual(
             list(recommendation.names),
@@ -136,9 +155,9 @@ class TestRecommendedReviewerClass(unittest.TestCase):
     def test_create_recommended_reviewer_object_with_name_and_score(self):
         recommendation = recommender.RecommendedReviewer(None, "Test", 30)
         self.assertEqual(
-            recommendation.email,
+            recommendation.emails,
             None,
-            "No email was specified, so none should be stored."
+            "No emails was specified, so none should be stored."
         )
         self.assertCountEqual(
             list(recommendation.names),
@@ -152,20 +171,20 @@ class TestRecommendedReviewerClass(unittest.TestCase):
         )
 
     def test_create_recommended_reviewer_object_with_no_email_or_name(self):
-        with self.assertRaises(ValueError, msg="RecommendedReviewer creation should raise exception if neither email or name was provided"):
+        with self.assertRaises(ValueError, msg="RecommendedReviewer creation should raise exception if neither emails or name was provided"):
             recommender.RecommendedReviewer()
 
     def test_set_email_after_creation(self):
         recommendation = recommender.RecommendedReviewer(names="Test")
         self.assertIsNone(
-            recommendation.email,
+            recommendation.emails,
             "Email should be None if not specified on creation"
         )
         with self.assertNoLogs(level=logging.WARN):
             recommendation.email = "test@test.com"
         self.assertEqual(
             "test@test.com",
-            recommendation.email,
+            recommendation.emails,
             "Email should be settable if it's current value is None."
         )
 

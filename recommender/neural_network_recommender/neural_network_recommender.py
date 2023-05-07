@@ -1,277 +1,176 @@
-import itertools
-import json
+import argparse
 import logging
+import os
 import pickle
-import re
-import numpy
-import requests
-import seaborn as sns
-from matplotlib import pyplot as plt
-from pathvalidate import sanitize_filename
-from sklearn.preprocessing import StandardScaler
-import pandas
-import time
-import urllib.parse
-from sklearn.metrics import accuracy_score
-from sklearn.model_selection import train_test_split
+import sys
+from enum import Enum
+from functools import lru_cache
+from typing import Tuple
+
+from requests import HTTPError
 from sklearn.neural_network import MLPClassifier
+from sklearn.preprocessing import StandardScaler
+
 import common
-from comment_votes_and_members_of_repos_to_data_frame import preprocess_into_pandas_data_frame
-from data_collection import git_blame
-from recommender import Recommendations
-from common import get_test_data_for_repo
+from recommender import RecommenderImplementation, Recommendations
+from recommender.neural_network_recommender import preprocess_into_pandas_data_frame, \
+    add_change_specific_attributes_to_data_frame
 
-if __name__ == "__main__":
-    logging.basicConfig(filename=common.path_relative_to_root("logs/neural_network_recommender_logs.log.txt"), level=logging.DEBUG)
 
-generic_approved_clf = MLPClassifier(max_iter=2000)
-generic_voted_clf = MLPClassifier(max_iter=2000)
-repos_and_associated_members = json.load(open(
-    common.path_relative_to_root("data_collection/raw_data/members_of_mediawiki_repos.json")
-))
-for number_processed, repository in enumerate(repos_and_associated_members['groups_for_repository'].keys()):
-    # TODO: Fix number_processed by adding one
-    print("Processing", repository, "which is", number_processed, "out of", len(repos_and_associated_members['groups_for_repository'].keys()))
-    try:
-        test_data = get_test_data_for_repo(repository)
-        time_period = test_data[0]
-        test_data = test_data[1]
-        base_data_frame_for_repo = preprocess_into_pandas_data_frame(repository)[time_period]
+class ModelMode(Enum):
+    GENERIC = "generic"
+    REPO_SPECIFIC = "repo-specific"
+    OPEN = "open"
+    ABANDONED = "abandoned"
+    MERGED = "merged"
+    DEFAULT = "generic"
 
-        # print("Test data:", test_data)
+    @classmethod
+    def _missing_(cls, value):
+        # TODO: Partly from https://docs.python.org/3/library/enum.html#enum.Enum._missing_
+        if value is not isinstance(value, str):
+            return None
+        value: str
+        value = value.lower()
+        for member in cls:
+            if member.value == value:
+                return member
+        return None
 
-        """fig, ax = plt.subplots(figsize=(20,5))
-        sns.heatmap(data_frame==0, vmin=0, vmax=1, cbar=False, ax=ax).set_title("Products x Features")
-        plt.show()"""
+class MLPClassifierImplementation(RecommenderImplementation):
+    def __init__(self, repository: str, model_type: ModelMode, time_period: str):
+        super().__init__(repository)
+        if model_type == ModelMode.GENERIC:
+            self.approved_model = self.load_model("generic_approved_clf.pickle")
+            self.voted_model = self.load_model("generic_voted_clf.pickle")
+            self.scaler = self.load_scaler()
+        elif model_type == ModelMode.REPO_SPECIFIC:
+            self.approved_model = self.load_model(common.get_sanitised_filename(repository) + "_approved_clf.pickle")
+            self.voted_model = self.load_model(common.get_sanitised_filename(repository) + "_voted_clf.pickle")
+        # TODO: Handle abandoned / open / merged models.
+        self.base_data_frame = preprocess_into_pandas_data_frame(repository)[time_period]
+        self.time_period = time_period
 
-        def add_change_specific_attributes_to_data_frame(change_info: dict, data_frame: pandas.DataFrame) -> pandas.DataFrame:
-            data_frame = data_frame.copy(True)
-            #print(change_info)
-            # Get the files modified (added, changed or deleted) by the change
-            # TODO: Merge with simple recommender code if possible to reduce duplication
-            information_about_change_including_git_blame_stats_in_head = {}
-            # TODO: Remove duplication by calling the blame once with all files that are wanted inspected.
-            # TODO: Exclude files that are too large (causes program to be too slow) - If too large then the git blame stats are unlikely to help much
-            for filename, info in change_info['files'].items():
-                # Add deleted and changed files to files modified from the base
-                info: dict
-                if info['size'] > 500_000:
-                    continue
-                if 'status' not in info.keys():
-                    # File just modified (not created, moved or deleted), so other authors can likely help
-                    arguments = {
-                        'files': filename,
-                        'repository': repository
-                    }
-                    if 'parent_shas' in change_info:
-                        arguments['parent_commit_sha'] = change_info['parent_shas'][0]
-                    arguments['branch'] = change_info['branch']
-                    information_about_change_including_git_blame_stats_in_head[filename] = info
-                    information_about_change_including_git_blame_stats_in_head[filename].update(
-                        {'blame_stats': git_blame.git_blame_stats_for_head_of_branch(**arguments)}
-                    )
-                else:
-                    match info['status']:
-                        case 'D' | 'W':
-                            # File was either deleted or substantially re-written.
-                            # While this means none of or very little of the code
-                            #  already present will be kept if this is merged, said
-                            #  authors and committers are likely to provide some
-                            #  useful thoughts on this.
-                            arguments = {
-                                'files': filename,
-                                'repository': repository
-                            }
-                            if 'parent_shas' in change_info:
-                                arguments['parent_commit_sha'] = change_info['parent_shas'][0]
-                            arguments['branch'] = change_info['branch']
-                            information_about_change_including_git_blame_stats_in_head[filename] = info
-                            information_about_change_including_git_blame_stats_in_head[filename].update(
-                                {'blame_stats': git_blame.git_blame_stats_for_head_of_branch(**arguments)}
-                            )
-                        case 'R' | 'C':
-                            # File renamed or copied. The authors/committers of the file that was renamed
-                            #  or the file that was copied likely have understanding about whether a rename
-                            #  or copy would make sense here.
-                            # TODO: Test with a change that has a copied file.
-                            arguments = {
-                                'files': info['old_path'],
-                                'repository': repository
-                            }
-                            if 'parent_shas' in change_info:
-                                arguments['parent_commit_sha'] = change_info['parent_shas'][0]
-                            arguments['branch'] = change_info['branch']
-                            information_about_change_including_git_blame_stats_in_head[filename] = info
-                            information_about_change_including_git_blame_stats_in_head[filename].update(
-                                {'blame_stats': git_blame.git_blame_stats_for_head_of_branch(**arguments)}
-                            )
-            logging.debug("Git blame files from base: " + str(information_about_change_including_git_blame_stats_in_head))
-            total_delta_over_all_files = sum(
-                [abs(info['size_delta']) for info in information_about_change_including_git_blame_stats_in_head.values()])
-            for name in itertools.chain.from_iterable([
-                [y + x for y in common.TimePeriods.DATE_RANGES] for x in [" author git blame percentage", " reviewer git blame percentage"]
-            ]):
-                data_frame[name] = 0
-            # print(data_frame.columns.array)
-            if total_delta_over_all_files != 0:
-                for file, info in information_about_change_including_git_blame_stats_in_head.items():
-                    logging.debug(info)
-                    time_period_to_key = {y: y.replace(' ', '_') + "_lines_count" for y in common.TimePeriods.DATE_RANGES}
-                    author_sums = {}
-                    for time_period, name in time_period_to_key.items():
-                        author_sums[time_period] = sum([x[name] for x in info['blame_stats']['authors'].values()])
-                    committer_sums = {}
-                    for time_period, name in time_period_to_key.items():
-                        committer_sums[time_period] = sum([x[name] for x in info['blame_stats']['committers'].values()])
-                    for author_email, author_info in info['blame_stats']['authors'].items():
-                        if author_info['name'][0] not in data_frame.index.values:
-                            data_frame.loc[author_info['name'][0], :] = 0
-                        # print(author_info)
-                        for time_period, name in {y: y + " author git blame percentage" for y in common.TimePeriods.DATE_RANGES}.items():
-                            if not author_sums[time_period]:
-                                continue
-                            data_frame.at[author_info['name'][0], name] += (author_info[time_period_to_key[time_period]] / author_sums[time_period]) * (info['size_delta'] / total_delta_over_all_files)
-                    for committer_email, committer_info in info['blame_stats']['committers'].items():
-                        if committer_info['name'][0] not in data_frame.index.values:
-                            data_frame.loc[committer_info['name'][0], :] = 0
-                        for time_period, name in {y: y + " reviewer git blame percentage" for y in common.TimePeriods.DATE_RANGES}.items():
-                            if not committer_sums[time_period]:
-                                continue
-                            data_frame.at[committer_info['name'][0], name] += (committer_info[time_period_to_key[time_period]] / committer_sums[time_period]) * (info['size_delta'] / total_delta_over_all_files)
-            return data_frame
+    @classmethod
+    @lru_cache(maxsize=5)
+    def load_model(cls, name: str) -> MLPClassifier:
+        if not os.path.exists(cls.get_model_path(name)):
+            raise Exception("Model with this name does not exist. Try training it first.")
+        return pickle.load(open(cls.get_model_path(name), 'rb'))
 
-        for status, sub_test_data in test_data.items():
-            repo_specific_approved_clf = MLPClassifier(max_iter=1000)
-            repo_specific_voted_clf = MLPClassifier(max_iter=1000)
+    @staticmethod
+    @lru_cache(maxsize=20)
+    def get_model_path(name) -> str:
+        return common.path_relative_to_root("recommender/neural_network_recommender/models/" + common.sanitize_filename(name) + "_clf.pickle")
+
+    @classmethod
+    @lru_cache(maxsize=5)
+    def load_scaler(cls, name: str) -> StandardScaler:
+        if not os.path.exists(cls.get_scaler_path(name)):
+            raise Exception("Scaler with this name does not exist. Try training it first.")
+        return pickle.load(open(cls.get_scaler_path(name), 'rb'))
+
+    @staticmethod
+    @lru_cache(maxsize=20)
+    def get_scaler_path(name: str) -> str:
+        return common.path_relative_to_root("recommender/neural_network_recommender/scalers/" + common.sanitize_filename(name) + "_scaler.pickle")
+
+    @classmethod
+    def load_model_and_associated_scaler(cls, name: str) -> Tuple[MLPClassifier, StandardScaler]:
+        return cls.load_model(name), cls.load_scaler(name)
+
+    def recommend_using_change_info(self, change_info: dict) -> Recommendations:
+        change_specific_data_frame = add_change_specific_attributes_to_data_frame(self.repository, change_info, self.base_data_frame)
+        predicted_approvers = [x for x in enumerate(self.approved_model.predict(change_specific_data_frame.iloc[:])) if x[1]]
+        predicted_voters = [x for x in enumerate(self.voted_model.predict(change_specific_data_frame.iloc[:])) if x[1]]
+        print(predicted_approvers)
+        print(predicted_voters)
+        recommendations = Recommendations()
+        # TODO: Complete
+        return recommendations
+
+
+if __name__ == '__main__':
+    argument_parser = argparse.ArgumentParser(description="A Multi-layer Perceptron classifier implementation of a tool that recommends reviewers for the MediaWiki project")
+    # TODO: Deduplicate from rule_based_recommender.py where possible?
+    # TODO: Allow use of either repo-specific or generic?
+    # TODO: Cause training if no model exists?
+    argument_parser.add_argument('change_id', nargs='+', help="The change ID(s) of the changes you want to get recommended reviewers for")
+    argument_parser.add_argument('--repository', nargs='+', help="The repository for these changes. Specifying one repository applies to all changes. Multiple repositories apply to each change in order.", required=True)
+    argument_parser.add_argument('--branch', nargs='+', help="The branch these change IDs are on (default is the main branch). Specifying one branch applies to all changes. Multiple branches apply to each change in order.", default=[], required=False)
+    argument_parser.add_argument('--stats', action='store_true', help="Show stats about the recommendations.")
+    argument_parser.add_argument('--model-type', choices=["repo-specific", "generic", "open", "abandoned", "merged"], default="generic", help="What model to use. The models selectable here have been trained over varying amounts of the testing data.")
+    argument_parser.add_argument('--time-period', choices=common.TimePeriods.DATE_RANGES, help="What time period should data be selected from to make recommendations", default=common.TimePeriods.ALL_TIME)
+    change_ids_with_repo_and_branch = []
+    command_line_arguments = None
+    if not len(sys.argv) > 1:
+        # Ask for the user's input
+        while True:
             try:
-                print("Status:", status)
-                for change_id in sub_test_data.keys():
-                    sub_test_data[change_id]["id"] = change_id
-                sub_test_data = list(sub_test_data.values())
-                if len(sub_test_data) <= 1:
-                    continue
-                train, test = train_test_split(sub_test_data)
-                train = list(train)
-                test = list(test)
-                X_train = []
-                approved_train = []
-                voted_train = []
-                for i, change_info in enumerate(train):
-                    print("Collating training data", i, "out of", len(train))
-                    logging.info("Collating training data " + str(i) + " out of " + str(len(train)))
-                    change_specific_data_frame = add_change_specific_attributes_to_data_frame(change_info, base_data_frame_for_repo)
-                    # Store lowercase representation to actual case used for indexing purposes
-                    lower_case_names = {x.lower(): x for x in change_specific_data_frame.index.values}
-                    # Add whether they actually voted
-                    change_specific_data_frame["Actually voted"] = False
-                    change_specific_data_frame["Actually approved"] = False
-                    # Check if voted
-                    for vote in change_info['code_review_votes']:
-                        name = None
-                        # Try to find associated data_frame row
-                        if 'name' in vote and vote['name'].lower() in lower_case_names:
-                            name = lower_case_names[vote['name'].lower()]
-                        elif 'display_name' in vote and vote['display_name'].lower() in lower_case_names:
-                            name = lower_case_names[vote['display_name'].lower()]
-                        elif 'username' in vote and vote['username'].lower() in lower_case_names:
-                            name = lower_case_names[vote['username'].lower()]
-                        if name is None:
-                            # No matching name found. Add it to the array.
-                            # TODO: Is this the right thing to do? Should a continue be used instead
-                            change_specific_data_frame.loc[vote['name'], :] = 0
-                        change_specific_data_frame.at[vote['name'], "Actually voted"] = True
-                        if vote['value'] == 2:
-                            # Was an approval vote
-                            change_specific_data_frame.at[vote['name'], "Actually approved"] = True
-                    change_specific_data_frame = change_specific_data_frame.fillna(0)
-                    """for row in change_specific_data_frame.iterrows():
-                        #if row[1]["Can merge changes?"]:
-                        print(row)"""
-                    X_train.append(change_specific_data_frame.iloc[:,:-2])
-                    approved_train.append(change_specific_data_frame.loc[:,"Actually approved"].replace({0: False}))
-                    voted_train.append(change_specific_data_frame.loc[:,"Actually voted"].replace({0: False}))
-                X_test = []
-                approved_test = []
-                voted_test = []
-                for i, change_info in enumerate(test):
-                    print("Collating test data", i, "out of", len(test))
-                    logging.info("Collating test data " + str(i) + " out of " + str(len(train)))
-                    # Test model
-                    change_specific_data_frame = add_change_specific_attributes_to_data_frame(change_info, base_data_frame_for_repo)
-                    # Store lowercase representation to actual case used for indexing purposes
-                    lower_case_names = {x.lower(): x for x in change_specific_data_frame.index.values}
-                    # Add whether they actually voted
-                    change_specific_data_frame["Actually voted"] = False
-                    change_specific_data_frame["Actually approved"] = False
-                    # Check if voted
-                    for vote in change_info['code_review_votes']:
-                        name = None
-                        # Try to find associated data_frame row
-                        if 'name' in vote and vote['name'].lower() in lower_case_names:
-                            name = lower_case_names[vote['name'].lower()]
-                        elif 'display_name' in vote and vote['display_name'].lower() in lower_case_names:
-                            name = lower_case_names[vote['display_name'].lower()]
-                        elif 'username' in vote and vote['username'].lower() in lower_case_names:
-                            name = lower_case_names[vote['username'].lower()]
-                        if name is None:
-                            # No matching name found. Add it to the array.
-                            # TODO: Is this the right thing to do? Should a continue be used instead
-                            change_specific_data_frame.loc[vote['name'], :] = 0
-                        change_specific_data_frame.at[vote['name'], "Actually voted"] = True
-                        if vote['value'] == 2:
-                            # Was an approval vote
-                            change_specific_data_frame.at[vote['name'], "Actually approved"] = True
-                    change_specific_data_frame = change_specific_data_frame.fillna(0)
-                    """for row in change_specific_data_frame.iterrows():
-                        print(row)"""
-                    X_test.append(change_specific_data_frame.iloc[:, :-2])
-                    approved_test.append(change_specific_data_frame.loc[:, "Actually approved"].replace({0: False}))
-                    voted_test.append(change_specific_data_frame.loc[:, "Actually voted"].replace({0: False}))
-                # Now scale data
-                print("Scaling")
-                scaler = StandardScaler()
-                for X in X_train:
-                    scaler.fit(X)
-                for i, X in enumerate(X_train):
-                    X_train[i][X.columns] = scaler.transform(X[X.columns])
-                for i, X in enumerate(X_test):
-                    X_test[i][X.columns] = scaler.transform(X[X.columns])
-
-                # Now apply training data
-                print("Training")
-                for i, X in enumerate(X_train):
-                    approved = approved_train[i]
-                    voted = voted_train[i]
-                    repo_specific_approved_clf.fit(X, approved)
-                    repo_specific_voted_clf.fit(X, voted)
-                    generic_approved_clf.fit(X, approved)
-                    generic_voted_clf.fit(X, voted)
-
-                # Now test using testing data
-                print("Predicting")
-                for i, X in enumerate(X_test):
-                    approved = approved_test[i]
-                    voted = voted_test[i]
-                    repo_specific_predicted_approved = repo_specific_approved_clf.predict(X)
-                    repo_specific_predicted_voted = repo_specific_voted_clf.predict(X)
-                    generic_predicted_approved = generic_approved_clf.predict(X)
-                    generic_predicted_voted = generic_voted_clf.predict(X)
-                    print("Approved:", accuracy_score(approved, repo_specific_predicted_approved))
-                    print("Voted:", accuracy_score(voted, repo_specific_predicted_voted))
-                    print("Generic Approved:", accuracy_score(approved, generic_predicted_approved))
-                    print("Generic Voted:", accuracy_score(voted, generic_predicted_voted))
-            except BaseException as e:
-                if isinstance(e, KeyboardInterrupt):
-                    raise e
-                logging.error("Error", exc_info=e)
+                change_id = input("Please enter your change ID (Nothing to start processing): ")
+                if not len(change_id):
+                    break
+                repository = input("Please enter the repository for this change ID: ")
+                branch = input("Please enter the branch or ref for the branch for this change ID (Enter for default for the HEAD): ")
+                if not len(branch.strip()):
+                    branch = common.get_main_branch_for_repository(repository)
+                change_ids_with_repo_and_branch.append({'change_id': change_id, 'repository': repository, 'branch': branch})
+            except KeyboardInterrupt:
                 pass
-            pickle.dump(repo_specific_approved_clf,
-                        open(common.path_relative_to_root("recommender/neural_network_recommender/models/" + sanitize_filename(re.sub(r'/', '-', repository)) + "_" + status + "_approved_clf.pickle"), "bw"))
-            pickle.dump(repo_specific_voted_clf,
-                        open(common.path_relative_to_root("recommender/neural_network_recommender/models/" + sanitize_filename(re.sub(r'/', '-', repository)) + "_" + status + "_voted_clf.pickle"), "bw"))
-    except KeyboardInterrupt:
-        break
-pickle.dump(generic_approved_clf,
-            open(common.path_relative_to_root("recommender/neural_network_recommender/models/generic_approved_clf.pickle"), "bw"))
-pickle.dump(generic_voted_clf,
-            open(common.path_relative_to_root("recommender/neural_network_recommender/models/generic_voted_clf.pickle"), "bw"))
+        while True:
+            print("Model type options:\n* Generic: Trained on all repositories\n* Repo-specific: Trained on the repo the change is on\n* Open: Trained on open changes from the repo the change is on\n* Abandoned: Trained on abandoned changes from the repo the change is on\n* Merged: Trained on merged changes from the repo the change is on")
+            model_type = input("Please enter the model type to be used:").strip().lower()
+            if not model_type:
+                # Use "generic" by default
+                model_type = "generic"
+            if model_type in ["repo-specific", "generic", "open", "abandoned", "merged"]:
+                break
+            print("Invalid model type. Please try again.")
+        while True:
+            print("Time period options:", ', '.join(common.TimePeriods.DATE_RANGES[:-1]), 'and', common.TimePeriods.DATE_RANGES[-1])
+            time_period = input("Please enter the model type to be used:").strip().lower()
+            if time_period in common.TimePeriods.DATE_RANGES:
+                break
+            print("Invalid time period. Please try again.")
+    else:
+        command_line_arguments = argument_parser.parse_args()
+        change_ids = command_line_arguments.change_id
+        repositories = command_line_arguments.repository
+        branches = command_line_arguments.branch
+        model_type = command_line_arguments.model_type
+        time_period = command_line_arguments.time_period
+        if len(repositories) != 1 and len(repositories) != len(change_ids):
+            argument_parser.error("If specifying multiple repositories the same number of change IDs must be provided")
+        if len(branches) > 1 and len(branches) != len(change_ids):
+            argument_parser.error("If specifying multiple branches the same number of change IDs must be provided.")
+        if len(repositories) != 1 and 1 < len(branches) != len(repositories):
+            argument_parser.error("If specifying multiple repositories the same number of branches must be specified.")
+        if 1 < len(branches) != len(repositories) > 1:
+            argument_parser.error("If specifying multiple branches the same number of repositories must be specified.")
+        for index, change_id in enumerate(change_ids):
+            change_dictionary = {'change_id': change_id}
+            if len(repositories) == 1:
+                change_dictionary['repository'] = repositories[0]
+            else:
+                change_dictionary['repository'] = repositories[index]
+            if len(branches) == 1:
+                change_dictionary['branch'] = repositories[0]
+            elif len(branches) == 0:
+                change_dictionary['branch'] = common.get_main_branch_for_repository(change_dictionary['repository'])
+            else:
+                change_dictionary['branch'] = repositories[index]
+            change_ids_with_repo_and_branch.append(change_dictionary)
+    logging.info("Recommending with the following inputs: " + str(change_ids_with_repo_and_branch))
+    for change in change_ids_with_repo_and_branch:
+        try:
+            recommended_reviewers = MLPClassifierImplementation(change["repository"], ModelMode(model_type), time_period).recommend_using_change_id(change['change_id'], change["branch"])
+            logging.debug("Recommendations: " + str(recommended_reviewers))
+            top_10_recommendations = recommended_reviewers.top_n(10)
+            for recommendation in top_10_recommendations:
+                print(recommendation)
+            if command_line_arguments and command_line_arguments.stats:
+                print("Recommendation stats for change", change['change_id'])
+                print("Users recommended:", len(top_10_recommendations))
+                print("Users recommended with rights to merge:", len(list(filter(lambda x: x.has_rights_to_merge, top_10_recommendations))))
+        except HTTPError as e:
+            print("Recommendations for change", change["change_id"], "failed with HTTP status code", str(e.response.status_code) + ". Check that this is correct and try again later.")

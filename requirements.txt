@@ -12,3 +12,4 @@ python-dateutil
 GitPython
 seaborn
 ijson
+imbalanced-learn
