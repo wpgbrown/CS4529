@@ -73,9 +73,9 @@ def get_bare_repo(repository: str, update_heads: bool = False) -> Repo:
 def _generate_stats_for_commit(actor: Actor, commit_date, lines_count: int, result_dictionary: dict) -> None:
     author_entry: Actor
     # Skip bots
-    if actor.email in common.email_exclude_list:
+    if common.convert_email_to_index_format(actor.email) in common.email_exclude_list:
         return
-    if actor.name in common.username_exclude_list:
+    if common.convert_name_to_index_format(actor.name) in common.username_exclude_list:
         return
     if actor.email not in result_dictionary.keys():
         result_dictionary[actor.email] = {

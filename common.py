@@ -18,6 +18,26 @@ logging.getLogger("urllib3").setLevel(logging.WARNING)
 
 root_path = os.path.dirname(__file__)
 
+def convert_name_to_index_format(name: str) -> str:
+    """
+    Strips whitespace, makes lowercase, replaces the following with spaces:
+    * -
+    * _
+
+    :param name: The name / username
+    :returns: Name in the format for the name index
+    """
+    return name.strip().lower().replace('-', ' ').replace('_', ' ')
+
+def convert_email_to_index_format(email: str) -> str:
+    """
+    Strips whitespace and makes lowercase
+
+    :param email: The email address
+    :returns: Email in the format for the email index
+    """
+    return email.strip().lower()
+
 extensions_list = [line.strip() for line in open(os.path.join(root_path,
                                                               "data_collection/raw_data/extensions_list.txt"), "r").readlines()]
 extensions_repository_list = [ "mediawiki/extensions/" + extension for extension in extensions_list ]
@@ -26,7 +46,15 @@ group_exclude_list = ['2bc47fcadf4e44ec9a1a73bcfa06232554f47ce2', 'cc37d98e3a430
 
 email_exclude_list = ["tools.libraryupgrader@tools.wmflabs.org", "l10n-bot@translatewiki.net"]
 
+email_exclude_list = [convert_email_to_index_format(name) for name in email_exclude_list]
+
 username_exclude_list = ["Libraryupgrader", "TrainBranchBot", "gerrit2", "Gerrit Code Review", "[BOT] Gerrit Code Review", "[BOT] Gerrit Patch Uploader"]
+
+username_exclude_list = [convert_name_to_index_format(name) for name in username_exclude_list]
+
+username_to_email_map = {'Anais Gueyte': 'agueyte@wikimedia.org', 'MarcoAurelio': 'maurelio@toolforge.org', 'Sam Reed': 'reedy@wikimedia.org', 'Thalia Chan': 'thalia.e.chan@googlemail.com', 'Thiemo Kreuz': 'thiemo.kreuz@wikimedia.de', 'Stephanie Tran': 'stran@wikimedia.org', 'Tsepo Thoabala': 'tthoabala@wikimedia.org', 'Dbarratt': 'david@davidwbarratt.com'}
+
+username_to_email_map = {convert_name_to_index_format(name): email for name, email in username_to_email_map.items()}
 
 secrets = Secrets()
 
@@ -82,26 +110,6 @@ def get_main_branch_for_repository(repository: str):
 
 def get_sanitised_filename(filename: str) -> str:
     return sanitize_filename(re.sub(r'/', '-', filename))
-
-def convert_name_to_index_format(name: str) -> str:
-    """
-    Strips whitespace, makes lowercase, replaces the following with spaces:
-    * -
-    * _
-
-    :param name: The name / username
-    :returns: Name in the format for the name index
-    """
-    return name.strip().lower().replace('-', ' ').replace('_', ' ')
-
-def convert_email_to_index_format(email: str) -> str:
-    """
-    Strips whitespace and makes lowercase
-
-    :param email: The email address
-    :returns: Email in the format for the email index
-    """
-    return email.strip().lower()
 
 class TimePeriods:
     ALL_TIME = 'all time'

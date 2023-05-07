@@ -2,6 +2,7 @@ import sys
 import os
 import logging
 import argparse
+import urllib.parse
 from requests import HTTPError
 from recommender import Recommendations, WeightingsBase, get_members_of_repo, get_reviewer_data, \
     get_comment_data, RecommenderImplementation
@@ -40,8 +41,25 @@ class RuleBasedImplementation(RecommenderImplementation):
         self.weightings = RuleBasedWeightings()
 
     def recommend_using_change_info(self, change_info: dict):
+        # Get the owner of the change (if noted in the change_info) and exclude this user
+        #  as they can't review their own patch
+        owner = change_info['owner']
+        owner_names = set()
+        owner_emails = set()
+        if 'name' in owner and owner['name']:
+            owner_names.add(owner['name'])
+        if 'username' in owner and owner['username']:
+            owner_names.add(owner['username'])
+        if 'display_name' in owner and owner['display_name']:
+            owner_names.add(owner['display_name'])
+        for name in owner_names:
+            name = common.convert_name_to_index_format(name)
+            if name in common.username_to_email_map.keys():
+                owner_emails.add(common.username_to_email_map[name])
+        if 'email' in owner and owner['email']:
+            owner_emails.add(owner['email'])
         # Initialise the recommendations list
-        recommendations = Recommendations()
+        recommendations = Recommendations(exclude_emails=list(owner_emails), exclude_names=list(owner_names))
         # Get the files modified (added, changed or deleted) by the change
         git_blame_stats = self.get_change_git_blame_info(change_info)
         for email, names in git_blame_stats['names'].items():
@@ -93,8 +111,6 @@ class RuleBasedImplementation(RecommenderImplementation):
                             if username_key_2 in user and user[username_key_2]:
                                 reviewer.names.add(user[username_key_2])
             if reviewer is None:
-                # If a user can merge but has never interacted with the repository, then recommending them
-                #  would not make sense. Therefore, skip these users.
                 continue
             reviewer.has_rights_to_merge = True
         for reviewer in filter(lambda x: x.has_rights_to_merge is not True, recommendations.recommendations):
@@ -161,6 +177,15 @@ if __name__ == '__main__':
                 print(recommendation)
             if command_line_arguments and command_line_arguments.stats:
                 print("Recommendation stats for change", change['change_id'])
+                change_id_for_request = change['change_id']
+                if '~' not in change_id_for_request:
+                    if change['repository'].strip():
+                        if change['branch'].strip():
+                            change_id_for_request = change['branch'] + '~' + change_id_for_request
+                        change_id_for_request = change['repository'] + '~' + change_id_for_request
+                change_id_for_request = urllib.parse.quote(change_id_for_request, safe='')
+                print("Change on gerrit: ", common.gerrit_url_prefix + "q/" + change_id_for_request)
+                print("Total users found:", len(recommended_reviewers.recommendations))
                 print("Users recommended:", len(top_10_recommendations))
                 print("Users recommended with rights to merge:", len(list(filter(lambda x: x.has_rights_to_merge, top_10_recommendations))))
         except HTTPError as e:

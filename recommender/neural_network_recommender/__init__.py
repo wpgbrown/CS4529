@@ -16,6 +16,7 @@ class MLPClassifierImplementationBase(RecommenderImplementation):
             return_data[key] = pandas.DataFrame.from_dict(reviewer_data[key]).transpose()
             return_data[key].rename(index={x: x.strip() for x in return_data[key].index.array})
             for username in common.username_exclude_list:
+                username = common.convert_name_to_index_format(username)
                 if username in return_data[key].index:
                     return_data[key].drop(username)
 
@@ -27,7 +28,7 @@ class MLPClassifierImplementationBase(RecommenderImplementation):
         for key in common.TimePeriods.DATE_RANGES:
             return_data[key]["Comments"] = 0
             for username, comment_count in comment_data[key].items():
-                if username in common.username_exclude_list:
+                if common.convert_name_to_index_format(username) in common.username_exclude_list:
                     continue
                 index_form_username = common.convert_name_to_index_format(username)
                 if index_form_username in index_form_to_data_frame_username[key].keys():

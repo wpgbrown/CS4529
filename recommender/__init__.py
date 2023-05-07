@@ -37,13 +37,17 @@ def get_members_of_repo(repository: str) -> List[dict[str, Any]]:
     return list(filter(_get_members_of_repo_helper, list(itertools.chain.from_iterable([members for group_id, members in load_members_of_mediawiki_repos()['members_in_group'].items() if group_id in groups_with_rights_to_merge]))))
 
 def _get_members_of_repo_helper(user: dict) -> bool:
-    if 'name' in user and user['name'] in common.username_exclude_list:
+    def __get_members_of_repo_helper(user_key: str):
+        if user_key in user and common.convert_name_to_index_format(user[user_key]) in common.username_exclude_list:
+            return False
+        return True
+    if not __get_members_of_repo_helper('name'):
         return False
-    if 'username' in user and user['username'] in common.username_exclude_list:
+    if not __get_members_of_repo_helper('username'):
         return False
-    if 'display_name' in user and user['display_name'] in common.username_exclude_list:
+    if not __get_members_of_repo_helper('display_name'):
         return False
-    if 'email' in user and user['email'] in common.email_exclude_list:
+    if 'email' in user and common.convert_email_to_index_format(user['email']) in common.email_exclude_list:
         return False
     return True
 
@@ -158,7 +162,7 @@ class RecommendedReviewer:
 
 class NamesAndEmailsBase(Iterable, Sized, ABC):
     def __init__(self, names_or_emails: List[str], parent_weak_ref: ReferenceType):
-        self._names_or_emails = names_or_emails
+        self._names_or_emails = [x.strip() for x in list(set(names_or_emails))]
         self.parent_weak_ref = parent_weak_ref
 
     @abstractmethod
@@ -166,6 +170,7 @@ class NamesAndEmailsBase(Iterable, Sized, ABC):
         return NotImplemented
 
     def _add(self, name_or_email: str) -> Union[Tuple["Recommendations", "RecommendedReviewer"], None]:
+        name_or_email = name_or_email.strip()
         if name_or_email in self._names_or_emails:
             return
         self._names_or_emails.append(name_or_email)
@@ -203,6 +208,9 @@ class Names(NamesAndEmailsBase):
         grandparent, parent = _add_result
         if grandparent is None or parent is None:
             return
+        if common.convert_name_to_index_format(name) in common.username_to_email_map.keys():
+            logging.debug("Email specified globally")
+            grandparent._update_email_index(common.username_to_email_map[common.convert_name_to_index_format(name)], parent) # noqa
         logging.debug("Updating name index for %s using name %s." % (parent.emails, name))
         # _update_name_index is intended for use only by this class, so the underscore is added
         #  to indicate this. Users attempting to add a name for an emails using this method
@@ -227,13 +235,27 @@ class Emails(NamesAndEmailsBase):
         grandparent._update_email_index(email, parent)  # noqa
 
 class Recommendations(Sized):
-    def __init__(self):
+    def __init__(self, exclude_names: Union[List[str], str] = '', exclude_emails: Union[List[str], str] = ''):
         self._recommendations = []
         """All the recommended reviewers stored by this recommendations list"""
         self._recommendations_by_email = {}
         """Emails to RecommendedReviewer objects. Used as a one-to-many index."""
         self._recommendations_by_name = {}
         """Names to RecommendedReviewer objects. Used as a one-to-many index."""
+        self._exclude_names = []
+        """Usernames to be excluded from recommendations. For example, don't recommend the author of the patch."""
+        self._exclude_emails = []
+        """Email addresses to be excluded from recommendations. For example, don't recommend the author of the patch."""
+        if exclude_names:
+            if isinstance(exclude_names, str):
+                exclude_names = [exclude_names]
+            for name in exclude_names:
+                self._exclude_names.append(common.convert_name_to_index_format(name))
+        if exclude_emails:
+            if isinstance(exclude_emails, str):
+                exclude_emails = [exclude_emails]
+            for email in exclude_emails:
+                self._exclude_emails.append(common.convert_email_to_index_format(email))
 
     @property
     def recommendations(self):
@@ -274,12 +296,39 @@ class Recommendations(Sized):
         :param recommendation: The RecommendedReviewer object
         :return: "self" for chaining calls
         """
+        # Un-assign any previous parent ref to prevent issues below.
+        recommendation.parent_weak_ref = None
+        if len(recommendation.names):
+            if any(name for name in recommendation.names if common.convert_name_to_index_format(name) in common.username_exclude_list):
+                logging.info("User with names " + str(recommendation.names) + "globally excluded.")
+                return self
+            if any(name for name in recommendation.names if common.convert_name_to_index_format(name) in self._exclude_names):
+                logging.info("User with names " + str(recommendation.names) + "excluded from this recommendations list.")
+                return self
+        if len(recommendation.emails):
+            if any(email for email in recommendation.emails if common.convert_email_to_index_format(email) in common.email_exclude_list):
+                logging.info("User excluded with emails " + str(recommendation.emails))
+                return self
+            if any(email for email in recommendation.emails if common.convert_email_to_index_format(email) in self._exclude_emails):
+                logging.info("User with names " + str(recommendation.emails) + "excluded from this recommendations list.")
+                return self
+        if len(recommendation.names):
+            # Has specified names, so add these to the index.
+            logging.debug("Adding recommendation with names " + str(recommendation.names))
+            for name in recommendation.names:
+                name = common.convert_name_to_index_format(name)
+                if name in common.username_to_email_map.keys():
+                    recommendation.emails.add(common.username_to_email_map[name])
+                if name in self._recommendations_by_name.keys():
+                    # Reviewer already exists with this name. Merge the entries.
+                    self.merge_reviewer_entries(self._recommendations_by_name[name], recommendation)
+                    return self
+                else:
+                    # No such reviewer exists with this name. Add it to the index
+                    self._recommendations_by_name[name] = recommendation
         if len(recommendation.emails):
             # Has specified emails, so add these to the index
             logging.debug("Adding recommendation with emails " + str(recommendation.emails))
-            if any(email for email in recommendation.emails if email in common.email_exclude_list):
-                logging.info("User excluded with emails " + str(recommendation.emails))
-                return self
             for email in recommendation.emails:
                 email = common.convert_email_to_index_format(email)
                 if email in self._recommendations_by_email.keys():
@@ -289,21 +338,6 @@ class Recommendations(Sized):
                 else:
                     # No such reviewer exists with this email. Add it to the index
                     self._recommendations_by_email[email] = recommendation
-        if len(recommendation.names):
-            # Has specified names, so add these to the index.
-            logging.debug("Adding recommendation with names " + str(recommendation.names))
-            if any(name for name in recommendation.emails if name in common.username_exclude_list):
-                logging.info("User excluded with names " + str(recommendation.names))
-                return self
-            for name in recommendation.names:
-                name = common.convert_name_to_index_format(name)
-                if name in self._recommendations_by_name.keys():
-                    # Reviewer already exists with this name. Merge the entries.
-                    self.merge_reviewer_entries(self._recommendations_by_name[name], recommendation)
-                    return self
-                else:
-                    # No such reviewer exists with this name. Add it to the index
-                    self._recommendations_by_name[name] = recommendation
         recommendation.parent_weak_ref = weakref.ref(self)
         self._recommendations.append(recommendation)
         return self
@@ -562,7 +596,7 @@ class RecommenderImplementation(RecommenderImplementationBase, ABC):
                     change_id_for_request = branch + '~' + change_id_for_request
                 change_id_for_request = self.repository + '~' + change_id_for_request
         change_id_for_request = urllib.parse.quote(change_id_for_request, safe='')
-        request_url = common.gerrit_api_url_prefix + 'changes/' + change_id_for_request + '?o=CURRENT_REVISION&o=CURRENT_FILES&o=COMMIT_FOOTERS&o=TRACKING_IDS'
+        request_url = common.gerrit_api_url_prefix + 'changes/' + change_id_for_request + '?o=CURRENT_REVISION&o=CURRENT_FILES&o=COMMIT_FOOTERS&o=TRACKING_IDS&o=DETAILED_ACCOUNTS'
         logging.debug("Request made for change info: " + request_url)
         response = requests.get(request_url, auth=common.secrets.gerrit_http_credentials())
         # Needed in case the user provides an unrecognised change ID, repository or branch.
