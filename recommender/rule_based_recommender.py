@@ -3,7 +3,7 @@ import os
 import logging
 import argparse
 from requests import HTTPError
-from recommender import Recommendations, RecommendedReviewer, WeightingsBase, get_members_of_repo, get_reviewer_data, \
+from recommender import Recommendations, WeightingsBase, get_members_of_repo, get_reviewer_data, \
     get_comment_data, RecommenderImplementation
 
 # Add parent directory to the path incase it's not already there
@@ -34,62 +34,31 @@ class RuleBasedWeightings(WeightingsBase):
         if 'comments' in self._weightings:
             self.comments = self._weightings['comments']
 
-
-weightings = RuleBasedWeightings()
-
-if __name__ == "__main__":
-    logging.basicConfig(filename=common.path_relative_to_root("logs/rule_based_recommender.log.txt"), level=logging.DEBUG)
-
-#TODO: Make this part of the Recommender classes
-def add_name_or_merge_if_already_used(recommendations: Recommendations, recommended_reviewer: RecommendedReviewer, name: str):
-    if recommendations.get_reviewer_by_name(name) is not None:
-        if recommendations.get_reviewer_by_name(name) is not recommended_reviewer:
-            recommendations.merge_reviewer_entries(recommended_reviewer, recommendations.get_reviewer_by_name(name))
-    else:
-        recommended_reviewer.names.add(name)
-
 class RuleBasedImplementation(RecommenderImplementation):
+    def __init__(self, repository: str):
+        super().__init__(repository)
+        self.weightings = RuleBasedWeightings()
+
     def recommend_using_change_info(self, change_info: dict):
-        branch = change_info['branch']
         # Initialise the recommendations list
-        # TODO: Divide git blame stats such that
         recommendations = Recommendations()
         # Get the files modified (added, changed or deleted) by the change
-        # TODO: Combine with neural network code to use parent_sha if available.
         git_blame_stats = self.get_change_git_blame_info(change_info)
         for email, names in git_blame_stats['names'].items():
             reviewer = recommendations.get_reviewer_by_email_or_create_new(email)
             for name in names:
                 reviewer.names.add(name)
         for git_blame_key in ["authors", "committers"]:
-            for line_count_key, weighting in weightings.lines_count[git_blame_key].items():
+            for line_count_key, weighting in self.weightings.lines_count[git_blame_key].items():
                 line_count_key = line_count_key.replace(' ', '_') + '_lines_count'
                 for author_email, percentage in git_blame_stats[git_blame_key][line_count_key].items():
                     reviewer = recommendations.get_reviewer_by_email_or_create_new(author_email)
                     reviewer.add_score(percentage, weighting)
-        # TODO: Use users with +2 to match usernames to emails?
         # Get previous reviewers for changes
         reviewer_votes_for_current_repo = get_reviewer_data()[self.repository]
         logging.debug("Reviewer votes: " + str(reviewer_votes_for_current_repo))
-        for vote_weighting_key, vote_weightings in weightings.votes.items():
-            # Translate key into format used by the script
-            # TODO: Remove this by updating the definitions in the script that makes this?
-            match vote_weighting_key:
-                case 'Total votes':
-                    vote_weighting_key = 'Gerrit approval actions count'
-                case '+1 code review votes':
-                    vote_weighting_key = "1 code review votes"
-                case '+2 code review votes':
-                    vote_weighting_key = "2 code review votes"
+        for vote_weighting_key, vote_weightings in self.weightings.votes.items():
             for key, weighting in vote_weightings.items():
-                # TODO: Remove this by updating the definitions in the script that makes this
-                match key:
-                    case weightings.LAST_MONTH:
-                        key = "last 30 days"
-                    case weightings.LAST_3_MONTHS:
-                        key = "last 3 months"
-                    case weightings.ALL_TIME:
-                        key = "all"
                 for reviewer_name, comment_percentage in reviewer_votes_for_current_repo[key].items():
                     reviewer = recommendations.get_reviewer_by_name_or_create_new(reviewer_name)
                     reviewer.add_score(comment_percentage[vote_weighting_key], weighting)
@@ -97,62 +66,35 @@ class RuleBasedImplementation(RecommenderImplementation):
         # Get authors of previous comments
         comments_for_current_repo = get_comment_data()[self.repository]
         logging.debug("Comments: " + str(comments_for_current_repo))
-        for key, weighting in weightings.comments.items():
-            # TODO: Remove this by updating the definitions in the script that makes this
-            match key:
-                case weightings.LAST_MONTH:
-                    key = "last 30 days"
-                case weightings.LAST_3_MONTHS:
-                    key = "last 3 months"
-                case weightings.ALL_TIME:
-                    key = "all"
+        for key, weighting in self.weightings.comments.items():
             for reviewer_name, comment_percentage in comments_for_current_repo[key].items():
                 reviewer = recommendations.get_reviewer_by_name_or_create_new(reviewer_name)
                 reviewer.add_score(comment_percentage, weighting)
         del comments_for_current_repo
-        # TODO: Filter list for users with +2?
         # Initialise list based on who has rights to merge for the repository
         users_with_rights_to_merge = get_members_of_repo(self.repository)
         logging.debug("users with right to merge: " + str(users_with_rights_to_merge))
         for user in users_with_rights_to_merge:
             reviewer = None
-            flag = None
-            # TODO: Fix nasty looking code
-            if 'emails' in user and user['emails']:
-                if recommendations.get_reviewer_by_email(user['emails']):
-                    flag = False
-                    reviewer = recommendations.get_reviewer_by_email(user['emails'])
-                    if 'name' in user and user['name']:
-                        add_name_or_merge_if_already_used(recommendations, reviewer, user['name'])
-                    if 'username' in user and user['username']:
-                        add_name_or_merge_if_already_used(recommendations, reviewer, user['username'])
-                    if 'display_name' in user and user['display_name']:
-                        add_name_or_merge_if_already_used(recommendations, reviewer, user['display_name'])
-                else:
-                    flag = True
-            if flag is None or flag is True:
-                if 'name' in user and user['name'] and not reviewer:
-                    reviewer = recommendations.get_reviewer_by_name(user['name'])
-                    if reviewer:
-                        if flag:
-                            reviewer.email = user['emails']
-                        if 'username' in user and user['username']:
-                            add_name_or_merge_if_already_used(recommendations, reviewer, user['username'])
-                        if 'display_name' in user and user['display_name']:
-                            add_name_or_merge_if_already_used(recommendations, reviewer, user['display_name'])
-                if 'username' in user and user['username'] and not reviewer:
-                    reviewer = recommendations.get_reviewer_by_name(user['username'])
-                    if reviewer:
-                        if flag:
-                            reviewer.email = user['emails']
-                        if 'display_name' in user and user['display_name']:
-                            add_name_or_merge_if_already_used(recommendations, reviewer, user['display_name'])
-                if 'display_name' in user and user['display_name'] and not reviewer:
-                    reviewer = recommendations.get_reviewer_by_name(user['display_name'])
-                    if flag and reviewer:
-                        reviewer.email = user['emails']
+            if 'email' in user and user['email']:
+                # Lookup the reviewer by their email if an email is specified.
+                reviewer = recommendations.get_reviewer_by_email_or_create_new(user['email'])
+                # Add the names in the user dictionary to the reviewer
+                for username_key in ['user', 'display_name', 'username']:
+                    if username_key in user and user[username_key]:
+                        reviewer.names.add(user[username_key])
+            else:
+                # If no email is associated with the user dictionary, then try using the names
+                for username_key in ['user', 'display_name', 'username']:
+                    if username_key in user and user[username_key]:
+                        reviewer = recommendations.get_reviewer_by_name_or_create_new(user[username_key])
+                        # Add the names in the user dictionary to the reviewer
+                        for username_key_2 in ['user', 'display_name', 'username']:
+                            if username_key_2 in user and user[username_key_2]:
+                                reviewer.names.add(user[username_key_2])
             if reviewer is None:
-                # TODO: Add to the list? Maybe not?
+                # If a user can merge but has never interacted with the repository, then recommending them
+                #  would not make sense. Therefore, skip these users.
                 continue
             reviewer.has_rights_to_merge = True
         for reviewer in filter(lambda x: x.has_rights_to_merge is not True, recommendations.recommendations):
@@ -160,6 +102,8 @@ class RuleBasedImplementation(RecommenderImplementation):
         return recommendations
 
 if __name__ == '__main__':
+    logging.basicConfig(filename=common.path_relative_to_root("logs/rule_based_recommender.log.txt"),
+                        level=logging.DEBUG)
     argument_parser = argparse.ArgumentParser(description="A rule based implementation of a tool that recommends reviewers for the MediaWiki project")
     argument_parser.add_argument('change_id', nargs='+', help="The change ID(s) of the changes you want to get recommended reviewers for")
     argument_parser.add_argument('--repository', nargs='+', help="The repository for these changes. Specifying one repository applies to all changes. Multiple repositories apply to each change in order.", required=True)

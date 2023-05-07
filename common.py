@@ -83,6 +83,26 @@ def get_main_branch_for_repository(repository: str):
 def get_sanitised_filename(filename: str) -> str:
     return sanitize_filename(re.sub(r'/', '-', filename))
 
+def convert_name_to_index_format(name: str) -> str:
+    """
+    Strips whitespace, makes lowercase, replaces the following with spaces:
+    * -
+    * _
+
+    :param name: The name / username
+    :returns: Name in the format for the name index
+    """
+    return name.strip().lower().replace('-', ' ').replace('_', ' ')
+
+def convert_email_to_index_format(email: str) -> str:
+    """
+    Strips whitespace and makes lowercase
+
+    :param email: The email address
+    :returns: Email in the format for the email index
+    """
+    return email.strip().lower()
+
 class TimePeriods:
     ALL_TIME = 'all time'
     LAST_YEAR = 'last year'

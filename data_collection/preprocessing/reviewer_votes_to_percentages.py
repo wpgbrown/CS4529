@@ -9,11 +9,11 @@ def convert_data_to_percentages():
     percentage_representation = {}
 
     vote_types = {
-        "Gerrit approval actions count": 0,
+        "Total votes": 0,
         "-2 code review votes": 0,
         "-1 code review votes": 0,
-        "1 code review votes": 0,
-        "2 code review votes": 0
+        "+1 code review votes": 0,
+        "+2 code review votes": 0
     }
 
     for repo, data_for_repo in reviewer_votes.items():

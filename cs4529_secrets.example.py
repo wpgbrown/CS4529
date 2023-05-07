@@ -1,5 +1,5 @@
 """
-Contains secrets needed that are user-specific and should never be uploaded to github
+Contains secrets needed that are user-specific and should never be uploaded to git
 """
 from secrets_interface import SecretsInterface
 

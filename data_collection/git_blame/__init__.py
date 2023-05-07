@@ -58,7 +58,6 @@ def get_bare_repo(repository: str, update_heads: bool = False) -> Repo:
         repo = Repo(bare_cloned_repository_path)
         # Check if we should fetch the latest HEADs
         #  based on the last time an update was called.
-        # TODO: Debouncing technique probably not working?
         if update_heads:
             fetch_head_file = bare_cloned_repository_path + "/FETCH_HEAD"
             fetch_expiry = time.mktime((datetime.datetime.now() - relativedelta(hours=2)).timetuple())

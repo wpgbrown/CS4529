@@ -43,7 +43,7 @@ def _get_members_of_repo_helper(user: dict) -> bool:
         return False
     if 'display_name' in user and user['display_name'] in common.username_exclude_list:
         return False
-    if 'emails' in user and user['emails'] in common.email_exclude_list:
+    if 'email' in user and user['email'] in common.email_exclude_list:
         return False
     return True
 
@@ -83,7 +83,7 @@ class RecommendedReviewer:
         if isinstance(emails, str):
             emails = [emails]
         if not len(names) and not len(emails):
-            raise ValueError("An emails or a name must be provided.")
+            raise ValueError("Email(s) or name(s) must be provided.")
         if not isinstance(names, Names):
             names = Names(names, weakref.ref(self))
         if not isinstance(emails, Emails):
@@ -242,26 +242,26 @@ class Recommendations(Sized):
     def __len__(self):
         return len(self.recommendations)
 
-    def ordered_by_score(self, filter_for_users_that_can_merge: bool = False) -> List[RecommendedReviewer]:
+    def ordered_by_score(self, only_users_that_can_approve: bool = False) -> List[RecommendedReviewer]:
         """
         Returns the recommendations ordered by their score.
 
-        :param filter_for_users_that_can_merge: TODO: Better parameter name
+        :param only_users_that_can_approve: Only return users that can approve the change
         :return: The ordered recommendations
         """
-        if filter_for_users_that_can_merge:
+        if only_users_that_can_approve:
             return sorted(filter(lambda x: x.has_rights_to_merge, self.recommendations), reverse=True)
         return sorted(self.recommendations, reverse=True)
 
-    def top_n(self, n: int, filter_for_users_that_can_merge: bool = False) -> List[RecommendedReviewer]:
+    def top_n(self, n: int, only_users_that_can_approve: bool = False) -> List[RecommendedReviewer]:
         """
         Gets the top N recommendations.
 
-        :param filter_for_users_that_can_merge: TODO: Better parameter name
+        :param only_users_that_can_approve: Only return users that can approve the change
         :param n: The number of recommendations to return
         :return: The top N recommendations
         """
-        return self.ordered_by_score(filter_for_users_that_can_merge)[:n]
+        return self.ordered_by_score(only_users_that_can_approve)[:n]
 
     def add(self, recommendation: RecommendedReviewer) -> 'Recommendations':
         """
@@ -281,10 +281,9 @@ class Recommendations(Sized):
                 logging.info("User excluded with emails " + str(recommendation.emails))
                 return self
             for email in recommendation.emails:
-                email = self.convert_email_to_index_format(email)
+                email = common.convert_email_to_index_format(email)
                 if email in self._recommendations_by_email.keys():
                     # Reviewer already exists with this email. Merge the entries.
-                    # TODO: Check if names need to be added by this method or is this done by the below?
                     self.merge_reviewer_entries(self._recommendations_by_email[email], recommendation)
                     return self
                 else:
@@ -297,21 +296,20 @@ class Recommendations(Sized):
                 logging.info("User excluded with names " + str(recommendation.names))
                 return self
             for name in recommendation.names:
-                name = self.convert_name_to_index_format(name)
+                name = common.convert_name_to_index_format(name)
                 if name in self._recommendations_by_name.keys():
                     # Reviewer already exists with this name. Merge the entries.
-                    # TODO: Check if other names need to be added by this method or is this done by the below?
                     self.merge_reviewer_entries(self._recommendations_by_name[name], recommendation)
                     return self
                 else:
                     # No such reviewer exists with this name. Add it to the index
-                    self._recommendations_by_email[name] = recommendation
+                    self._recommendations_by_name[name] = recommendation
         recommendation.parent_weak_ref = weakref.ref(self)
         self._recommendations.append(recommendation)
         return self
 
     def _update_name_index(self, name: str, associated_reviewer: RecommendedReviewer) -> "Recommendations":
-        name = self.convert_name_to_index_format(name)
+        name = common.convert_name_to_index_format(name)
         if name in self._recommendations_by_name.keys() \
                 and self._recommendations_by_name[name] is not None \
                 and self._recommendations_by_name[name] is not associated_reviewer:
@@ -321,7 +319,7 @@ class Recommendations(Sized):
         return self
 
     def _update_email_index(self, email: str, associated_reviewer: RecommendedReviewer) -> "Recommendations":
-        email = self.convert_email_to_index_format(email)
+        email = common.convert_email_to_index_format(email)
         if email in self._recommendations_by_email.keys() \
                 and self._recommendations_by_email[email] is not None \
                 and self._recommendations_by_email[email] is not associated_reviewer:
@@ -329,30 +327,6 @@ class Recommendations(Sized):
             self.merge_reviewer_entries(associated_reviewer, self._recommendations_by_email[email])
         self._recommendations_by_email[email] = associated_reviewer
         return self
-
-    @staticmethod
-    def convert_name_to_index_format(name: str) -> str:
-        """
-        Strips whitespace, makes lowercase, replaces the following with spaces:
-        * -
-        * _
-
-        :param name: The name / username
-        :returns: Name in the format for the name index
-        """
-        return name.strip().lower().replace('-', ' ').replace('_', ' ')
-
-    @staticmethod
-    def convert_email_to_index_format(email: str) -> str:
-        """
-        Strips whitespace, makes lowercase, replaces the following with spaces:
-        * -
-        * _
-
-        :param email: The email address
-        :returns: Email in the format for the email index
-        """
-        return email.strip().lower()
 
     def merge_reviewer_entries(self, base: RecommendedReviewer, other_entry: RecommendedReviewer, remove_other_entry: bool = True):
         """
@@ -380,11 +354,11 @@ class Recommendations(Sized):
             if other_entry in self._recommendations:
                 del self._recommendations[self._recommendations.index(other_entry)]
             for name in other_entry.names:
-                name = self.convert_name_to_index_format(name)
+                name = common.convert_name_to_index_format(name)
                 if name in self._recommendations_by_name.keys():
                     self._recommendations_by_name[name] = base
             for email in other_entry.emails:
-                email = self.convert_email_to_index_format(email)
+                email = common.convert_email_to_index_format(email)
                 if email in self._recommendations_by_email.keys():
                     self._recommendations_by_email[email] = base
 
@@ -395,6 +369,7 @@ class Recommendations(Sized):
         :param email:
         :return:
         """
+        email = common.convert_email_to_index_format(email)
         if email in self._recommendations_by_email.keys():
             return self._recommendations_by_email[email]
         return None
@@ -405,6 +380,7 @@ class Recommendations(Sized):
         :param name:
         :return:
         """
+        name = common.convert_name_to_index_format(name)
         if name in self._recommendations_by_name.keys():
             # First check if the index had an emails associated with this name
             return self._recommendations_by_name[name]
@@ -445,51 +421,13 @@ class Recommendations(Sized):
             return reviewer_by_name
         raise KeyError("Item is neither a defined emails or name in this recommendations list.")
 
-class RecommenderImplementation(ABC):
+class RecommenderImplementationBase:
     def __init__(self, repository: str):
         self.repository = repository
 
-    @abstractmethod
-    def recommend_using_change_info(self, change_info: dict) -> Recommendations:
-        """
-        Recommend reviewers for a patch using pre-downloaded change information
-
-        :param change_info: Change information for this patch
-        :return:
-        """
-        return NotImplemented
-
-    def recommend_using_change_id(self, change_id: str, branch: str = '') -> Recommendations:
-        """
-        Recommend reviewers for a patch using a Change-ID and (optionally) a branch
-
-        :param change_id: The Change-ID for this patch (as detailed on gerrit)
-        :param branch: The branch this change is on (required if change exists on multiple branches)
-        :return: The recommended reviewers
-        :raises HTTPError: If information provided does not match a change or multiple patches match
-        """
-        # Rate-limiting
-        time.sleep(1)
-        # Get information about the latest revision
-        change_id_for_request = change_id
-        if '~' not in change_id_for_request:
-            if self.repository.strip():
-                if branch.strip():
-                    change_id_for_request = branch + '~' + change_id_for_request
-                change_id_for_request = self.repository + '~' + change_id_for_request
-        change_id_for_request = urllib.parse.quote(change_id_for_request, safe='')
-        request_url = common.gerrit_api_url_prefix + 'changes/' + change_id_for_request + '?o=CURRENT_REVISION&o=CURRENT_FILES&o=COMMIT_FOOTERS&o=TRACKING_IDS'
-        logging.debug("Request made for change info: " + request_url)
-        response = requests.get(request_url, auth=common.secrets.gerrit_http_credentials())
-        # Needed in case the user provides an unrecognised change ID, repository or branch.
-        response.raise_for_status()
-        change_info = json.loads(common.remove_gerrit_api_json_response_prefix(response.text))
-        logging.debug("Returned change info: " + str(change_info))
-        latest_revision_sha = list(change_info['revisions'].keys())[0]
-        change_info['files'] = change_info['revisions'][latest_revision_sha]['files']
-        return self.recommend_using_change_info(change_info)
-
-    def _make_git_blame_stats(self, git_blame_stats: dict, change_info: dict, return_dictionary: dict, total_delta_over_all_files: int, file_aliases: dict, git_blame_type: str) -> None:
+    @staticmethod
+    def _make_git_blame_stats(git_blame_stats: dict, change_info: dict, return_dictionary: dict,
+                              total_delta_over_all_files: int, file_aliases: dict, git_blame_type: str) -> None:
         time_period_to_key = {y: y.replace(' ', '_') + "_lines_count" for y in common.TimePeriods.DATE_RANGES}
         for file, associated_info in git_blame_stats[git_blame_type].items():
             if file in file_aliases.keys():
@@ -500,8 +438,10 @@ class RecommenderImplementation(ABC):
             for time_period in common.TimePeriods.DATE_RANGES:
                 sums[time_period] = sum([x[time_period_to_key[time_period]] for x in associated_info.values()])
             for email, commit_info in associated_info.items():
+                # Only strips whitespace and makes lowercase, so no need to keep original value
+                email = common.convert_email_to_index_format(email)
                 for name in commit_info['names']:
-                    lowercase_name = Recommendations.convert_name_to_index_format(name)
+                    lowercase_name = common.convert_name_to_index_format(name)
                     if lowercase_name not in return_dictionary['_names_to_emails_index'].keys():
                         return_dictionary['_names_to_emails_index'][lowercase_name] = []
                     elif email not in return_dictionary['_names_to_emails_index'][lowercase_name]:
@@ -576,7 +516,6 @@ class RecommenderImplementation(ABC):
                         # File renamed or copied. The authors/committers of the file that was renamed
                         #  or the file that was copied likely have understanding about whether a rename
                         #  or copy would make sense here.
-                        # TODO: Test with a change that has a copied file.
                         git_blame_arguments['files'].append(info['old_path'])
                         file_aliases[info['old_path']] = filename
         git_blame_stats = git_blame.git_blame_stats_for_head_of_branch(**git_blame_arguments)
@@ -589,3 +528,47 @@ class RecommenderImplementation(ABC):
         del return_dictionary["_emails_to_names_index"]
         del return_dictionary["_names_to_emails_index"]
         return return_dictionary
+
+class RecommenderImplementation(RecommenderImplementationBase, ABC):
+    def __init__(self, repository: str):
+        super().__init__(repository)
+
+    @abstractmethod
+    def recommend_using_change_info(self, change_info: dict) -> Recommendations:
+        """
+        Recommend reviewers for a patch using pre-downloaded change information
+
+        :param change_info: Change information for this patch
+        :return:
+        """
+        return NotImplemented
+
+    def recommend_using_change_id(self, change_id: str, branch: str = '') -> Recommendations:
+        """
+        Recommend reviewers for a patch using a Change-ID and (optionally) a branch
+
+        :param change_id: The Change-ID for this patch (as detailed on gerrit)
+        :param branch: The branch this change is on (required if change exists on multiple branches)
+        :return: The recommended reviewers
+        :raises HTTPError: If information provided does not match a change or multiple patches match
+        """
+        # Rate-limiting
+        time.sleep(1)
+        # Get information about the latest revision
+        change_id_for_request = change_id
+        if '~' not in change_id_for_request:
+            if self.repository.strip():
+                if branch.strip():
+                    change_id_for_request = branch + '~' + change_id_for_request
+                change_id_for_request = self.repository + '~' + change_id_for_request
+        change_id_for_request = urllib.parse.quote(change_id_for_request, safe='')
+        request_url = common.gerrit_api_url_prefix + 'changes/' + change_id_for_request + '?o=CURRENT_REVISION&o=CURRENT_FILES&o=COMMIT_FOOTERS&o=TRACKING_IDS'
+        logging.debug("Request made for change info: " + request_url)
+        response = requests.get(request_url, auth=common.secrets.gerrit_http_credentials())
+        # Needed in case the user provides an unrecognised change ID, repository or branch.
+        response.raise_for_status()
+        change_info = json.loads(common.remove_gerrit_api_json_response_prefix(response.text))
+        logging.debug("Returned change info: " + str(change_info))
+        latest_revision_sha = list(change_info['revisions'].keys())[0]
+        change_info['files'] = change_info['revisions'][latest_revision_sha]['files']
+        return self.recommend_using_change_info(change_info)

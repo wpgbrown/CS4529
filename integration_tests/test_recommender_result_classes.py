@@ -1,7 +1,6 @@
 import logging
 import unittest
 import weakref
-from unittest.mock import patch, MagicMock
 
 import common
 import recommender
@@ -58,7 +57,7 @@ class TestRecommendationsClass(unittest.TestCase):
             "Email to reviewer index should be empty as no email was provided."
         )
         self.assertCountEqual(
-            ["Test name"],
+            ["test name"],
             recommendations._recommendations_by_name.keys(),
             "Recommendation was not added to the list under it's name."
         )
@@ -77,7 +76,7 @@ class TestRecommendationsClass(unittest.TestCase):
             "Email to reviewer index should have the email."
         )
         self.assertCountEqual(
-            ["Test name"],
+            ["test name"],
             recommendations._recommendations_by_name.keys(),
             "Recommendation was not added to the list under it's name."
         )
@@ -136,9 +135,9 @@ class TestRecommendationsClass(unittest.TestCase):
 class TestRecommendedReviewerClass(unittest.TestCase):
     def test_create_recommended_reviewer_object(self):
         recommendation = recommender.RecommendedReviewer("test@test.com")
-        self.assertEqual(
+        self.assertCountEqual(
+            ["test@test.com"],
             recommendation.emails,
-            "test@test.com",
             "Stored emails was not correct"
         )
         self.assertEqual(
@@ -154,9 +153,9 @@ class TestRecommendedReviewerClass(unittest.TestCase):
 
     def test_create_recommended_reviewer_object_with_name_and_score(self):
         recommendation = recommender.RecommendedReviewer(None, "Test", 30)
-        self.assertEqual(
+        self.assertCountEqual(
+            [],
             recommendation.emails,
-            None,
             "No emails was specified, so none should be stored."
         )
         self.assertCountEqual(
@@ -174,50 +173,31 @@ class TestRecommendedReviewerClass(unittest.TestCase):
         with self.assertRaises(ValueError, msg="RecommendedReviewer creation should raise exception if neither emails or name was provided"):
             recommender.RecommendedReviewer()
 
-    def test_set_email_after_creation(self):
-        recommendation = recommender.RecommendedReviewer(names="Test")
-        self.assertIsNone(
-            recommendation.emails,
-            "Email should be None if not specified on creation"
-        )
-        with self.assertNoLogs(level=logging.WARN):
-            recommendation.email = "test@test.com"
-        self.assertEqual(
-            "test@test.com",
-            recommendation.emails,
-            "Email should be settable if it's current value is None."
-        )
-
-    def test_update_email(self):
-        recommendation = recommender.RecommendedReviewer("test@test.com", "Test")
-        with self.assertLogs(level=logging.WARN):
-            recommendation.email = "test@test.com"
-
     def test_string_representation(self):
         recommendation = recommender.RecommendedReviewer("test@test.com", "Test")
         self.assertEqual(
-            "Recommending test@test.com known by username Test with score 0",
+            "Recommending user known by email test@test.com and known by username Test with score 0",
             str(recommendation),
             "String representation of the recommendation was not as expected"
         )
         recommendation.names.add("Testing")
         recommendation.score += 11
         self.assertEqual(
-            "Recommending test@test.com known by usernames Test and Testing with score 11",
+            "Recommending user known by email test@test.com and known by usernames Test and Testing with score 11",
             str(recommendation),
             "String representation of the recommendation was not as expected"
         )
         recommendation.names.add("123456")
         recommendation.score -= 1
         self.assertEqual(
-            "Recommending test@test.com known by usernames Test, Testing and 123456 with score 10",
+            "Recommending user known by email test@test.com and known by usernames Test, Testing and 123456 with score 10",
             str(recommendation),
             "String representation of the recommendation was not as expected"
         )
 
 class TestNamesClass(unittest.TestCase):
     def test_properties(self):
-        names = recommender.Names(names=["Test", "Testing"], parent_weak_ref=weakref.ref(recommender.RecommendedReviewer(email="test")))
+        names = recommender.Names(names=["Test", "Testing"], parent_weak_ref=weakref.ref(recommender.RecommendedReviewer(emails=["test@test.com"])))
         self.assertCountEqual(
             ["Test", "Testing"],
             list(names.__iter__()),
@@ -225,11 +205,3 @@ class TestNamesClass(unittest.TestCase):
         )
         self.assertEqual(2, len(names), "__len__() doesn't return correct length")
         self.assertEqual("Test", names[0], "__getitem__() doesn't return correct name")
-
-    @patch.object(recommender.Recommendations, "_update_index")
-    def test_add(self, mock: MagicMock):
-        recommendations = recommender.Recommendations()
-        recommendation = recommender.RecommendedReviewer("test@test.com", "Test")
-        recommendations.add(recommendation)
-        recommendation.names.add("Testing")
-        self.assertTrue(mock.called, "The index update method was not called after adding a name")

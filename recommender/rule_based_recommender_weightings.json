@@ -3,17 +3,17 @@
     "authors": {
       "lines count": {
         "all time": 0.2,
-        "last year": 0.4,
-        "last three months": 0.5,
-        "last month": 0.8
+        "last year": 0.7,
+        "last three months": 1.5,
+        "last month": 2
       }
     },
     "committers": {
       "lines count": {
-        "all time": 0.3,
-        "last year": 0.5,
-        "last three months": 0.8,
-        "last month": 1.2
+        "all time": 0.2,
+        "last year": 0.7,
+        "last three months": 1.5,
+        "last month": 2
       }
     }
   },
@@ -25,22 +25,22 @@
       "last month": 0.6
     },
     "+2 code review votes": {
-      "all time": 0.2,
-      "last year": 0.3,
-      "last three months": 0.4,
-      "last month": 0.6
+      "all time": 0.4,
+      "last year": 0.6,
+      "last three months": 0.8,
+      "last month": 1
     },
     "+1 code review votes": {
-      "all time": 0.2,
-      "last year": 0.3,
-      "last three months": 0.4,
-      "last month": 0.6
+      "all time": 0.3,
+      "last year": 0.4,
+      "last three months": 0.5,
+      "last month": 0.7
     },
     "-1 code review votes": {
-      "all time": 0.2,
-      "last year": 0.3,
-      "last three months": 0.4,
-      "last month": 0.6
+      "all time": 0.3,
+      "last year": 0.4,
+      "last three months": 0.5,
+      "last month": 0.7
     },
     "-2 code review votes": {
       "all time": 0.2,

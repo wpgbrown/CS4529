@@ -4,6 +4,8 @@ import logging
 import os
 import pickle
 from typing import List, Union, Tuple
+
+import numpy
 import pandas
 from imblearn.under_sampling import RandomUnderSampler, ClusterCentroids
 from pandas import Series
@@ -13,9 +15,8 @@ from sklearn.metrics import accuracy_score, confusion_matrix
 from sklearn.model_selection import train_test_split
 from sklearn.neural_network import MLPClassifier
 import common
-from comment_votes_and_members_of_repos_to_data_frame import preprocess_into_pandas_data_frame
 from common import get_test_data_for_repo
-from recommender.neural_network_recommender import add_change_specific_attributes_to_data_frame
+from recommender.neural_network_recommender import MLPClassifierImplementationBase
 from recommender.neural_network_recommender.neural_network_recommender import ModelMode, MLPClassifierImplementation
 import warnings
 
@@ -42,15 +43,15 @@ class ModelScalerAndData:
         self.voted_test = []
         self.scaler_has_been_trained = True
 
-class MLPClassifierTrainer:
+class MLPClassifierTrainer(MLPClassifierImplementationBase):
     def __init__(self, modes: List[ModelMode], train_existing_models: bool = True):
         self._modes = modes
         self._train_existing_models = train_existing_models
         self._data_scaled = False
         if train_existing_models:
             # "generic" models
-            self._generic_approved = ModelScalerAndData(*MLPClassifierImplementation.load_model_and_associated_scaler("generic_approved"))
-            self._generic_voted = ModelScalerAndData(*MLPClassifierImplementation.load_model_and_associated_scaler("generic_voted"))
+            self._generic_approved = self.load_model("generic_approved")
+            self._generic_voted = self.load_model("generic_voted")
         else:
             # "generic" models
             self._generic_approved = self._create_new_model("generic_approved")
@@ -125,15 +126,16 @@ class MLPClassifierTrainer:
         self._add_data(repository, status, data_frame, False)
         return self
 
+    @staticmethod
+    def load_model(name: str) -> ModelScalerAndData:
+        loaded_model = MLPClassifierImplementation.load_model_and_associated_scaler(name)
+        return ModelScalerAndData(loaded_model[0], loaded_model[1], name)
+
     def _add_data_to_model_dictionary(self, dictionary: dict, repository: str, appendix: str, data_frame: pandas.DataFrame, training_data: bool) -> None:
         # Load the model if it is not already loaded
         if repository and repository not in dictionary.keys():
             if self._train_existing_models and os.path.exists(MLPClassifierImplementation.get_model_path(common.get_sanitised_filename(repository) + appendix)):
-                loaded_model = MLPClassifierImplementation.load_model_and_associated_scaler(
-                    common.get_sanitised_filename(repository) + appendix
-                )
-                dictionary[repository] = ModelScalerAndData(loaded_model[0], loaded_model[1],
-                                                            common.get_sanitised_filename(repository) + appendix)
+                dictionary[repository] = self.load_model(common.get_sanitised_filename(repository) + appendix)
             else:
                 dictionary[repository] = self._create_new_model(common.get_sanitised_filename(repository) + appendix)
         # Add the model
@@ -184,35 +186,94 @@ class MLPClassifierTrainer:
                     # Handle "generic" with only one model for approved and one for voted.
                     models = {'generic': models}
                 for model in models.values():
-                    # Train the model using the training data
-                    for i, X in enumerate(model.X_test):
+                    return_dict[model.name] = {
+                        'accuracy_score': {
+                            'average': None,
+                            'min': None,
+                            'max': None,
+                            '10th-percentile': None,
+                            '90th-percentile': None,
+                            '_all_scores': []
+                        },
+                        'confusion_matrix': {
+                            'true-positive': {
+                                'average': None,
+                                'min': None,
+                                'max': None,
+                                '10th-percentile': None,
+                                '90th-percentile': None,
+                                '_all_scores': []
+                            },
+                            'false-positive': {
+                                'average': None,
+                                'min': None,
+                                'max': None,
+                                '10th-percentile': None,
+                                '90th-percentile': None,
+                                '_all_scores': []
+                            },
+                            'false-negative': {
+                                'average': None,
+                                'min': None,
+                                'max': None,
+                                '10th-percentile': None,
+                                '90th-percentile': None,
+                                '_all_scores': []
+                            },
+                            'true-negative': {
+                                'average': None,
+                                'min': None,
+                                'max': None,
+                                '10th-percentile': None,
+                                '90th-percentile': None,
+                                '_all_scores': []
+                            },
+                        }
+                    }
+                    try:
+                        # Train the model using the training data
+                        def test_model(model: ModelScalerAndData, targets: list):
+                            for i, X in enumerate(model.X_test):
+                                # Average the accuracy score
+                                try:
+                                    prediction = model.model.predict(X)
+                                    if True in prediction:
+                                        print("Yay!")
+                                    accuracy_score_for_change = accuracy_score(targets[i], prediction)
+                                    return_dict[model.name]['accuracy_score']['_all_scores'].append(accuracy_score_for_change)
+                                    tn, fp, fn, tp = confusion_matrix(targets[i], prediction).ravel()
+                                    return_dict[model.name]['confusion_matrix']['true-negative']['_all_scores'].append(tn)
+                                    return_dict[model.name]['confusion_matrix']['true-positive']['_all_scores'].append(tp)
+                                    return_dict[model.name]['confusion_matrix']['false-negative']['_all_scores'].append(fn)
+                                    return_dict[model.name]['confusion_matrix']['false-positive']['_all_scores'].append(fp)
+                                except NotFittedError:
+                                    return
+                            def min_max_average_and_percentiles(result_dictionary: dict):
+                                # min
+                                result_dictionary['min'] = min(result_dictionary['_all_scores'])
+                                # max
+                                result_dictionary['max'] = max(result_dictionary['_all_scores'])
+                                # Average
+                                result_dictionary['average'] = sum(result_dictionary['_all_scores'])
+                                result_dictionary['average'] /= len(result_dictionary['_all_scores'])
+                                # 10% and 90% percentiles
+                                result_dictionary['10th-percentile'] = numpy.percentile(
+                                    result_dictionary['_all_scores'], 10, method='closest_observation')
+                                result_dictionary['90th-percentile'] = numpy.percentile(
+                                    result_dictionary['_all_scores'], 90, method='closest_observation')
+                                del result_dictionary['_all_scores']
+                            # Create min, max, average and 10% percentile values for accuracy
+                            min_max_average_and_percentiles(return_dict[model.name]['accuracy_score'])
+                            # Do the same as above for the confusion matrix
+                            for confusion_matrix_element_dict in return_dict[model.name]['confusion_matrix'].values():
+                                min_max_average_and_percentiles(confusion_matrix_element_dict)
+                            logging.debug("Model testing results for " + model.name + ": " + str(return_dict[model.name]))
                         if target == "approved":
-                            # TODO: Combine the test results. Currently being overwritten
-                            try:
-                                approved_prediction = model.model.predict(X)
-                                if True in approved_prediction:
-                                    print("Yay!")
-                                return_dict[model.name] = {
-                                    'accuracy score': accuracy_score(model.approved_test[i], approved_prediction),
-                                    'confusion matrix': confusion_matrix(model.approved_test[i], approved_prediction)
-                                }
-                            except NotFittedError:
-                                # TODO: Represent that there is no result for this model
-                                continue
+                            test_model(model, model.approved_test)
                         else:
-                            # TODO: Combine the test results. Currently being overwritten
-                            try:
-                                voted_prediction = model.model.predict(X)
-                                if True in voted_prediction:
-                                    print("Yay!")
-                                return_dict[model.name] = {
-                                    'accuracy score': accuracy_score(model.voted_test[i], voted_prediction),
-                                    'confusion matrix': confusion_matrix(model.voted_test[i], voted_prediction)
-                                }
-                            except NotFittedError:
-                                # TODO: Represent that there is no result for this model
-                                continue
-                        logging.debug("Model testing results for " + model.name + ": " + str(return_dict[model.name]))
+                            test_model(model, model.voted_test)
+                    except BaseException as e:
+                        print("Error", e)
         return return_dict
 
     def _scale_data(self) -> None:
@@ -226,25 +287,28 @@ class MLPClassifierTrainer:
                     # Handle "generic" with only one model for approved and one for voted.
                     models = {'generic': models}
                 for model in models.values():
-                    # If not training existing models, train the scaler
-                    if not model.scaler_has_been_trained:
-                        for X in model.X_train:
-                            model.scaler.fit(X)
-                        model.scaler_has_been_trained = True
-                    for i, [X, approved, voted] in enumerate(zip(model.X_train, model.approved_train, model.voted_train)):
-                        model.X_train[i][X.columns] = model.scaler.transform(X[X.columns])
-                        # Under-sample the training data to reduce bias towards not recommending
-                        approved: Series
-                        if True in approved.values and False in approved.values:
-                            under_sampled_approved = model.approved_under_sampler.fit_resample(X, approved)
-                            model.under_sampled_approved_X_train.append(under_sampled_approved[0])
-                            model.under_sampled_approved_train.append(under_sampled_approved[1])
-                        if True in voted.values and False in voted.values:
-                            under_sampled_voted = model.approved_under_sampler.fit_resample(X, voted)
-                            model.under_sampled_voted_X_train.append(under_sampled_voted[0])
-                            model.under_sampled_voted_train.append(under_sampled_voted[1])
-                    for i, X in enumerate(model.X_test):
-                        model.X_test[i][X.columns] = model.scaler.transform(X[X.columns])
+                    try:
+                        # If not training existing models, train the scaler
+                        if not model.scaler_has_been_trained:
+                            for X in model.X_train:
+                                model.scaler.fit(X)
+                            model.scaler_has_been_trained = True
+                        for i, [X, approved, voted] in enumerate(zip(model.X_train, model.approved_train, model.voted_train)):
+                            model.X_train[i][X.columns] = model.scaler.transform(X[X.columns])
+                            # Under-sample the training data to reduce bias towards not recommending
+                            approved: Series
+                            if True in approved.values and False in approved.values:
+                                under_sampled_approved = model.approved_under_sampler.fit_resample(X, approved)
+                                model.under_sampled_approved_X_train.append(under_sampled_approved[0])
+                                model.under_sampled_approved_train.append(under_sampled_approved[1])
+                            if True in voted.values and False in voted.values:
+                                under_sampled_voted = model.approved_under_sampler.fit_resample(X, voted)
+                                model.under_sampled_voted_X_train.append(under_sampled_voted[0])
+                                model.under_sampled_voted_train.append(under_sampled_voted[1])
+                        for i, X in enumerate(model.X_test):
+                            model.X_test[i][X.columns] = model.scaler.transform(X[X.columns])
+                    except BaseException as e:
+                        print("Error hhmhmhmhmhm:", e)
 
     def save_models(self) -> None:
         for mode in ModelMode:
@@ -260,6 +324,38 @@ class MLPClassifierTrainer:
         # Save model and scaler separately
         pickle.dump(model_scaler_and_data.model, open(MLPClassifierImplementation.get_model_path(model_scaler_and_data.name), 'wb'))
         pickle.dump(model_scaler_and_data.scaler, open(MLPClassifierImplementation.get_scaler_path(model_scaler_and_data.name), 'wb'))
+
+    def get_training_and_testing_change_specific_data_frame(self, repository: str, change_info: dict, base_data_frame_for_repo: pandas.DataFrame):
+        change_specific_data_frame = self.add_change_specific_attributes_to_data_frame(repository,
+                                                                                  change_info,
+                                                                                  base_data_frame_for_repo)
+        # Store lowercase representation to actual case used for indexing purposes
+        index_names_to_name = {common.convert_name_to_index_format(x): x for x in change_specific_data_frame.index.values}
+        # Add whether they actually voted
+        change_specific_data_frame["Actually voted"] = False
+        change_specific_data_frame["Actually approved"] = False
+        # Check if voted
+        for vote in change_info['code_review_votes']:
+            def is_name_in_data_frame(key_for_name_in_vote: str) -> Union[str, bool]:
+                if key_for_name_in_vote in vote:
+                    index_name = common.convert_name_to_index_format(vote[key_for_name_in_vote])
+                    if index_name in index_names_to_name.keys():
+                        return index_names_to_name[index_name]
+                return False
+            # Try to find associated data_frame row
+            name = is_name_in_data_frame('name')
+            if not name:
+                name = is_name_in_data_frame('display_name')
+                if not name:
+                    name = is_name_in_data_frame('username')
+                    if not name:
+                        # No matching name found in the data frame. Add the name under the key 'name' to the data frame.
+                        change_specific_data_frame.loc[vote['name'], :] = 0
+            change_specific_data_frame.at[vote['name'], "Actually voted"] = True
+            if vote['value'] == 2:
+                # Was an approval vote
+                change_specific_data_frame.at[vote['name'], "Actually approved"] = True
+        return change_specific_data_frame
 
 if __name__ == "__main__":
     logging.basicConfig(filename=common.path_relative_to_root("logs/neural_network_recommender_logs.log.txt"),
@@ -305,34 +401,6 @@ if __name__ == "__main__":
     repos_and_associated_members = json.load(open(
         common.path_relative_to_root("data_collection/raw_data/members_of_mediawiki_repos.json")
     ))
-    def get_training_and_testing_change_specific_data_frame(repository: str, change_info: dict, base_data_frame_for_repo: pandas.DataFrame):
-        change_specific_data_frame = add_change_specific_attributes_to_data_frame(repository,
-                                                                                  change_info,
-                                                                                  base_data_frame_for_repo)
-        # Store lowercase representation to actual case used for indexing purposes
-        lower_case_names = {x.lower(): x for x in change_specific_data_frame.index.values}
-        # Add whether they actually voted
-        change_specific_data_frame["Actually voted"] = False
-        change_specific_data_frame["Actually approved"] = False
-        # Check if voted
-        for vote in change_info['code_review_votes']:
-            name = None
-            # Try to find associated data_frame row
-            if 'name' in vote and vote['name'].lower() in lower_case_names:
-                name = lower_case_names[vote['name'].lower()]
-            elif 'display_name' in vote and vote['display_name'].lower() in lower_case_names:
-                name = lower_case_names[vote['display_name'].lower()]
-            elif 'username' in vote and vote['username'].lower() in lower_case_names:
-                name = lower_case_names[vote['username'].lower()]
-            if name is None:
-                # No matching name found. Add it to the array.
-                # TODO: Is this the right thing to do? Should a continue be used instead
-                change_specific_data_frame.loc[vote['name'], :] = 0
-            change_specific_data_frame.at[vote['name'], "Actually voted"] = True
-            if vote['value'] == 2:
-                # Was an approval vote
-                change_specific_data_frame.at[vote['name'], "Actually approved"] = True
-        return change_specific_data_frame
     for number_processed, repository in enumerate(repos_and_associated_members['groups_for_repository'].keys()):
         if repositories and repository not in repositories:
             continue
@@ -345,7 +413,7 @@ if __name__ == "__main__":
             print("Processing", repository)
             time_period = test_data[0]
             test_data = test_data[1]
-            base_data_frame_for_repo = preprocess_into_pandas_data_frame(repository)[time_period]
+            base_data_frame_for_repo = MLP_trainer.preprocess_into_pandas_data_frame(repository)[time_period]
             for status, sub_test_data in test_data.items():
                 try:
                     logging.debug("Status: " + status)
@@ -361,7 +429,7 @@ if __name__ == "__main__":
                         print("Collating training data", i, "out of", len(train))
                         logging.info("Collating training data " + str(i) + " out of " + str(len(train)))
                         MLP_trainer.add_training_data(
-                            repository, status, get_training_and_testing_change_specific_data_frame(
+                            repository, status, MLP_trainer.get_training_and_testing_change_specific_data_frame(
                                 repository, change_info, base_data_frame_for_repo
                             )
                         )
@@ -369,7 +437,7 @@ if __name__ == "__main__":
                         print("Collating test data", i, "out of", len(test))
                         logging.info("Collating test data " + str(i) + " out of " + str(len(train)))
                         MLP_trainer.add_testing_data(
-                            repository, status, get_training_and_testing_change_specific_data_frame(
+                            repository, status, MLP_trainer.get_training_and_testing_change_specific_data_frame(
                                 repository, change_info, base_data_frame_for_repo
                             )
                         )
@@ -387,9 +455,9 @@ if __name__ == "__main__":
         print("Training....")
         MLP_trainer.perform_training()
         print("Testing....")
-        print(MLP_trainer.perform_testing())
+        test_results = MLP_trainer.perform_testing()
+        json.dump(test_results, open(common.path_relative_to_root("recommender/neural_network_recommender/training_test_results.json"), 'w'))
         MLP_trainer.save_models()
     except BaseException as e:
         print("Error:", e)
         pass
-    pickle.dump(MLP_trainer, open(common.path_relative_to_root("test.pickle"), 'wb'))

@@ -12,7 +12,7 @@ from data_collection.generate_elastic_search_query import ElasticSearchQueryBuil
 if __name__ == "__main__":
     logging.basicConfig(
         filename=common.path_relative_to_root("logs/generate_reviewer_votes.log.txt"),
-        level=logging.DEBU
+        level=logging.DEBUG
     )
 
 def generate_votes_for_repository(repository: str, cutoff_time: int = None, filter: Union[AnyStr, list, None] = None):
@@ -67,6 +67,7 @@ try:
         try:
             print("Processing", repo + ". Completed", number_processed, "out of", len(repos_and_associated_members['groups_for_repository']))
             logging.info("Processing " + repo)
+            # TODO: Remove the below?
             """group_member_names = []
             for group_uuid, group_name in associated_groups.items():
                 if group_uuid in common.group_exclude_list:
@@ -76,22 +77,22 @@ try:
             # group_member_names = list(set(group_member_names))
             logging.debug("First trying all time")
             author_vote_count_for_repo[repo].update({
-                'all': generate_votes_for_repository(repo) #, filter=group_member_names)
+                common.TimePeriods.ALL_TIME: generate_votes_for_repository(repo) #, filter=group_member_names)
             })
             logging.debug("Trying from last year")
             one_year_ago = datetime.datetime.now() - relativedelta(years=1)
             author_vote_count_for_repo[repo].update({
-                'last year': generate_votes_for_repository(repo, cutoff_time=int(time.mktime(one_year_ago.timetuple()) * 1_000))
+                common.TimePeriods.LAST_YEAR: generate_votes_for_repository(repo, cutoff_time=int(time.mktime(one_year_ago.timetuple()) * 1_000))
             })
             logging.debug("Trying from last 3 months")
             three_months_ago = datetime.datetime.now() - relativedelta(months=3)
             author_vote_count_for_repo[repo].update({
-                'last 3 months': generate_votes_for_repository(repo, cutoff_time=int(time.mktime(three_months_ago.timetuple()) * 1_000))
+                common.TimePeriods.LAST_3_MONTHS: generate_votes_for_repository(repo, cutoff_time=int(time.mktime(three_months_ago.timetuple()) * 1_000))
             })
             logging.debug("Trying from last 30 days")
             thirty_days_ago = datetime.datetime.now() - relativedelta(days=30)
             author_vote_count_for_repo[repo].update({
-                'last 30 days': generate_votes_for_repository(repo, cutoff_time=int(time.mktime(thirty_days_ago.timetuple()) * 1_000))
+                common.TimePeriods.LAST_MONTH: generate_votes_for_repository(repo, cutoff_time=int(time.mktime(thirty_days_ago.timetuple()) * 1_000))
             })
             # Crude rate-limiting - 1 second should be enough to avoid issues
             time.sleep(1)

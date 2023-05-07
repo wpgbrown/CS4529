@@ -13,8 +13,7 @@ from sklearn.preprocessing import StandardScaler
 
 import common
 from recommender import RecommenderImplementation, Recommendations
-from recommender.neural_network_recommender import preprocess_into_pandas_data_frame, \
-    add_change_specific_attributes_to_data_frame
+from recommender.neural_network_recommender import MLPClassifierImplementationBase
 
 
 class ModelMode(Enum):
@@ -37,18 +36,19 @@ class ModelMode(Enum):
                 return member
         return None
 
-class MLPClassifierImplementation(RecommenderImplementation):
+class MLPClassifierImplementation(RecommenderImplementation, MLPClassifierImplementationBase):
     def __init__(self, repository: str, model_type: ModelMode, time_period: str):
         super().__init__(repository)
         if model_type == ModelMode.GENERIC:
-            self.approved_model = self.load_model("generic_approved_clf.pickle")
-            self.voted_model = self.load_model("generic_voted_clf.pickle")
-            self.scaler = self.load_scaler()
+            self.approved_model = self.load_model("generic_approved")
+            self.voted_model = self.load_model("generic_voted")
+            self.approved_scaler = self.load_scaler("generic_approved")
+            self.voted_scaler = self.load_scaler("generic_voted")
         elif model_type == ModelMode.REPO_SPECIFIC:
             self.approved_model = self.load_model(common.get_sanitised_filename(repository) + "_approved_clf.pickle")
             self.voted_model = self.load_model(common.get_sanitised_filename(repository) + "_voted_clf.pickle")
         # TODO: Handle abandoned / open / merged models.
-        self.base_data_frame = preprocess_into_pandas_data_frame(repository)[time_period]
+        self.base_data_frame = self.preprocess_into_pandas_data_frame(repository)[time_period]
         self.time_period = time_period
 
     @classmethod
@@ -80,7 +80,7 @@ class MLPClassifierImplementation(RecommenderImplementation):
         return cls.load_model(name), cls.load_scaler(name)
 
     def recommend_using_change_info(self, change_info: dict) -> Recommendations:
-        change_specific_data_frame = add_change_specific_attributes_to_data_frame(self.repository, change_info, self.base_data_frame)
+        change_specific_data_frame = self.add_change_specific_attributes_to_data_frame(self.repository, change_info, self.base_data_frame)
         predicted_approvers = [x for x in enumerate(self.approved_model.predict(change_specific_data_frame.iloc[:])) if x[1]]
         predicted_voters = [x for x in enumerate(self.voted_model.predict(change_specific_data_frame.iloc[:])) if x[1]]
         print(predicted_approvers)

@@ -47,22 +47,22 @@ try:
             logging.info("Processing " + repo)
             logging.debug("First trying all time")
             comments_by_users_for_each_repo[repo].update({
-                'all': generate_comment_stats_for_repository(repo)
+                common.TimePeriods.ALL_TIME: generate_comment_stats_for_repository(repo)
             })
             logging.debug("Trying from last year")
             one_year_ago = datetime.datetime.now() - relativedelta(years=1)
             comments_by_users_for_each_repo[repo].update({
-                'last year': generate_comment_stats_for_repository(repo, cutoff_time=int(time.mktime(one_year_ago.timetuple()) * 1_000))
+                common.TimePeriods.LAST_YEAR: generate_comment_stats_for_repository(repo, cutoff_time=int(time.mktime(one_year_ago.timetuple()) * 1_000))
             })
             logging.debug("Trying from last 3 months")
             three_months_ago = datetime.datetime.now() - relativedelta(months=3)
             comments_by_users_for_each_repo[repo].update({
-                'last 3 months': generate_comment_stats_for_repository(repo, cutoff_time=int(time.mktime(three_months_ago.timetuple()) * 1_000))
+                common.TimePeriods.LAST_3_MONTHS: generate_comment_stats_for_repository(repo, cutoff_time=int(time.mktime(three_months_ago.timetuple()) * 1_000))
             })
             logging.debug("Trying from last 30 days")
             thirty_days_ago = datetime.datetime.now() - relativedelta(days=30)
             comments_by_users_for_each_repo[repo].update({
-                'last 30 days': generate_comment_stats_for_repository(repo, cutoff_time=int(time.mktime(thirty_days_ago.timetuple()) * 1_000))
+                common.TimePeriods.LAST_MONTH: generate_comment_stats_for_repository(repo, cutoff_time=int(time.mktime(thirty_days_ago.timetuple()) * 1_000))
             })
             # Crude rate-limiting - 1 second should be enough to avoid issues
             time.sleep(1)
