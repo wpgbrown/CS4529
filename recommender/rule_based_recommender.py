@@ -56,7 +56,7 @@ class RuleBasedImplementation(RecommenderImplementation):
         recommendations = Recommendations()
         # Get the files modified (added, changed or deleted) by the change
         # TODO: Combine with neural network code to use parent_sha if available.
-        git_blame_stats = self._get_change_specific_input_variables(change_info)
+        git_blame_stats = self.get_change_git_blame_info(change_info)
         for email, names in git_blame_stats['names'].items():
             reviewer = recommendations.get_reviewer_by_email_or_create_new(email)
             for name in names:

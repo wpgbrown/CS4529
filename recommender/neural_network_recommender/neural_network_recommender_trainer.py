@@ -380,10 +380,16 @@ if __name__ == "__main__":
                     pass
         except KeyboardInterrupt:
             break
-        except BaseException:
+        except BaseException as e:
+            print("Error:", e)
             pass
-    print("Training....")
-    MLP_trainer.perform_training()
-    print("Testing....")
-    print(MLP_trainer.perform_testing())
-    MLP_trainer.save_models()
+    try:
+        print("Training....")
+        MLP_trainer.perform_training()
+        print("Testing....")
+        print(MLP_trainer.perform_testing())
+        MLP_trainer.save_models()
+    except BaseException as e:
+        print("Error:", e)
+        pass
+    pickle.dump(MLP_trainer, open(common.path_relative_to_root("test.pickle"), 'wb'))

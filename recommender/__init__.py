@@ -530,7 +530,7 @@ class RecommenderImplementation(ABC):
                         (commit_info[time_period_to_key[time_period]] / sums[time_period]) * \
                         (file_size_delta / total_delta_over_all_files)
 
-    def _get_change_specific_input_variables(self, change_info: dict):
+    def get_change_git_blame_info(self, change_info: dict):
         return_dictionary = {
             "authors": {},
             "committers": {},
@@ -538,8 +538,6 @@ class RecommenderImplementation(ABC):
             "_names_to_emails_index": {},
             "names": {}
         }
-        # TODO: Remove duplication by calling the blame once with all files that are wanted inspected.
-        # TODO: Exclude files that are too large (causes program to be too slow) - If too large then the git blame stats are unlikely to help much
         total_delta_over_all_files = sum(
             [abs(info['size_delta']) for info in change_info['files'].values()])
         time_period_to_key = {y: y.replace(' ', '_') + "_lines_count" for y in common.TimePeriods.DATE_RANGES}
