@@ -52,7 +52,7 @@ username_exclude_list = ["Libraryupgrader", "TrainBranchBot", "gerrit2", "Gerrit
 
 username_exclude_list = [convert_name_to_index_format(name) for name in username_exclude_list]
 
-username_to_email_map = {'Anais Gueyte': 'agueyte@wikimedia.org', 'MarcoAurelio': 'maurelio@toolforge.org', 'Sam Reed': 'reedy@wikimedia.org', 'Thalia Chan': 'thalia.e.chan@googlemail.com', 'Thiemo Kreuz': 'thiemo.kreuz@wikimedia.de', 'Stephanie Tran': 'stran@wikimedia.org', 'Tsepo Thoabala': 'tthoabala@wikimedia.org', 'Dbarratt': 'david@davidwbarratt.com'}
+username_to_email_map = {'Anais Gueyte': 'agueyte@wikimedia.org', 'MarcoAurelio': 'maurelio@toolforge.org', 'Sam Reed': 'reedy@wikimedia.org', 'Thalia Chan': 'thalia.e.chan@googlemail.com', 'Thiemo Kreuz': 'thiemo.kreuz@wikimedia.de', 'Stephanie Tran': 'stran@wikimedia.org', 'Tsepo Thoabala': 'tthoabala@wikimedia.org', 'Dbarratt': 'david@davidwbarratt.com', 'Kunal Mehta': 'legoktm@debian.org', 'Andre Klapper': ' aklapper@wikimedia.org'}
 
 username_to_email_map = {convert_name_to_index_format(name): email for name, email in username_to_email_map.items()}
 

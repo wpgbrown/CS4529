@@ -111,7 +111,7 @@ def generate_test_data_set_for_repo(repository: str, cutoff_time: str = None):
     )))
     return test_data
 
-# Start from https://stackoverflow.com/a/45143995 (but modified slightly)
+# TODO: Start from https://stackoverflow.com/a/45143995 (but modified slightly)
 class StreamArray(list):
     """
     Converts a generator into a list object that can be json serialisable

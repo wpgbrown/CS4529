@@ -89,7 +89,7 @@ class RuleBasedImplementation(RecommenderImplementation):
                 reviewer = recommendations.get_reviewer_by_name_or_create_new(reviewer_name)
                 reviewer.add_score(comment_percentage, weighting)
         del comments_for_current_repo
-        # Initialise list based on who has rights to merge for the repository
+        # Mark the users who can approve changes in this repository
         users_with_rights_to_merge = get_members_of_repo(self.repository)
         logging.debug("users with right to merge: " + str(users_with_rights_to_merge))
         for user in users_with_rights_to_merge:

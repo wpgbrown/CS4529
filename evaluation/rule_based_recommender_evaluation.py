@@ -57,7 +57,6 @@ if __name__ == "__main__":
     except BaseException as e:
         print("Error:", e)
         logging.error("Error occurred. Exiting early.", exc_info=e)
-        pass
     if raw:
         print({'top-k': top_k_accuracies, 'mrr': mrr_score})
     else:

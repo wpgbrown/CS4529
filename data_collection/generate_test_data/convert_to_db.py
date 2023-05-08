@@ -6,6 +6,7 @@ import common
 from common import path_relative_to_root
 
 # DB allows indexing by repo name
+# TODO: Unused. Keep for reference in paper about approaches followed?
 
 def get_test_data_db() -> Union[sqlite3.Connection, None]:
     try:

@@ -182,14 +182,14 @@ class MLPClassifierTrainer(MLPClassifierImplementationBase):
                                                model.under_sampled_approved_train):
                             try:
                                 model.model.fit(X, approved)
-                            except ValueError:
+                            except ValueError as e:
                                 logging.error("Training failed for one data point for model " + model.name, exc_info=e)
                     else:
                         for X, voted in zip(model.under_sampled_voted_X_train,
                                                model.under_sampled_voted_train):
                             try:
                                 model.model.fit(X, voted)
-                            except ValueError:
+                            except ValueError as e:
                                 logging.error("Training failed for one data point for model " + model.name, exc_info=e)
         return self
 
@@ -257,8 +257,8 @@ class MLPClassifierTrainer(MLPClassifierImplementationBase):
                                 try:
                                     try:
                                         prediction = model.model.predict(X)
-                                    except ValueError:
-                                        logging.error("Predicting failed for one X for " + model.name + ". Skipping this.")
+                                    except (ValueError, NotFittedError) as e:
+                                        logging.error("Predicting failed for one X for " + model.name + ". Skipping this.", exc_info=e)
                                         continue
                                     accuracy_score_for_change = accuracy_score(targets[i], prediction)
                                     return_dict[model.name]['accuracy_score']['_all_scores'].append(accuracy_score_for_change)
@@ -281,17 +281,19 @@ class MLPClassifierTrainer(MLPClassifierImplementationBase):
                                     return
                             def min_max_average_and_percentiles(result_dictionary: dict):
                                 # min
+                                if not len(result_dictionary['_all_scores']):
+                                    return
                                 result_dictionary['min'] = min(result_dictionary['_all_scores'])
                                 # max
                                 result_dictionary['max'] = max(result_dictionary['_all_scores'])
                                 # Average
                                 result_dictionary['average'] = sum(result_dictionary['_all_scores'])
-                                result_dictionary['average'] /= len(result_dictionary['_all_scores'])
+                                result_dictionary['average'] = result_dictionary['average'] / len(result_dictionary['_all_scores'])
                                 # 10% and 90% percentiles
-                                result_dictionary['10th-percentile'] = float(numpy.percentile(
-                                    result_dictionary['_all_scores'], 10, method='closest_observation'))
-                                result_dictionary['90th-percentile'] = float(numpy.percentile(
-                                    result_dictionary['_all_scores'], 90, method='closest_observation'))
+                                result_dictionary['10th-percentile'] = numpy.percentile(
+                                    result_dictionary['_all_scores'], 10, method='closest_observation')
+                                result_dictionary['90th-percentile'] = numpy.percentile(
+                                    result_dictionary['_all_scores'], 90, method='closest_observation')
                                 del result_dictionary['_all_scores']
                             # Create min, max, average and 10% percentile values for accuracy
                             min_max_average_and_percentiles(return_dict[model.name]['accuracy_score'])
@@ -326,7 +328,7 @@ class MLPClassifierTrainer(MLPClassifierImplementationBase):
                             for X in model.X_train:
                                 model.scaler.fit(X)
                             model.scaler_has_been_trained = True
-                        for i, [X, approved, voted] in enumerate(zip(model.X_train, model.approved_train, model.voted_train)):
+                        for X, approved, voted in zip(model.X_train, model.approved_train, model.voted_train):
                             try:
                                 X[X.columns] = model.scaler.transform(X[X.columns])
                             except ValueError:
@@ -342,7 +344,7 @@ class MLPClassifierTrainer(MLPClassifierImplementationBase):
                                 under_sampled_voted = model.approved_under_sampler.fit_resample(X, voted)
                                 model.under_sampled_voted_X_train.append(under_sampled_voted[0])
                                 model.under_sampled_voted_train.append(under_sampled_voted[1])
-                        for i, X in enumerate(model.X_test):
+                        for X in model.X_test:
                             try:
                                 X[X.columns] = model.scaler.transform(X[X.columns])
                                 model.X_test_scaled.append(X)
@@ -467,14 +469,14 @@ if __name__ == "__main__":
                     train, test = train_test_split(sub_test_data)
                     train = list(train)
                     test = list(test)
-                    for i, change_info in enumerate(train):
+                    """for i, change_info in enumerate(train):
                         print("Collating training data", i+1, "out of", len(train))
                         logging.info("Collating training data " + str(i) + " out of " + str(len(train)))
                         MLP_trainer.add_training_data(
                             repository, status, MLP_trainer.get_training_and_testing_change_specific_data_frame(
                                 repository, change_info, base_data_frame_for_repo
                             )
-                        )
+                        )"""
                     for i, change_info in enumerate(test):
                         print("Collating test data", i+1, "out of", len(test))
                         logging.info("Collating test data " + str(i) + " out of " + str(len(train)))
@@ -494,8 +496,8 @@ if __name__ == "__main__":
             logging.error("Error in processing repository " + repository + " not caught elsewhere.", exc_info=e)
             pass
     print("Training....")
-    MLP_trainer.perform_training()
+    # MLP_trainer.perform_training()
     print("Testing....")
     test_results = MLP_trainer.perform_testing()
     json.dump(test_results, open(common.path_relative_to_root("recommender/neural_network_recommender/training_test_results.json"), 'w'), cls=NpEncoder)
-    MLP_trainer.save_models()
+    # MLP_trainer.save_models()
