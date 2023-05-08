@@ -22,9 +22,6 @@ if __name__ == "__main__":
             '--raw', action='store_true', help="Return results as the raw result dictionary"
         )
         argument_parser.add_argument(
-            '--raw', action='store_true', help="Return results as the raw result dictionary"
-        )
-        argument_parser.add_argument(
             '--exclude-repo-specific', action='store_true', help="Exclude the repo specific models from evaluation"
         )
         argument_parser.add_argument(

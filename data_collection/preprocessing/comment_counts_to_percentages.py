@@ -12,7 +12,7 @@ def convert_data_to_percentages():
         for period, data_for_period in data_for_repo.items():
             total = 0
             percentage_representation[repo][period] = {}
-            # Tally total of each type of vote
+            # Tally comment counts
             for reviewer, data_for_author_of_comment in data_for_period.items():
                 percentage_representation[repo][period][reviewer] = data_for_author_of_comment["Gerrit comment actions count"]
                 total += data_for_author_of_comment["Gerrit comment actions count"]

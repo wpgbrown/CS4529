@@ -61,7 +61,7 @@ class RuleBasedImplementation(RecommenderImplementation):
         # Initialise the recommendations list
         recommendations = Recommendations(exclude_emails=list(owner_emails), exclude_names=list(owner_names))
         # Get the files modified (added, changed or deleted) by the change
-        git_blame_stats = self.get_change_git_blame_info(change_info)
+        git_blame_stats = self.get_change_git_blame_info(self.repository, change_info)
         for email, names in git_blame_stats['names'].items():
             reviewer = recommendations.get_reviewer_by_email_or_create_new(email)
             for name in names:

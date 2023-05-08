@@ -7,7 +7,7 @@ import common
 from recommender import get_reviewer_data, get_comment_data, get_members_of_repo, RecommenderImplementation, \
     RecommenderImplementationBase
 
-class MLPClassifierImplementationBase(RecommenderImplementation):
+class MLPClassifierImplementationBase(RecommenderImplementationBase):
     @staticmethod
     def preprocess_into_pandas_data_frame(repository: str) -> dict[str, pandas.DataFrame]:
         return_data = {}
@@ -57,7 +57,6 @@ class MLPClassifierImplementationBase(RecommenderImplementation):
                     if mark_as_can_merge_changes(key_for_name):
                         break
                 else:
-                    # TODO: Should this be done? Lots of users with only "True" for rights to merge are added.
                     username = user['name']
                     # Add the user with the right to merge to the data frame.
                     (return_data[key]).loc[username] = 0
@@ -66,13 +65,14 @@ class MLPClassifierImplementationBase(RecommenderImplementation):
                     index_form_to_data_frame_username[key][common.convert_name_to_index_format(username)] = username
         return return_data
 
-    def add_change_specific_attributes_to_data_frame(self, repository: str, change_info: dict, data_frame: pandas.DataFrame) -> pandas.DataFrame:
+    @classmethod
+    def add_change_specific_attributes_to_data_frame(cls, repository: str, change_info: dict, data_frame: pandas.DataFrame) -> pandas.DataFrame:
         data_frame = data_frame.copy(True)
         time_period_to_key = {y: y.replace(' ', '_') + "_lines_count" for y in common.TimePeriods.DATE_RANGES}
         index_form_to_data_frame_username = {
             common.convert_name_to_index_format(name): name for name in data_frame.index
         }
-        git_blame_info = cls.get_change_git_blame_info(change_info)
+        git_blame_info = cls.get_change_git_blame_info(repository, change_info)
         # Get the files modified (added, changed or deleted) by the change
         for name in itertools.chain.from_iterable([
             [y + x for y in common.TimePeriods.DATE_RANGES] for x in
@@ -85,7 +85,7 @@ class MLPClassifierImplementationBase(RecommenderImplementation):
                 #  are almost certainly the same person.
                 name_index_form = common.convert_name_to_index_format(name)
                 if name_index_form in index_form_to_data_frame_username.keys():
-                    return index_form_to_data_frame_username[name]
+                    return index_form_to_data_frame_username[name_index_form]
             return False
         for time_period, column in {y: y + " author git blame percentage" for y in
                                     common.TimePeriods.DATE_RANGES}.items():

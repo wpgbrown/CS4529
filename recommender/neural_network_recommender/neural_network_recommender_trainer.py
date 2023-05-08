@@ -22,6 +22,18 @@ import warnings
 
 warnings.filterwarnings("ignore")
 
+# TODO: From https://stackoverflow.com/questions/50916422/python-typeerror-object-of-type-int64-is-not-json-serializable
+class NpEncoder(json.JSONEncoder):
+    def default(self, obj):
+        if isinstance(obj, numpy.integer):
+            return int(obj)
+        if isinstance(obj, numpy.floating):
+            return float(obj)
+        if isinstance(obj, numpy.ndarray):
+            return obj.tolist()
+        return super(NpEncoder, self).default(obj)
+# END TODO
+
 class ModelScalerAndData:
     def __init__(self, model: MLPClassifier, scaler: StandardScaler, name):
         self.name = name
@@ -39,6 +51,7 @@ class ModelScalerAndData:
         self.approved_train = []
         self.voted_train = []
         self.X_test = []
+        self.X_test_scaled = []
         self.approved_test = []
         self.voted_test = []
         self.scaler_has_been_trained = True
@@ -233,15 +246,27 @@ class MLPClassifierTrainer(MLPClassifierImplementationBase):
                     try:
                         # Train the model using the training data
                         def test_model(model: ModelScalerAndData, targets: list):
-                            for i, X in enumerate(model.X_test):
+                            for i, X in enumerate(model.X_test_scaled):
                                 # Average the accuracy score
                                 try:
-                                    prediction = model.model.predict(X)
-                                    if True in prediction:
-                                        print("Yay!")
+                                    try:
+                                        prediction = model.model.predict(X)
+                                    except ValueError:
+                                        logging.error("Predicting failed for one X for " + model.name + ". Skipping this.")
+                                        continue
                                     accuracy_score_for_change = accuracy_score(targets[i], prediction)
                                     return_dict[model.name]['accuracy_score']['_all_scores'].append(accuracy_score_for_change)
-                                    tn, fp, fn, tp = confusion_matrix(targets[i], prediction).ravel()
+                                    confusion_matrix_for_change = confusion_matrix(targets[i], prediction).ravel()
+                                    tn, fp, fn, tp = [0] * 4
+                                    match len(confusion_matrix_for_change):
+                                        case 1:
+                                            tn = confusion_matrix_for_change
+                                        case 2:
+                                            tn, fp = confusion_matrix_for_change
+                                        case 3:
+                                            tn, fp, fn = confusion_matrix_for_change
+                                        case 4:
+                                            tn, fp, fn, tp = confusion_matrix_for_change
                                     return_dict[model.name]['confusion_matrix']['true-negative']['_all_scores'].append(tn)
                                     return_dict[model.name]['confusion_matrix']['true-positive']['_all_scores'].append(tp)
                                     return_dict[model.name]['confusion_matrix']['false-negative']['_all_scores'].append(fn)
@@ -257,10 +282,10 @@ class MLPClassifierTrainer(MLPClassifierImplementationBase):
                                 result_dictionary['average'] = sum(result_dictionary['_all_scores'])
                                 result_dictionary['average'] /= len(result_dictionary['_all_scores'])
                                 # 10% and 90% percentiles
-                                result_dictionary['10th-percentile'] = numpy.percentile(
-                                    result_dictionary['_all_scores'], 10, method='closest_observation')
-                                result_dictionary['90th-percentile'] = numpy.percentile(
-                                    result_dictionary['_all_scores'], 90, method='closest_observation')
+                                result_dictionary['10th-percentile'] = float(numpy.percentile(
+                                    result_dictionary['_all_scores'], 10, method='closest_observation'))
+                                result_dictionary['90th-percentile'] = float(numpy.percentile(
+                                    result_dictionary['_all_scores'], 90, method='closest_observation'))
                                 del result_dictionary['_all_scores']
                             # Create min, max, average and 10% percentile values for accuracy
                             min_max_average_and_percentiles(return_dict[model.name]['accuracy_score'])
@@ -273,11 +298,13 @@ class MLPClassifierTrainer(MLPClassifierImplementationBase):
                         else:
                             test_model(model, model.voted_test)
                     except BaseException as e:
-                        print("Error", e)
+                        logging.error("Error in testing model " + model.name, exc_info=e)
         return return_dict
 
     def _scale_data(self) -> None:
         logging.debug("Scaling data")
+        if self._data_scaled:
+            return
         self._data_scaled = True
         for mode in ModelMode:
             if mode not in self._modes:
@@ -294,7 +321,11 @@ class MLPClassifierTrainer(MLPClassifierImplementationBase):
                                 model.scaler.fit(X)
                             model.scaler_has_been_trained = True
                         for i, [X, approved, voted] in enumerate(zip(model.X_train, model.approved_train, model.voted_train)):
-                            model.X_train[i][X.columns] = model.scaler.transform(X[X.columns])
+                            try:
+                                X[X.columns] = model.scaler.transform(X[X.columns])
+                            except ValueError:
+                                logging.error("Transform failed for " + model.name + " on one training data item. This has been skipped.")
+                                continue
                             # Under-sample the training data to reduce bias towards not recommending
                             approved: Series
                             if True in approved.values and False in approved.values:
@@ -306,9 +337,14 @@ class MLPClassifierTrainer(MLPClassifierImplementationBase):
                                 model.under_sampled_voted_X_train.append(under_sampled_voted[0])
                                 model.under_sampled_voted_train.append(under_sampled_voted[1])
                         for i, X in enumerate(model.X_test):
-                            model.X_test[i][X.columns] = model.scaler.transform(X[X.columns])
+                            try:
+                                X[X.columns] = model.scaler.transform(X[X.columns])
+                                model.X_test_scaled.append(X)
+                            except ValueError:
+                                logging.error("Transform failed for " + model.name + " on one testing data item. This has been skipped.")
+                                continue
                     except BaseException as e:
-                        print("Error hhmhmhmhmhm:", e)
+                        logging.error("Error in scaling data for model " + model.name, exc_info=e)
 
     def save_models(self) -> None:
         for mode in ModelMode:
@@ -426,7 +462,7 @@ if __name__ == "__main__":
                     train = list(train)
                     test = list(test)
                     for i, change_info in enumerate(train):
-                        print("Collating training data", i, "out of", len(train))
+                        print("Collating training data", i+1, "out of", len(train))
                         logging.info("Collating training data " + str(i) + " out of " + str(len(train)))
                         MLP_trainer.add_training_data(
                             repository, status, MLP_trainer.get_training_and_testing_change_specific_data_frame(
@@ -434,7 +470,7 @@ if __name__ == "__main__":
                             )
                         )
                     for i, change_info in enumerate(test):
-                        print("Collating test data", i, "out of", len(test))
+                        print("Collating test data", i+1, "out of", len(test))
                         logging.info("Collating test data " + str(i) + " out of " + str(len(train)))
                         MLP_trainer.add_testing_data(
                             repository, status, MLP_trainer.get_training_and_testing_change_specific_data_frame(
@@ -449,15 +485,11 @@ if __name__ == "__main__":
         except KeyboardInterrupt:
             break
         except BaseException as e:
-            print("Error:", e)
+            logging.error("Error in processing repository " + repository + " not caught elsewhere.", exc_info=e)
             pass
-    try:
-        print("Training....")
-        MLP_trainer.perform_training()
-        print("Testing....")
-        test_results = MLP_trainer.perform_testing()
-        json.dump(test_results, open(common.path_relative_to_root("recommender/neural_network_recommender/training_test_results.json"), 'w'))
-        MLP_trainer.save_models()
-    except BaseException as e:
-        print("Error:", e)
-        pass
+    print("Training....")
+    MLP_trainer.perform_training()
+    print("Testing....")
+    test_results = MLP_trainer.perform_testing()
+    json.dump(test_results, open(common.path_relative_to_root("recommender/neural_network_recommender/training_test_results.json"), 'w'), cls=NpEncoder)
+    MLP_trainer.save_models()

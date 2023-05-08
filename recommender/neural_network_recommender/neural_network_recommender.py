@@ -24,30 +24,26 @@ class ModelMode(Enum):
     MERGED = "merged"
     DEFAULT = "generic"
 
-    @classmethod
-    def _missing_(cls, value):
-        # TODO: Partly from https://docs.python.org/3/library/enum.html#enum.Enum._missing_
-        if value is not isinstance(value, str):
-            return None
-        value: str
-        value = value.lower()
-        for member in cls:
-            if member.value == value:
-                return member
-        return None
-
 class MLPClassifierImplementation(RecommenderImplementation, MLPClassifierImplementationBase):
     def __init__(self, repository: str, model_type: ModelMode, time_period: str):
         super().__init__(repository)
-        if model_type == ModelMode.GENERIC:
+        if model_type == ModelMode.GENERIC or model_type == ModelMode.DEFAULT:
             self.approved_model = self.load_model("generic_approved")
             self.voted_model = self.load_model("generic_voted")
             self.approved_scaler = self.load_scaler("generic_approved")
             self.voted_scaler = self.load_scaler("generic_voted")
         elif model_type == ModelMode.REPO_SPECIFIC:
-            self.approved_model = self.load_model(common.get_sanitised_filename(repository) + "_approved_clf.pickle")
-            self.voted_model = self.load_model(common.get_sanitised_filename(repository) + "_voted_clf.pickle")
-        # TODO: Handle abandoned / open / merged models.
+            self.approved_model = self.load_model(common.get_sanitised_filename(repository) + "_approved")
+            self.voted_model = self.load_model(common.get_sanitised_filename(repository) + "_voted")
+        elif model_type == ModelMode.MERGED:
+            self.approved_model = self.load_model(common.get_sanitised_filename(repository) + "_merged_approved")
+            self.voted_model = self.load_model(common.get_sanitised_filename(repository) + "_merged_voted")
+        elif model_type == ModelMode.ABANDONED:
+            self.approved_model = self.load_model(common.get_sanitised_filename(repository) + "_abandoned_approved")
+            self.voted_model = self.load_model(common.get_sanitised_filename(repository) + "_abandoned_voted")
+        elif model_type == ModelMode.OPEN:
+            self.approved_model = self.load_model(common.get_sanitised_filename(repository) + "_open_approved")
+            self.voted_model = self.load_model(common.get_sanitised_filename(repository) + "_open_voted")
         self.base_data_frame = self.preprocess_into_pandas_data_frame(repository)[time_period]
         self.time_period = time_period
 
@@ -81,12 +77,38 @@ class MLPClassifierImplementation(RecommenderImplementation, MLPClassifierImplem
 
     def recommend_using_change_info(self, change_info: dict) -> Recommendations:
         change_specific_data_frame = self.add_change_specific_attributes_to_data_frame(self.repository, change_info, self.base_data_frame)
-        predicted_approvers = [x for x in enumerate(self.approved_model.predict(change_specific_data_frame.iloc[:])) if x[1]]
-        predicted_voters = [x for x in enumerate(self.voted_model.predict(change_specific_data_frame.iloc[:])) if x[1]]
+        # Replace NaNs with 0s
+        change_specific_data_frame = change_specific_data_frame.fillna(0)
+        # Scale the data frame data
+        voted_X = change_specific_data_frame.copy(deep=True)
+        approved_X = change_specific_data_frame.copy(deep=True)
+        voted_X[voted_X.columns] = self.voted_scaler.transform(voted_X[voted_X.columns])
+        approved_X[approved_X.columns] = self.approved_scaler.transform(approved_X[approved_X.columns])
+        predicted_approvers = [approved_X.index.values[i] for i, y in enumerate(self.approved_model.predict(voted_X)) if y]
+        predicted_voters = [voted_X.index.values[i] for i, y in enumerate(self.voted_model.predict(approved_X)) if y]
         print(predicted_approvers)
         print(predicted_voters)
-        recommendations = Recommendations()
-        # TODO: Complete
+        # Get the owner of the change (if noted in the change_info) and exclude this user
+        #  as they can't review their own patch
+        owner = change_info['owner']
+        owner_names = set()
+        owner_emails = set()
+        if 'name' in owner and owner['name']:
+            owner_names.add(owner['name'])
+        if 'username' in owner and owner['username']:
+            owner_names.add(owner['username'])
+        if 'display_name' in owner and owner['display_name']:
+            owner_names.add(owner['display_name'])
+        for name in owner_names:
+            name = common.convert_name_to_index_format(name)
+            if name in common.username_to_email_map.keys():
+                owner_emails.add(common.username_to_email_map[name])
+        if 'email' in owner and owner['email']:
+            owner_emails.add(owner['email'])
+        # Initialise the recommendations list
+        recommendations = Recommendations(exclude_emails=list(owner_emails), exclude_names=list(owner_names))
+        # Idea 1: Evenly randomly select the users from the list.
+        # Idea 2: Randomly select but place importance on start of list
         return recommendations
 
 

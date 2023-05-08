@@ -456,9 +456,6 @@ class Recommendations(Sized):
         raise KeyError("Item is neither a defined emails or name in this recommendations list.")
 
 class RecommenderImplementationBase:
-    def __init__(self, repository: str):
-        self.repository = repository
-
     @staticmethod
     def _make_git_blame_stats(git_blame_stats: dict, change_info: dict, return_dictionary: dict,
                               total_delta_over_all_files: int, file_aliases: dict, git_blame_type: str) -> None:
@@ -504,7 +501,8 @@ class RecommenderImplementationBase:
                         (commit_info[time_period_to_key[time_period]] / sums[time_period]) * \
                         (file_size_delta / total_delta_over_all_files)
 
-    def get_change_git_blame_info(self, change_info: dict):
+    @classmethod
+    def get_change_git_blame_info(cls, repository: str, change_info: dict):
         return_dictionary = {
             "authors": {},
             "committers": {},
@@ -521,7 +519,7 @@ class RecommenderImplementationBase:
             # Return early as no calculations needed because no files were modified (0 for all is fine)
             return return_dictionary
         git_blame_arguments = {
-            'repository': self.repository,
+            'repository': repository,
             'files': [],
             'per_file': True
         }
@@ -554,9 +552,9 @@ class RecommenderImplementationBase:
                         file_aliases[info['old_path']] = filename
         git_blame_stats = git_blame.git_blame_stats_for_head_of_branch(**git_blame_arguments)
         logging.debug("Git blame files from base: " + str(git_blame_stats))
-        self._make_git_blame_stats(git_blame_stats, change_info, return_dictionary, total_delta_over_all_files,
+        cls._make_git_blame_stats(git_blame_stats, change_info, return_dictionary, total_delta_over_all_files,
                                    file_aliases, "authors")
-        self._make_git_blame_stats(git_blame_stats, change_info, return_dictionary, total_delta_over_all_files,
+        cls._make_git_blame_stats(git_blame_stats, change_info, return_dictionary, total_delta_over_all_files,
                                    file_aliases, "committers")
         # Remove indexes used for de-duplication before returning
         del return_dictionary["_emails_to_names_index"]
@@ -565,7 +563,7 @@ class RecommenderImplementationBase:
 
 class RecommenderImplementation(RecommenderImplementationBase, ABC):
     def __init__(self, repository: str):
-        super().__init__(repository)
+        self.repository = repository
 
     @abstractmethod
     def recommend_using_change_info(self, change_info: dict) -> Recommendations:
