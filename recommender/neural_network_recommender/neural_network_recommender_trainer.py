@@ -180,11 +180,17 @@ class MLPClassifierTrainer(MLPClassifierImplementationBase):
                     if target == "approved":
                         for X, approved in zip(model.under_sampled_approved_X_train,
                                                model.under_sampled_approved_train):
-                            model.model.fit(X, approved)
+                            try:
+                                model.model.fit(X, approved)
+                            except ValueError:
+                                logging.error("Training failed for one data point for model " + model.name, exc_info=e)
                     else:
                         for X, voted in zip(model.under_sampled_voted_X_train,
                                                model.under_sampled_voted_train):
-                            model.model.fit(X, voted)
+                            try:
+                                model.model.fit(X, voted)
+                            except ValueError:
+                                logging.error("Training failed for one data point for model " + model.name, exc_info=e)
         return self
 
     def perform_testing(self) -> dict:
