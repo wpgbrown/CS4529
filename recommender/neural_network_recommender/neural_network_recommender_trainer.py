@@ -255,18 +255,14 @@ class MLPClassifierTrainer(MLPClassifierImplementationBase):
                             for i, X in enumerate(model.X_test_scaled):
                                 # Average the accuracy score
                                 try:
-                                    try:
-                                        prediction = model.model.predict(X)
-                                    except (ValueError, NotFittedError) as e:
-                                        logging.error("Predicting failed for one X for " + model.name + ". Skipping this.", exc_info=e)
-                                        continue
+                                    prediction = model.model.predict(X)
                                     accuracy_score_for_change = accuracy_score(targets[i], prediction)
                                     return_dict[model.name]['accuracy_score']['_all_scores'].append(accuracy_score_for_change)
                                     confusion_matrix_for_change = confusion_matrix(targets[i], prediction).ravel()
                                     tn, fp, fn, tp = [0] * 4
                                     match len(confusion_matrix_for_change):
                                         case 1:
-                                            tn = confusion_matrix_for_change
+                                            tn = confusion_matrix_for_change[0]
                                         case 2:
                                             tn, fp = confusion_matrix_for_change
                                         case 3:
@@ -279,6 +275,8 @@ class MLPClassifierTrainer(MLPClassifierImplementationBase):
                                     return_dict[model.name]['confusion_matrix']['false-positive']['_all_scores'].append(fp)
                                 except NotFittedError:
                                     return
+                                except ValueError as e:
+                                    logging.error("Error when testing " + model.name + ". Skipping this change.", exc_info=e)
                             def min_max_average_and_percentiles(result_dictionary: dict):
                                 # min
                                 if not len(result_dictionary['_all_scores']):
