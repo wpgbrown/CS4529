@@ -2,8 +2,6 @@ import subprocess
 import common
 import os
 
-# TODO: Expand examples to include features specific to the neural network implementation (e,g, using repo-specific, generic and status models)
-
 # One from one repo
 print("Example 1: One change from the CheckUser extension")
 subprocess.run(["/usr/bin/python3", common.path_relative_to_root("recommender/neural_network_recommender/neural_network_recommender.py"), "I1d148e18d81d1122838b9dc7e994190f4e796ddf", "--repository", "mediawiki/extensions/CheckUser", "--stats"], cwd=common.path_relative_to_root(""))

@@ -7,7 +7,7 @@ from typing import List, Union, Tuple
 
 import numpy
 import pandas
-from imblearn.under_sampling import RandomUnderSampler, ClusterCentroids
+from imblearn.under_sampling import ClusterCentroids
 from pandas import Series
 from sklearn.exceptions import NotFittedError
 from sklearn.preprocessing import StandardScaler

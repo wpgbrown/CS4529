@@ -105,8 +105,8 @@ class MLPClassifierImplementation(RecommenderImplementation, MLPClassifierImplem
         voted_X[voted_X.columns] = self.voted_scaler.transform(voted_X[voted_X.columns])
         approved_X[approved_X.columns] = self.approved_scaler.transform(approved_X[approved_X.columns])
         try:
-            predicted_approvers = [approved_X.index.values[i] for i, y in enumerate(self.approved_model.predict(voted_X)) if y]
-            predicted_voters = [voted_X.index.values[i] for i, y in enumerate(self.voted_model.predict(approved_X)) if y]
+            predicted_approvers = [approved_X.index.values[i] for i, y in enumerate(self.approved_model.predict(approved_X)) if y]
+            predicted_voters = [voted_X.index.values[i] for i, y in enumerate(self.voted_model.predict(voted_X)) if y]
         except NotFittedError as e:
             logging.error("Model not fitted.", exc_info=e)
             raise e
@@ -203,9 +203,9 @@ class MLPClassifierImplementation(RecommenderImplementation, MLPClassifierImplem
         j = 0
         combined_voter_and_approver_lists = []
         while len(predicted_approvers) != i or len(predicted_voters_but_not_approvers) != j:
-            if len(predicted_approvers) == i or (
+            if len(predicted_voters_but_not_approvers) != j and (len(predicted_approvers) == i or (
                     self._approved_to_voted and len(combined_voter_and_approver_lists) and
-                    len(combined_voter_and_approver_lists) % (self._approved_to_voted + 1) == 0):
+                    len(combined_voter_and_approver_lists) % (self._approved_to_voted + 1) == 0)):
                 # Add a voter who isn't predicted to approve every N where N is self._approved_to_voted.
                 # When all approvers are added then add all the voters.
                 # If self._approved_to_voted is 0 all approvers are added first.
@@ -225,8 +225,6 @@ class MLPClassifierImplementation(RecommenderImplementation, MLPClassifierImplem
 
 if __name__ == '__main__':
     argument_parser = argparse.ArgumentParser(description="A Multi-layer Perceptron classifier implementation of a tool that recommends reviewers for the MediaWiki project")
-    # TODO: Deduplicate from rule_based_recommender.py where possible?
-    # TODO: Allow use of either repo-specific or generic?
     # TODO: Cause training if no model exists?
     argument_parser.add_argument('change_id', nargs='+', help="The change ID(s) of the changes you want to get recommended reviewers for")
     argument_parser.add_argument('--repository', nargs='+', help="The repository for these changes. Specifying one repository applies to all changes. Multiple repositories apply to each change in order.", required=True)
