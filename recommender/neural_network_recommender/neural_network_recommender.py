@@ -105,6 +105,10 @@ class MLPClassifierImplementation(RecommenderImplementation, MLPClassifierImplem
         voted_X[voted_X.columns] = self.voted_scaler.transform(voted_X[voted_X.columns])
         approved_X[approved_X.columns] = self.approved_scaler.transform(approved_X[approved_X.columns])
         try:
+            predicted_approvers = []
+            for i, classified in enumerate(self.approved_model.predict(approved_X)):
+                if classified:
+                    predicted_approvers.append(approved_X.index.values[i])
             predicted_approvers = [approved_X.index.values[i] for i, y in enumerate(self.approved_model.predict(approved_X)) if y]
             predicted_voters = [voted_X.index.values[i] for i, y in enumerate(self.voted_model.predict(voted_X)) if y]
         except NotFittedError as e:
