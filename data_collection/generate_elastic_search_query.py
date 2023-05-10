@@ -203,11 +203,13 @@ class ElasticSearchAggregationBuilder(AggregationBuilderInterface):
         })
         return self
 
+
     def sum_bucket(self, bucket_path):
         self.add_type('sum_bucket', {
             "buckets_path": bucket_path
         })
         return self
+
     def filters(self, filters: Union[List[FiltersItemBuilder], List[dict], FiltersItemBuilder, dict]):
         if not isinstance(filters, list):
             filters = [ filters ]

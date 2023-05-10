@@ -327,24 +327,31 @@ class MLPClassifierTrainer(MLPClassifierImplementationBase):
                                 model.scaler.fit(X)
                             model.scaler_has_been_trained = True
                         for X, approved, voted in zip(model.X_train, model.approved_train, model.voted_train):
-                            try:
-                                X[X.columns] = model.scaler.transform(X[X.columns])
-                            except ValueError:
-                                logging.error("Transform failed for " + model.name + " on one training data item. This has been skipped.")
-                                continue
                             # Under-sample the training data to reduce bias towards not recommending
                             approved: Series
                             if True in approved.values and False in approved.values:
-                                under_sampled_approved = model.approved_under_sampler.fit_resample(X, approved)
-                                model.under_sampled_approved_X_train.append(under_sampled_approved[0])
-                                model.under_sampled_approved_train.append(under_sampled_approved[1])
+                                under_sampled_approved_X, under_sampled_approved = model.approved_under_sampler.fit_resample(X, approved)
+                                """try:
+                                    under_sampled_approved_X[X.columns] = model.scaler.transform(under_sampled_approved_X[X.columns])
+                                except ValueError as e:
+                                    logging.error(
+                                        "Transform failed for " + model.name + " on one training data item. This has been skipped.", exc_info=e)
+                                    continue"""
+                                model.under_sampled_approved_X_train.append(under_sampled_approved_X)
+                                model.under_sampled_approved_train.append(under_sampled_approved)
                             if True in voted.values and False in voted.values:
-                                under_sampled_voted = model.approved_under_sampler.fit_resample(X, voted)
-                                model.under_sampled_voted_X_train.append(under_sampled_voted[0])
-                                model.under_sampled_voted_train.append(under_sampled_voted[1])
+                                under_sampled_voted_X, under_sampled_voted = model.voted_under_sampler.fit_resample(X, voted)
+                                """try:
+                                    under_sampled_voted_X[X.columns] = model.scaler.transform(under_sampled_voted_X[X.columns])
+                                except ValueError as e:
+                                    logging.error(
+                                        "Transform failed for " + model.name + " on one training data item. This has been skipped.", exc_info=e)
+                                    continue"""
+                                model.under_sampled_voted_X_train.append(under_sampled_voted_X)
+                                model.under_sampled_voted_train.append(under_sampled_voted)
                         for X in model.X_test:
                             try:
-                                X[X.columns] = model.scaler.transform(X[X.columns])
+                                """X[X.columns] = model.scaler.transform(X[X.columns])"""
                                 model.X_test_scaled.append(X)
                             except ValueError:
                                 logging.error("Transform failed for " + model.name + " on one testing data item. This has been skipped.")
@@ -393,6 +400,7 @@ class MLPClassifierTrainer(MLPClassifierImplementationBase):
                     if not name:
                         # No matching name found in the data frame. Add the name under the key 'name' to the data frame.
                         change_specific_data_frame.loc[vote['name'], :] = 0
+                        index_names_to_name.update({common.convert_name_to_index_format(vote['name']): vote['name']})
             change_specific_data_frame.at[vote['name'], "Actually voted"] = True
             if vote['value'] == 2:
                 # Was an approval vote
@@ -467,14 +475,14 @@ if __name__ == "__main__":
                     train, test = train_test_split(sub_test_data)
                     train = list(train)
                     test = list(test)
-                    """for i, change_info in enumerate(train):
+                    for i, change_info in enumerate(train):
                         print("Collating training data", i+1, "out of", len(train))
                         logging.info("Collating training data " + str(i) + " out of " + str(len(train)))
                         MLP_trainer.add_training_data(
                             repository, status, MLP_trainer.get_training_and_testing_change_specific_data_frame(
                                 repository, change_info, base_data_frame_for_repo
                             )
-                        )"""
+                        )
                     for i, change_info in enumerate(test):
                         print("Collating test data", i+1, "out of", len(test))
                         logging.info("Collating test data " + str(i) + " out of " + str(len(train)))
@@ -494,8 +502,8 @@ if __name__ == "__main__":
             logging.error("Error in processing repository " + repository + " not caught elsewhere.", exc_info=e)
             pass
     print("Training....")
-    # MLP_trainer.perform_training()
+    MLP_trainer.perform_training()
     print("Testing....")
     test_results = MLP_trainer.perform_testing()
     json.dump(test_results, open(common.path_relative_to_root("recommender/neural_network_recommender/training_test_results.json"), 'w'), cls=NpEncoder)
-    # MLP_trainer.save_models()
+    MLP_trainer.save_models()

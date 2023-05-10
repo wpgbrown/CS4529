@@ -29,6 +29,30 @@ class GitProgressPrinter(RemoteProgress):
 if __name__ == "__main__":
     logging.basicConfig(filename=common.path_relative_to_root("logs/git_blame.log.txt"), level=logging.DEBUG)
 
+def get_repo(repository: str) -> Repo:
+    """
+    Gets the Repo object for the provided repository
+
+    :param repository: The name of the repository
+    :return: A object allowing interaction with the bare cloned repository
+    """
+    repository_path = common.path_relative_to_root(
+        "data_collection/raw_data/git_repos/" + sanitize_filename(re.sub(r'/', '-', repository))
+    )
+    if not os.path.exists(repository_path):
+        logging.info("Cloning repo as it doesn't exist")
+        print("Cloning repository", repository + ". This may take a some time.")
+        # Clone the repo if it doesn't already exist
+        repo = Repo.clone_from(
+            common.gerrit_url_prefix + urllib.parse.quote(repository, safe='') + '.git',
+            repository_path,
+            progress=GitProgressPrinter()
+        )
+        return repo
+    else:
+        repo = Repo(repository_path)
+        return repo
+
 def get_bare_repo(repository: str, update_heads: bool = False) -> Repo:
     """
     Gets the Repo object for a bare cloned repo.
