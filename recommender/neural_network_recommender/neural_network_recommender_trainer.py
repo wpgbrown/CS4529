@@ -475,14 +475,14 @@ if __name__ == "__main__":
                     train, test = train_test_split(sub_test_data)
                     train = list(train)
                     test = list(test)
-                    for i, change_info in enumerate(train):
+                    """for i, change_info in enumerate(train):
                         print("Collating training data", i+1, "out of", len(train))
                         logging.info("Collating training data " + str(i) + " out of " + str(len(train)))
                         MLP_trainer.add_training_data(
                             repository, status, MLP_trainer.get_training_and_testing_change_specific_data_frame(
                                 repository, change_info, base_data_frame_for_repo
                             )
-                        )
+                        )"""
                     for i, change_info in enumerate(test):
                         print("Collating test data", i+1, "out of", len(test))
                         logging.info("Collating test data " + str(i) + " out of " + str(len(train)))
@@ -502,7 +502,7 @@ if __name__ == "__main__":
             logging.error("Error in processing repository " + repository + " not caught elsewhere.", exc_info=e)
             pass
     print("Training....")
-    MLP_trainer.perform_training()
+    # MLP_trainer.perform_training()
     print("Testing....")
     test_results = MLP_trainer.perform_testing()
     json.dump(test_results, open(common.path_relative_to_root("evaluation/results/neural_network_training_test_results.json"), 'w'), cls=NpEncoder)
