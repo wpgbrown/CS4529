@@ -107,8 +107,8 @@ class MLPClassifierImplementation(RecommenderImplementation, MLPClassifierImplem
         try:
             predicted_approvers = [approved_X.index.values[i] for i, y in enumerate(self.approved_model.predict(approved_X)) if y]
             predicted_voters = [voted_X.index.values[i] for i, y in enumerate(self.voted_model.predict(voted_X)) if y]
-            print(self.approved_model.classes_)
-            print(self.approved_model.predict_proba(approved_X))
+            # print(self.approved_model.classes_)
+            # print(self.approved_model.predict_proba(approved_X))
         except NotFittedError as e:
             logging.error("Model not fitted.", exc_info=e)
             raise e
@@ -234,7 +234,7 @@ if __name__ == '__main__':
     argument_parser.add_argument('--stats', action='store_true', help="Show stats about the recommendations.")
     argument_parser.add_argument('--model-type', choices=["repo-specific", "generic", "open", "abandoned", "merged"], default="generic", help="What model to use. The models selectable here have been trained over varying amounts of the testing data.")
     argument_parser.add_argument('--time-period', choices=common.TimePeriods.DATE_RANGES, help="What time period should data be selected from to make recommendations", default=common.TimePeriods.ALL_TIME)
-    argument_parser.add_argument('--selection-mode', choices=["random", "semi-random", "in-order"], help="How to choose the users classified as predicted to vote or approve the change.", default="in-order", required=False)
+    argument_parser.add_argument('--selection-mode', choices=["random", "semi-random", "in-order"], help="How to choose the users classified as predicted to vote or approve the change.", default="semi-random", required=False)
     argument_parser.add_argument('--no-of-predicted-approvers-to-one-voter', type=int, help="How many predicted approved should be recommended to one predicted voter. 0 for recommendations prioritise all predicted approvers over voters.", default=3, required=False)
     change_ids_with_repo_and_branch = []
     command_line_arguments = None

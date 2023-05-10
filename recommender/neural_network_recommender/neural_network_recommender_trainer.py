@@ -331,27 +331,27 @@ class MLPClassifierTrainer(MLPClassifierImplementationBase):
                             approved: Series
                             if True in approved.values and False in approved.values:
                                 under_sampled_approved_X, under_sampled_approved = model.approved_under_sampler.fit_resample(X, approved)
-                                """try:
+                                try:
                                     under_sampled_approved_X[X.columns] = model.scaler.transform(under_sampled_approved_X[X.columns])
                                 except ValueError as e:
                                     logging.error(
                                         "Transform failed for " + model.name + " on one training data item. This has been skipped.", exc_info=e)
-                                    continue"""
+                                    continue
                                 model.under_sampled_approved_X_train.append(under_sampled_approved_X)
                                 model.under_sampled_approved_train.append(under_sampled_approved)
                             if True in voted.values and False in voted.values:
                                 under_sampled_voted_X, under_sampled_voted = model.voted_under_sampler.fit_resample(X, voted)
-                                """try:
+                                try:
                                     under_sampled_voted_X[X.columns] = model.scaler.transform(under_sampled_voted_X[X.columns])
                                 except ValueError as e:
                                     logging.error(
                                         "Transform failed for " + model.name + " on one training data item. This has been skipped.", exc_info=e)
-                                    continue"""
+                                    continue
                                 model.under_sampled_voted_X_train.append(under_sampled_voted_X)
                                 model.under_sampled_voted_train.append(under_sampled_voted)
                         for X in model.X_test:
                             try:
-                                """X[X.columns] = model.scaler.transform(X[X.columns])"""
+                                X[X.columns] = model.scaler.transform(X[X.columns])
                                 model.X_test_scaled.append(X)
                             except ValueError:
                                 logging.error("Transform failed for " + model.name + " on one testing data item. This has been skipped.")
@@ -505,5 +505,5 @@ if __name__ == "__main__":
     MLP_trainer.perform_training()
     print("Testing....")
     test_results = MLP_trainer.perform_testing()
-    json.dump(test_results, open(common.path_relative_to_root("recommender/neural_network_recommender/training_test_results.json"), 'w'), cls=NpEncoder)
+    json.dump(test_results, open(common.path_relative_to_root("evaluation/results/neural_network_training_test_results.json"), 'w'), cls=NpEncoder)
     MLP_trainer.save_models()

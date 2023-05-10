@@ -5,7 +5,6 @@ import sys
 import pandas
 
 import common
-from common import TimePeriods
 from evaluation import top_k_accuracy_for_repo, mrr_result_for_repo
 from recommender.neural_network_recommender.neural_network_recommender import ModelMode, MLPClassifierImplementation, \
     SelectionMode
@@ -72,7 +71,7 @@ if __name__ == "__main__":
             except ValueError:
                 print("Number of changes was not an integer. Please try again.")
         while True:
-            model_mode = input("Please enter the models to evaluate (repo-specific, generic, or both):").strip().lower()
+            model_mode = input("Please enter the models to evaluate (repo-specific, generic, open, abandoned, merged or all):").strip().lower()
             if not model_mode:
                 # Interpret empty as all
                 model_mode = "all"
