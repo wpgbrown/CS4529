@@ -21,7 +21,7 @@ def create_and_save_graph(x, y, ylabel, title, filename, line_label = None):
     pyplot.figure()
     pyplot.plot(x, y, label=line_label)
     p = numpy.poly1d(numpy.polyfit(x, y, 1))
-    pyplot.plot(x, p(x), label="Linear trend line", linestyle="dashdot")
+    pyplot.plot(x, p(x), label="Line of best fit", linestyle="dashdot")
     pyplot.legend()
     pyplot.title(title)
     pyplot.ylabel(ylabel)
