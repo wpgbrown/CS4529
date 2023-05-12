@@ -4,7 +4,7 @@
 
 Those who want to run the code should use linux. No guarantees are provided that the code will work on other platforms.
 
-You must install the latest version of python which can downloaded at [python.org](https://www.python.org/downloads/).
+You must install the python version 3.10 which can be downloaded at [python.org](https://www.python.org/downloads/). Versions below 3.10 will likely fail and above are not tested.
 
 The libraries in the file [requirements.txt](requirements.txt) must be installed which can be done by running ```pip install -r requirements.txt``` in the console with the working directory as the root directory of this project.
 
