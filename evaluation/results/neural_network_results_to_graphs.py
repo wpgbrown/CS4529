@@ -6,6 +6,7 @@ from matplotlib import pyplot
 
 import common
 from evaluation import KValues
+from evaluation.results.rule_based_results_to_graphs import create_and_save_graph
 from recommender.neural_network_recommender.neural_network_recommender import ModelMode
 
 repo_test_files_counts = json.load(open(common.path_relative_to_root("data_collection/raw_data/repository_file_counts.json"), 'r'))
@@ -21,21 +22,6 @@ neural_network_top_k = neural_network_results['top-k']
 neural_network_mrr = neural_network_results['mrr']
 neural_network_testing_after_training_results = json.load(open("neural_network_training_test_results.json", 'r'))
 
-# TODO: Deuplicate the rule based to graphs file version? If no changed needed then do this.
-def create_and_save_graph(x, y, ylabel, title, filename, line_label = None):
-    if line_label is None:
-        # Use ylabel for line_label if line_label is None
-        line_label = ylabel
-    pyplot.figure()
-    pyplot.plot(x, y, label=line_label)
-    p = numpy.poly1d(numpy.polyfit(x, y, 1))
-    pyplot.plot(x, p(x), label="Linear trend line", linestyle="dashdot")
-    pyplot.legend()
-    pyplot.title(title)
-    pyplot.ylabel(ylabel)
-    pyplot.xlabel("Changes count")
-    pyplot.savefig('graphs/' + common.get_sanitised_filename(filename))
-
 model_types_to_appendixes = {
     ModelMode.REPO_SPECIFIC: ['_approved', '_voted'],
     ModelMode.MERGED: ['_merged_approved', '_merged_voted'],
@@ -43,7 +29,7 @@ model_types_to_appendixes = {
     ModelMode.OPEN: ['_open_approved', '_open_voted']
 }
 
-for model_mode, matching_appendixes in model_types_to_appendixes.items():
+"""for model_mode, matching_appendixes in model_types_to_appendixes.items():
     # Plot average of accuracy_score
     x = []
     y = []
@@ -87,60 +73,91 @@ for model_mode, matching_appendixes in model_types_to_appendixes.items():
         "Average accuracy scores for " + model_mode.value + " models",
         'neural-network-avg-accuracy-' + model_mode.value + '.png',
         line_label="Average accuracy score"
-    )
+    )"""
 
 
-for vote_type in ["approved", "voted"]:
+"""for vote_type in ["approved", "voted"]:
     for top_k_value in KValues.ALL_VALUES:
-        x = []
-        y = []
-        for repo, info in repo_test_changes_counts_in_order:
-            if repo not in neural_network_top_k.keys():
+        for model_mode in ModelMode:
+            for selection_mode in ['in-order', 'random', 'semi-random']:
+                x = []
+                y = []
+                for repo, info in repo_test_changes_counts_in_order:
+                    if repo not in neural_network_top_k.keys():
+                        continue
+                    if model_mode.value not in neural_network_top_k[repo].keys():
+                        continue
+                    if not len(neural_network_top_k[repo][model_mode.value]):
+                        continue
+                    if selection_mode not in neural_network_top_k[repo][model_mode.value].keys():
+                        continue
+                    if not len(neural_network_top_k[repo][model_mode.value][selection_mode]):
+                        continue
+                    if "merged" not in neural_network_top_k[repo][model_mode.value][selection_mode].keys():
+                        continue
+                    if repo == "mediawiki/core":
+                        continue
+                    x.append(info["changes_count"])
+                    y.append(neural_network_top_k[repo][model_mode.value][selection_mode]["merged"][vote_type][str(top_k_value)])
+                if not len(x):
+                    continue
+                create_and_save_graph(
+                    x, y, "Top-k score",
+                    "Top-k scores for " + vote_type + ", model type " + model_mode.value + ", selection mode " + selection_mode + ", and k of " + str(top_k_value) + " without mediawiki/core",
+                    'neural-network-top-k-' + vote_type + '-k-' + str(top_k_value) + '-model-mode-' + model_mode.value + '-selection-mode-' + selection_mode + '-no-core.png',
+                    line_label="Top-k score for k = " + str(top_k_value)
+                )
+                # Add mediawiki/core for next graph
+                # Skip for now.
+                # TODO: Remove below after core results generated.
                 continue
-            if "merged" not in neural_network_top_k[repo].keys():
-                continue
-            if repo == "mediawiki/core":
-                continue
-            x.append(info["changes_count"])
-            y.append(neural_network_top_k[repo]["merged"][vote_type][str(top_k_value)])
-        create_and_save_graph(
-            x, y, "Top-k score",
-            "Top-k scores for " + vote_type + " and k of " + str(top_k_value) + " without mediawiki/core",
-            'neural-network-top-k-' + vote_type + '-k-' + str(top_k_value) + '-no-core.png',
-            line_label="Top-k score for k = " + str(top_k_value)
-        )
-        # Add mediawiki/core for next graph
-        x.append(repo_test_changes_counts["mediawiki/core"]["changes_count"])
-        y.append(neural_network_top_k["mediawiki/core"]["merged"][vote_type][str(top_k_value)])
-        create_and_save_graph(
-            x, y, "Top-k score",
-            "Top-k scores for " + vote_type + " and k of " + str(top_k_value),
-            'neural-network-top-k-' + vote_type + '-k-' + str(top_k_value) + '.png',
-            line_label="Top-k score for k = " + str(top_k_value)
-        )
+                x.append(repo_test_changes_counts["mediawiki/core"]["changes_count"])
+                y.append(neural_network_top_k["mediawiki/core"][model_mode.value][selection_mode]["merged"][vote_type][str(top_k_value)])
+                create_and_save_graph(
+                    x, y, "Top-k score",
+                    "Top-k scores for " + vote_type + ", model type " + model_mode.value + ", selection mode " + selection_mode + ", and k of " + str(top_k_value),
+                    'neural-network-top-k-' + vote_type + '-k-' + str(top_k_value) + '-model-mode-' + model_mode.value + '-selection-mode-' + selection_mode + '.png',
+                    line_label="Top-k score for k = " + str(top_k_value)
+                )"""
 
 for vote_type in ["approved", "voted"]:
-    x = []
-    y = []
-    for repo, info in repo_test_changes_counts_in_order:
-        if repo not in neural_network_mrr.keys():
+    for model_mode in ModelMode:
+        for selection_mode in ['in-order', 'random', 'semi-random']:
+            x = []
+            y = []
+            for repo, info in repo_test_changes_counts_in_order:
+                if repo not in neural_network_mrr.keys():
+                    continue
+                if model_mode.value not in neural_network_mrr[repo].keys():
+                    continue
+                if not len(neural_network_mrr[repo][model_mode.value]):
+                    continue
+                if selection_mode not in neural_network_mrr[repo][model_mode.value].keys():
+                    continue
+                if not len(neural_network_mrr[repo][model_mode.value][selection_mode]):
+                    continue
+                if "merged" not in neural_network_mrr[repo][model_mode.value][selection_mode].keys():
+                    continue
+                if vote_type not in neural_network_mrr[repo][model_mode.value][selection_mode]["merged"].keys():
+                    continue
+                if repo == "mediawiki/core":
+                    continue
+                x.append(info["changes_count"])
+                y.append(neural_network_mrr[repo][model_mode.value][selection_mode]["merged"][vote_type])
+            if not len(x):
+                continue
+            create_and_save_graph(
+                x, y, "MRR score",
+                "MRR scores for " + vote_type + ", model type " + model_mode.value + ", selection mode " + selection_mode + " without mediawiki/core",
+                'neural-network-mrr-' + vote_type + '-model-mode-' + model_mode.value + '-selection-mode-' + selection_mode + '-no-core.png'
+            )
+            # Add mediawiki/core for next graph
+            # TODO: Remove the continue statement when mediawiki/core has results.
             continue
-        if "merged" not in neural_network_mrr[repo].keys():
-            continue
-        if repo == "mediawiki/core":
-            continue
-        x.append(info["changes_count"])
-        y.append(neural_network_mrr[repo]["merged"][vote_type])
-    create_and_save_graph(
-        x, y, "MRR score",
-        "MRR scores for " + vote_type + " without mediawiki/core",
-        'neural-network-mrr-' + vote_type + '-no-core.png'
-    )
-    # Add mediawiki/core for next graph
-    x.append(repo_test_changes_counts["mediawiki/core"]["changes_count"])
-    y.append(neural_network_mrr["mediawiki/core"]["merged"][vote_type])
-    create_and_save_graph(
-        x, y, "MRR score",
-        "MRR scores for " + vote_type,
-        'neural-network-mrr-' + vote_type + '.png'
-    )
+            x.append(repo_test_changes_counts["mediawiki/core"]["changes_count"])
+            y.append(neural_network_mrr["mediawiki/core"]["merged"][vote_type])
+            create_and_save_graph(
+                x, y, "MRR score",
+                "MRR scores for " + vote_type + ", model type " + model_mode.value + ", selection mode " + selection_mode,
+                'neural-network-mrr-' + vote_type + '-model-mode-' + model_mode.value + '-selection-mode-' + selection_mode + '.png'
+            )

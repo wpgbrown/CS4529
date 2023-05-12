@@ -1,5 +1,7 @@
 import json
+from typing import List
 
+from scipy.stats import linregress
 import numpy
 from matplotlib import pyplot
 
@@ -14,10 +16,13 @@ rule_based_results = json.load(open("rule_based_recommender.json", 'r'))
 rule_based_top_k = rule_based_results['top-k']
 rule_based_mrr = rule_based_results['mrr']
 
-def create_and_save_graph(x, y, ylabel, title, filename, line_label = None):
+associated_line_of_best_fit_stats = {}
+
+def create_and_save_graph(x, y, ylabel, title, filename, line_label = None) -> List:
     if line_label is None:
         # Use ylabel for line_label if line_label is None
         line_label = ylabel
+    pyplot.close()
     pyplot.figure()
     pyplot.plot(x, y, label=line_label)
     p = numpy.poly1d(numpy.polyfit(x, y, 1))
@@ -27,6 +32,9 @@ def create_and_save_graph(x, y, ylabel, title, filename, line_label = None):
     pyplot.ylabel(ylabel)
     pyplot.xlabel("Changes count")
     pyplot.savefig('graphs/' + common.get_sanitised_filename(filename))
+    line_of_best_fit_stats = linregress(x, y)
+    associated_line_of_best_fit_stats[title] = [line_of_best_fit_stats.slope, line_of_best_fit_stats.rvalue, line_of_best_fit_stats.pvalue]
+    return associated_line_of_best_fit_stats[title]
 
 for vote_type in ["approved", "voted"]:
     for top_k_value in KValues.ALL_VALUES:
@@ -82,3 +90,5 @@ for vote_type in ["approved", "voted"]:
         "MRR scores for " + vote_type,
         'rule-based-mrr-' + vote_type + '.png'
     )
+
+json.dump(associated_line_of_best_fit_stats, open('rule_based_line_of_best_fit_stats.json', 'w'))

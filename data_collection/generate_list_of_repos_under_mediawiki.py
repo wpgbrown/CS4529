@@ -32,7 +32,8 @@ def generate_list_of_repos( output_file_name, prefix: str = '' ):
             )
         print(repository_list)
     finally:
-        json.dump( repository_list, open( output_file_name, "w" ) )
+        pass
+        # json.dump( repository_list, open( output_file_name, "w" ) )
 
 # Generate data
 generate_list_of_repos("raw_data/mediawiki_repos.json", 'mediawiki/')

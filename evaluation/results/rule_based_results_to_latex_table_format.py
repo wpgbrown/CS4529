@@ -25,6 +25,7 @@ repo_test_changes_counts_in_order = sorted(repo_test_changes_counts_in_order, ke
 if len(arguments.repositories):
     repo_test_changes_counts_in_order = list(filter(lambda x: x[0] in arguments.repositories, repo_test_changes_counts_in_order))
 
+print("File count and changes count stats")
 min_file_count = min(repo_file_counts_in_order, key=lambda x: x[1])
 min_changes_count = min(repo_test_changes_counts_in_order, key=lambda x: x[1]["changes_count"])
 print("Minimum &", min_file_count[1], "&", min_changes_count[1]["changes_count"], "\\\\")
@@ -48,6 +49,7 @@ print("90th percentile &", int(ninety_percentile_file_count), "&", int(ninety_pe
 evaluation_results = json.load(open("rule_based_recommender.json", 'r'))
 top_k_accuracies = evaluation_results['top-k']
 mrr_score = evaluation_results['mrr']
+print("Top-k")
 for status in [ModelMode.OPEN.value, ModelMode.MERGED.value, ModelMode.ABANDONED.value]:
     for vote_type in ["approved", "voted"]:
         print("\n\n\n")
@@ -66,6 +68,7 @@ for status in [ModelMode.OPEN.value, ModelMode.MERGED.value, ModelMode.ABANDONED
                 print('&', round(top_k_score, 3), end=' ')
             print("\\\\")
 
+print("MRR")
 for status in [ModelMode.OPEN.value, ModelMode.MERGED.value, ModelMode.ABANDONED.value]:
     print("\n\n\n")
     print("Status:", status)
@@ -78,3 +81,13 @@ for status in [ModelMode.OPEN.value, ModelMode.MERGED.value, ModelMode.ABANDONED
         for vote_type_mrr_score in repository_mrr[status].values():
             print('&', round(vote_type_mrr_score, 3), end=' ')
         print("\\\\")
+
+associated_line_of_best_fit_stats = json.load(open('rule_based_line_of_best_fit_stats.json', 'r'))
+
+print("\n\n\n")
+print("Line of best fit stats")
+for graph_title, stats in associated_line_of_best_fit_stats.items():
+    print(graph_title, end=' ')
+    for stat in stats:
+        print('&', round(stat, 3), end=' ')
+    print("\\\\")
