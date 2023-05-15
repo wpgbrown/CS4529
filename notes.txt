@@ -1,2 +1,0 @@
-18 Feb:
-"curl --user dreamyjazz:password https://gerrit.wikimedia.org/r/a/groups/" used to generate groups_list.json
