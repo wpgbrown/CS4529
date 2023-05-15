@@ -25,7 +25,8 @@ import warnings
 
 warnings.filterwarnings("ignore")
 
-# TODO: From https://stackoverflow.com/questions/50916422/python-typeerror-object-of-type-int64-is-not-json-serializable
+# This code is taken from https://stackoverflow.com/a/57915246
+#  which was written by Jie Yang
 class NpEncoder(json.JSONEncoder):
     def default(self, obj):
         if isinstance(obj, numpy.integer):
@@ -35,7 +36,7 @@ class NpEncoder(json.JSONEncoder):
         if isinstance(obj, numpy.ndarray):
             return obj.tolist()
         return super(NpEncoder, self).default(obj)
-# END TODO
+# End from https://stackoverflow.com/a/57915246
 
 class ModelScalerAndData:
     """

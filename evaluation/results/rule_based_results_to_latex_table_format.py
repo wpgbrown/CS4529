@@ -50,7 +50,8 @@ ninety_percentile_file_count = numpy.percentile([x[1] for x in repo_file_counts_
 ninety_percentile_changes_count = numpy.percentile([x[1]["changes_count"] for x in repo_test_changes_counts_in_order], 90)
 print("90th percentile &", int(ninety_percentile_file_count), "&", int(ninety_percentile_changes_count), "\\\\")
 
-# TODO: Modified version of https://stackoverflow.com/questions/32812255/round-floats-down-in-python-to-keep-one-non-zero-decimal-only
+# This code is a modified version of the code found at https://stackoverflow.com/a/62464992
+#  and is written by Vadim Isakov
 def round_float(num, non_zero_digit_count):
     if not num:
         return num
@@ -62,7 +63,7 @@ def round_float(num, non_zero_digit_count):
         round_value +=1
 
     return round(num, round_value)
-# End from https://stackoverflow.com/questions/32812255/round-floats-down-in-python-to-keep-one-non-zero-decimal-only
+# End from https://stackoverflow.com/a/62464992
 
 if __name__ == "__main__":
     # Top-k
