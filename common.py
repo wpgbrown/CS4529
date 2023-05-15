@@ -120,7 +120,6 @@ class TimePeriods:
 
 @lru_cache(maxsize=5)
 def get_test_data_for_repo(repository: str) -> tuple:
-    # TODO: Update from the copy
     with open(path_relative_to_root('data_collection/raw_data/test_data_set.json'), 'rb') as f:
         for item in ijson.kvitems(f, 'item.' + repository):
             # Should only be one item with the repository name, so return this.

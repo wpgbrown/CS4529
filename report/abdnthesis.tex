@@ -19,15 +19,19 @@
 \usepackage{float}
 \usepackage{xcolor}
 \usepackage{wrapfig}
-\usepackage{minted, color, pdflscape, caption, tabularx, appendix}
+\usepackage{minted, color, pdflscape, caption, tabularx, appendix, tocvsec2}
 \usepackage{subcaption}
 \usepackage{amsmath,amssymb,amsthm}
 \usepackage{thmtools}
-\usepackage[hidelinks]{hyperref}
+\usepackage[hidelinks, breaklinks]{hyperref}
 \usepackage{cleveref}
 \usepackage[round,colon,authoryear]{natbib}
 \setlength{\bibsep}{0pt}
-\bibliographystyle{apalike}
+\usepackage{csquotes}
+\usepackage[ruled,vlined,linesnumbered]{algorithm2e}
+
+\usepackage{microtype}
+\DisableLigatures[?,!]{encoding=T1}
 
 \usepackage{etoolbox}
 \PassOptionsToPackage{hyphens}{url}
@@ -36,20 +40,20 @@
 \defcitealias{ExtensionTestCoverageMediaWiki}{MediaWiki extension test coverage}
 \defcitealias{mediawiki:GitReviewers}{Git Reviewers list}
 \defcitealias{mediawiki:developersmaintainers}{Code maintainers list}
-\defcitealias{WikiApiaryAbout}{WikiApiary}
-\defcitealias{WikiApiaryExtensions}{WikiApiary}
-\defcitealias{GerritEfficiency}{Git Efficiency}
-\defcitealias{PhabricatorBacklog}{Phabricator Backlog}
-\defcitealias{GitOverview}{Git Overview}
-\defcitealias{GerritApprovals}{Gerrit Approvals}
-\defcitealias{BitergAbout}{Wikimedia Bitergia Analytics}
 \defcitealias{GitExtensionsList}{list of extensions on MediaWiki's git repositories}
 
 \newcommand{\rcnote}[1]{\noindent \textcolor{red}{Rafael: {#1}}}
 
-\usepackage[T1]{fontenc}
+\newcommand{\williamnote}[1]{\noindent \textcolor{blue}{William (self-note): {#1}}}
 
-\title{Automatic recommendation of code reviewers in an open-source environment}
+\newcommand{\williamnoteforrafael}[1]{\noindent \textcolor{blue}{William (for Rafael): {#1}}}
+
+\newcommand{\citepmediawiki}[1]{(MediaWiki contributors, \citeyear{#1})}
+
+\usepackage[T1]{fontenc}
+\bibliographystyle{plainnat}
+
+\title{Automatic code reviewer recommendations in the open-source project MediaWiki}
 \author{William Brown}
 % IMO this is a bit silly, but some like to include these. To remove,
 % delete this declaration and remove the option from the
@@ -63,19 +67,6 @@
 %%%% they don't get mixed up.
     
 \date{2023}
-
-
-
-Todo this week:
-* Requirements
-* Introduction
-* Good amount of work on Related work
-
-* Data collected in the majority or what is to be initially collected
-* Test data
-
-
-
 
 
 
@@ -94,6 +85,9 @@ Todo this week:
 \sfthing{\PP}{P}
 \sfthing{\FF}{F}
 
+\def\UrlBreaks{\do\/\do-}
+\def\UrlBigBreaks{\do\/\do-}
+
 %% This will make sure that all cross-references are correct (including
 %% references to those file not included) but will produce a dvi
 %% file with only those files/chapters you specify included.
@@ -108,41 +102,49 @@ Todo this week:
 %%%% Then the abstract and acknowledgements
 
 \begin{abstract}
-  An expansion of the title and contraction of the thesis.
+\rcnote{You want the abstract to cover the entire page or be close to it (but do not go over one page).}
+
+  Code review is a critical part of software development which catches bugs and improves the quality of the code. However, identifying appropriate reviewers in a large project with many potential reviewers is a challenge. \rcnote{Talk more about the challenges and why it can be so challenging.}
+  
+  In this report we implement a rule based and neural network based recommender implementations to automatically recommend reviewers for changes in the open-source project ``MediaWiki''. To make these recommendations a large dataset of items including code review votes, comments and code history is collected and applied to the implementations. \rcnote{Talk more about the approach here.}
+  
+  The evaluation results suggest that ... %We finally discuss the implications of the evaluation and detail future research opportunities created by this report.
 \end{abstract}
 
 \begin{acknowledgements}
-  Much stuff borrowed from elsewhere.
-  Elastic search queries based on ones used in panels from wikimedia.biterg.io
+\begingroup
+\let\clearpage\relax
+  \include{"other/acknowledgements"}
+  \endgroup
 \end{acknowledgements}
 
 %%%% It should have a table of contents, but delete the other two as
 %%%% necessary.
 
 \tableofcontents
-%\listoftables
-%\listoffigures
+\listoftables
+\listoffigures
 
-\include{"abdnthesis/main body sections/introduction"}
-%\include{faq}
-\include{"abdnthesis/main body sections/background-related-work"}
-\include{"abdnthesis/main body sections/requirements"}
-\include{"abdnthesis/main body sections/research-question"}
-\include{"abdnthesis/main body sections/implementation"}
-\include{"abdnthesis/main body sections/evaluation"}
-\include{"abdnthesis/main body sections/testing"}
-\include{"abdnthesis/main body sections/conclusion"}
-\include{abdnthesis/appendixes/technical-manual}
-\include{abdnthesis/appendixes/user-manual}
-% \include{design}
-% \include{implementation}
-% \include{evaluation}
-% \include{discussion}
-% \include{conclusion}
-
-\appendix
-% \include{proof}
+% \clearpage
+% \begingroup
+% \let\clearpage\relax
+\include{"main/introduction"}
+\include{"main/background-related-work"}
+\include{"main/requirements"}
+\include{"main/implementation"}
+\include{"main/evaluation"}
+\include{"main/conclusion"}
+% \endgroup
 
 \bibliography{mybib}
+
+\appendix
+\settocdepth{chapter}
+% \include{proof}
+\include{appendixes/technical-manual}
+\include{appendixes/user-manual}
+\include{appendixes/detailed-results}
+
+
 
 \end{document}

@@ -327,26 +327,21 @@ class MLPClassifierTrainer(MLPClassifierImplementationBase):
                                 model.scaler.fit(X)
                             model.scaler_has_been_trained = True
                         for X, approved, voted in zip(model.X_train, model.approved_train, model.voted_train):
+                            try:
+                                X[X.columns] = model.scaler.transform(X[X.columns])
+                            except ValueError as e:
+                                logging.error(
+                                    "Transform failed for " + model.name + " on one training data item. This has been skipped.",
+                                    exc_info=e)
+                                continue
                             # Under-sample the training data to reduce bias towards not recommending
                             approved: Series
                             if True in approved.values and False in approved.values:
                                 under_sampled_approved_X, under_sampled_approved = model.approved_under_sampler.fit_resample(X, approved)
-                                try:
-                                    under_sampled_approved_X[X.columns] = model.scaler.transform(under_sampled_approved_X[X.columns])
-                                except ValueError as e:
-                                    logging.error(
-                                        "Transform failed for " + model.name + " on one training data item. This has been skipped.", exc_info=e)
-                                    continue
                                 model.under_sampled_approved_X_train.append(under_sampled_approved_X)
                                 model.under_sampled_approved_train.append(under_sampled_approved)
                             if True in voted.values and False in voted.values:
                                 under_sampled_voted_X, under_sampled_voted = model.voted_under_sampler.fit_resample(X, voted)
-                                try:
-                                    under_sampled_voted_X[X.columns] = model.scaler.transform(under_sampled_voted_X[X.columns])
-                                except ValueError as e:
-                                    logging.error(
-                                        "Transform failed for " + model.name + " on one training data item. This has been skipped.", exc_info=e)
-                                    continue
                                 model.under_sampled_voted_X_train.append(under_sampled_voted_X)
                                 model.under_sampled_voted_train.append(under_sampled_voted)
                         for X in model.X_test:

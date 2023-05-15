@@ -77,9 +77,9 @@ class RuleBasedImplementation(RecommenderImplementation):
         logging.debug("Reviewer votes: " + str(reviewer_votes_for_current_repo))
         for vote_weighting_key, vote_weightings in self.weightings.votes.items():
             for key, weighting in vote_weightings.items():
-                for reviewer_name, comment_percentage in reviewer_votes_for_current_repo[key].items():
+                for reviewer_name, reviewer_percentages in reviewer_votes_for_current_repo[key].items():
                     reviewer = recommendations.get_reviewer_by_name_or_create_new(reviewer_name)
-                    reviewer.add_score(comment_percentage[vote_weighting_key], weighting)
+                    reviewer.add_score(reviewer_percentages[vote_weighting_key], weighting)
         del reviewer_votes_for_current_repo
         # Get authors of previous comments
         comments_for_current_repo = get_comment_data()[self.repository]

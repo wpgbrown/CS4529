@@ -29,7 +29,9 @@ model_types_to_appendixes = {
     ModelMode.OPEN: ['_open_approved', '_open_voted']
 }
 
-"""for model_mode, matching_appendixes in model_types_to_appendixes.items():
+associated_line_of_best_fit_stats = {}
+
+for model_mode, matching_appendixes in model_types_to_appendixes.items():
     # Plot average of accuracy_score
     x = []
     y = []
@@ -59,7 +61,6 @@ model_types_to_appendixes = {
             continue
         if testing_after_training_results["accuracy_score"]["average"] is None:
             continue
-        # TODO: Graphs with file count and test changes count as x to show neither are a good way to graph?
         # Add to the data to plot.
         x.append(repo_test_changes_counts[repository]["changes_count"])
         y.append(testing_after_training_results["accuracy_score"]["average"])
@@ -73,13 +74,13 @@ model_types_to_appendixes = {
         "Average accuracy scores for " + model_mode.value + " models",
         'neural-network-avg-accuracy-' + model_mode.value + '.png',
         line_label="Average accuracy score"
-    )"""
+    )
 
 
-"""for vote_type in ["approved", "voted"]:
+for vote_type in ["approved", "voted"]:
     for top_k_value in KValues.ALL_VALUES:
-        for model_mode in ModelMode:
-            for selection_mode in ['in-order', 'random', 'semi-random']:
+        for model_mode in [ModelMode.REPO_SPECIFIC]:
+            for selection_mode in ['in-order']:
                 x = []
                 y = []
                 for repo, info in repo_test_changes_counts_in_order:
@@ -101,28 +102,29 @@ model_types_to_appendixes = {
                     y.append(neural_network_top_k[repo][model_mode.value][selection_mode]["merged"][vote_type][str(top_k_value)])
                 if not len(x):
                     continue
-                create_and_save_graph(
+                associated_line_of_best_fit_stats["Top-k scores for " + vote_type + " predictions using the model type '" + model_mode.value + "', selection mode '" + selection_mode + "', and k of " + str(
+                        top_k_value) + " without mediawiki/core"] = create_and_save_graph(
                     x, y, "Top-k score",
-                    "Top-k scores for " + vote_type + ", model type " + model_mode.value + ", selection mode " + selection_mode + ", and k of " + str(top_k_value) + " without mediawiki/core",
+                    "Top-k scores for " + vote_type + " predictions using the model type '" + model_mode.value + "',\n selection mode '" + selection_mode + "', and k of " + str(
+                        top_k_value) + " without mediawiki/core",
                     'neural-network-top-k-' + vote_type + '-k-' + str(top_k_value) + '-model-mode-' + model_mode.value + '-selection-mode-' + selection_mode + '-no-core.png',
                     line_label="Top-k score for k = " + str(top_k_value)
                 )
                 # Add mediawiki/core for next graph
-                # Skip for now.
-                # TODO: Remove below after core results generated.
-                continue
                 x.append(repo_test_changes_counts["mediawiki/core"]["changes_count"])
                 y.append(neural_network_top_k["mediawiki/core"][model_mode.value][selection_mode]["merged"][vote_type][str(top_k_value)])
-                create_and_save_graph(
+                associated_line_of_best_fit_stats[
+                    "Top-k scores for " + vote_type + " predictions using the model type '" + model_mode.value + "', selection mode '" + selection_mode + "', and k of " + str(
+                        top_k_value)] = create_and_save_graph(
                     x, y, "Top-k score",
-                    "Top-k scores for " + vote_type + ", model type " + model_mode.value + ", selection mode " + selection_mode + ", and k of " + str(top_k_value),
+                    "Top-k scores for " + vote_type + " predictions using the model type '" + model_mode.value + "',\n selection mode '" + selection_mode + "', and k of " + str(top_k_value),
                     'neural-network-top-k-' + vote_type + '-k-' + str(top_k_value) + '-model-mode-' + model_mode.value + '-selection-mode-' + selection_mode + '.png',
                     line_label="Top-k score for k = " + str(top_k_value)
-                )"""
+                )
 
 for vote_type in ["approved", "voted"]:
-    for model_mode in ModelMode:
-        for selection_mode in ['in-order', 'random', 'semi-random']:
+    for model_mode in [ModelMode.REPO_SPECIFIC]:
+        for selection_mode in ['in-order']:
             x = []
             y = []
             for repo, info in repo_test_changes_counts_in_order:
@@ -146,18 +148,18 @@ for vote_type in ["approved", "voted"]:
                 y.append(neural_network_mrr[repo][model_mode.value][selection_mode]["merged"][vote_type])
             if not len(x):
                 continue
-            create_and_save_graph(
+            associated_line_of_best_fit_stats["MRR scores for " + vote_type + ", model type " + model_mode.value + ", selection mode " + selection_mode + " without mediawiki/core"] = create_and_save_graph(
                 x, y, "MRR score",
-                "MRR scores for " + vote_type + ", model type " + model_mode.value + ", selection mode " + selection_mode + " without mediawiki/core",
+                "MRR scores for " + vote_type + ", model type " + model_mode.value + ",\n selection mode " + selection_mode + " without mediawiki/core",
                 'neural-network-mrr-' + vote_type + '-model-mode-' + model_mode.value + '-selection-mode-' + selection_mode + '-no-core.png'
             )
             # Add mediawiki/core for next graph
-            # TODO: Remove the continue statement when mediawiki/core has results.
-            continue
             x.append(repo_test_changes_counts["mediawiki/core"]["changes_count"])
-            y.append(neural_network_mrr["mediawiki/core"]["merged"][vote_type])
-            create_and_save_graph(
+            y.append(neural_network_mrr["mediawiki/core"][model_mode.value][selection_mode]["merged"][vote_type])
+            associated_line_of_best_fit_stats["MRR scores for " + vote_type + ", model type " + model_mode.value + ", selection mode " + selection_mode] = create_and_save_graph(
                 x, y, "MRR score",
-                "MRR scores for " + vote_type + ", model type " + model_mode.value + ", selection mode " + selection_mode,
+                "MRR scores for " + vote_type + ", model type " + model_mode.value + ",\n selection mode " + selection_mode,
                 'neural-network-mrr-' + vote_type + '-model-mode-' + model_mode.value + '-selection-mode-' + selection_mode + '.png'
             )
+
+json.dump(associated_line_of_best_fit_stats, open('neural_network_line_of_best_fit_stats.json', 'w'))

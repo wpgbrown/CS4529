@@ -106,10 +106,10 @@ if __name__ == "__main__":
                     print("  Evaluating using selection mode", selection_mode.value)
                     try:
                         top_k_accuracies[repository][model.value][selection_mode.value] = top_k_accuracy_for_repo(
-                            MLPClassifierImplementation(repository, model, time_period, selection_mode).recommend_using_change_info, repository, num_changes, branch
+                            MLPClassifierImplementation(repository, model, selection_mode, time_period=time_period).recommend_using_change_info, repository, num_changes, branch
                         )
                         mrr_score[repository][model.value][selection_mode.value] = mrr_result_for_repo(
-                            MLPClassifierImplementation(repository, model, time_period, selection_mode).recommend_using_change_info, repository, num_changes, branch
+                            MLPClassifierImplementation(repository, model, selection_mode, time_period=time_period).recommend_using_change_info, repository, num_changes, branch
                         )
                     except BaseException as e:
                         # Model does not exist, so skip.

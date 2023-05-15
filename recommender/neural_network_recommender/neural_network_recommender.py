@@ -6,7 +6,7 @@ import random
 import sys
 from enum import Enum
 from functools import lru_cache
-from typing import Tuple, Union, List, Any
+from typing import Tuple, Union, List, Any, Optional
 
 from requests import HTTPError
 from sklearn.exceptions import NotFittedError
@@ -32,7 +32,7 @@ class SelectionMode(Enum):
     IN_ORDER = "in-order"
 
 class MLPClassifierImplementation(RecommenderImplementation, MLPClassifierImplementationBase):
-    def __init__(self, repository: str, model_type: ModelMode, time_period: str, selection_mode: Union[str, SelectionMode], approved_to_voted: int = 3):
+    def __init__(self, repository: str, model_type: ModelMode, selection_mode: Union[str, SelectionMode], approved_to_voted: int = 3, time_period: Optional[str] = None):
         super().__init__(repository)
         match model_type:
             case ModelMode.REPO_SPECIFIC:
@@ -45,6 +45,15 @@ class MLPClassifierImplementation(RecommenderImplementation, MLPClassifierImplem
                 model_name = common.get_sanitised_filename(repository) + "_merged"
             case _:
                 model_name = model_type.value
+        if time_period is None or not len(time_period):
+            # Get the appropriate time period from the training and testing data set
+            #  if it wasn't defined.
+            test_data_for_repo = common.get_test_data_for_repo(repository)
+            if test_data_for_repo is None:
+                # Use all time if there is no test data for the repo
+                time_period = "all time"
+            else:
+                time_period = test_data_for_repo[0]
         self.approved_model = self.load_model(model_name + "_approved")
         """The model for predicting who would approve a given change"""
         self.approved_scaler = self.load_scaler(model_name + "_approved")
@@ -54,8 +63,6 @@ class MLPClassifierImplementation(RecommenderImplementation, MLPClassifierImplem
         self.voted_scaler = self.load_scaler(model_name + "_voted")
         """The scaler used to scale input data before using it to predict with the voted model"""
         self.base_data_frame = self.preprocess_into_pandas_data_frame(repository)[time_period]
-        """The pandas data frame that is used as the starting point for changes on this repository. Change specific data frames add extra columns."""
-        self.time_period = time_period
         """Time period to select the data from."""
         if isinstance(selection_mode, str):
             try:
@@ -177,6 +184,8 @@ class MLPClassifierImplementation(RecommenderImplementation, MLPClassifierImplem
                 # Lookup the reviewer by their email if an email is specified.
                 reviewer = recommendations.get_reviewer_by_email(user['email'])
                 if reviewer is not None:
+                    if user['email'] == "tthoabala@wikimedia.org":
+                        pass
                     # Add the names in the user dictionary to the reviewer
                     for username_key in ['user', 'display_name', 'username']:
                         if username_key in user and user[username_key]:
@@ -227,14 +236,12 @@ class MLPClassifierImplementation(RecommenderImplementation, MLPClassifierImplem
 
 if __name__ == '__main__':
     argument_parser = argparse.ArgumentParser(description="A Multi-layer Perceptron classifier implementation of a tool that recommends reviewers for the MediaWiki project")
-    # TODO: Cause training if no model exists?
     argument_parser.add_argument('change_id', nargs='+', help="The change ID(s) of the changes you want to get recommended reviewers for")
     argument_parser.add_argument('--repository', nargs='+', help="The repository for these changes. Specifying one repository applies to all changes. Multiple repositories apply to each change in order.", required=True)
     argument_parser.add_argument('--branch', nargs='+', help="The branch these change IDs are on (default is the main branch). Specifying one branch applies to all changes. Multiple branches apply to each change in order.", default=[], required=False)
     argument_parser.add_argument('--stats', action='store_true', help="Show stats about the recommendations.")
-    argument_parser.add_argument('--model-type', choices=["repo-specific", "generic", "open", "abandoned", "merged"], default="generic", help="What model to use. The models selectable here have been trained over varying amounts of the testing data.")
-    argument_parser.add_argument('--time-period', choices=common.TimePeriods.DATE_RANGES, help="What time period should data be selected from to make recommendations", default=common.TimePeriods.ALL_TIME)
-    argument_parser.add_argument('--selection-mode', choices=["random", "semi-random", "in-order"], help="How to choose the users classified as predicted to vote or approve the change.", default="semi-random", required=False)
+    argument_parser.add_argument('--model-type', choices=["repo-specific", "generic", "open", "abandoned", "merged"], default="repo-specific", help="What model to use. The models selectable here have been trained over varying amounts of the testing data.")
+    argument_parser.add_argument('--selection-mode', choices=["random", "semi-random", "in-order"], help="How to choose the users classified as predicted to vote or approve the change.", default="in-order", required=False)
     argument_parser.add_argument('--no-of-predicted-approvers-to-one-voter', type=int, help="How many predicted approved should be recommended to one predicted voter. 0 for recommendations prioritise all predicted approvers over voters.", default=3, required=False)
     change_ids_with_repo_and_branch = []
     command_line_arguments = None
@@ -262,12 +269,6 @@ if __name__ == '__main__':
                 break
             print("Invalid model type. Please try again.")
         while True:
-            print("Time period options:", ', '.join(common.TimePeriods.DATE_RANGES[:-1]), 'and', common.TimePeriods.DATE_RANGES[-1])
-            time_period = input("Please enter the model type to be used:").strip().lower()
-            if time_period in common.TimePeriods.DATE_RANGES:
-                break
-            print("Invalid time period. Please try again.")
-        while True:
             print("Selection mode options:\n * in-order - No shuffling applied\n * random - Recommendations fully shuffled\n * semi-random - Recommendations shuffled but user cannot change more than 5 positions from their pre-shuffled state.")
             selection_mode = input("Please enter the selection mode to be used:").strip().lower()
             try:
@@ -275,15 +276,23 @@ if __name__ == '__main__':
                 break
             except ValueError:
                 print("Invalid selection mode. Please try again.")
-        # TODO: Add no-of-predicted-approvers-to-one-voter input?
-        no_of_predicted_approvers_to_one_voter = 3
+        while True:
+            no_of_predicted_approvers_to_one_voter_str = input("Please enter the number of approvers to predict for every one predicted voter\n (0 to return all predicted approvers first and empty for the default of 3):").strip().lower()
+            try:
+                if not len(no_of_predicted_approvers_to_one_voter_str):
+                    no_of_predicted_approvers_to_one_voter_str = 3
+                no_of_predicted_approvers_to_one_voter = int(no_of_predicted_approvers_to_one_voter_str)
+                if no_of_predicted_approvers_to_one_voter < 0:
+                    raise ValueError("Must be above 0.")
+                break
+            except ValueError:
+                print("Invalid input. Must either be empty to use the default of 3 or a positive integer (including 0).")
     else:
         command_line_arguments = argument_parser.parse_args()
         change_ids = command_line_arguments.change_id
         repositories = command_line_arguments.repository
         branches = command_line_arguments.branch
         model_type = command_line_arguments.model_type
-        time_period = command_line_arguments.time_period
         selection_mode = command_line_arguments.selection_mode
         no_of_predicted_approvers_to_one_voter = command_line_arguments.no_of_predicted_approvers_to_one_voter
         if len(repositories) != 1 and len(repositories) != len(change_ids):
@@ -310,7 +319,7 @@ if __name__ == '__main__':
     logging.info("Recommending with the following inputs: " + str(change_ids_with_repo_and_branch))
     for change in change_ids_with_repo_and_branch:
         try:
-            recommended_reviewers = MLPClassifierImplementation(change["repository"], ModelMode(model_type), time_period, selection_mode, no_of_predicted_approvers_to_one_voter).recommend_using_change_id(change['change_id'], change["branch"])
+            recommended_reviewers = MLPClassifierImplementation(change["repository"], ModelMode(model_type), selection_mode, no_of_predicted_approvers_to_one_voter).recommend_using_change_id(change['change_id'], change["branch"])
             logging.debug("Recommendations: " + str(recommended_reviewers))
             top_10_recommendations = recommended_reviewers.top_n(10)
             for recommendation in top_10_recommendations:

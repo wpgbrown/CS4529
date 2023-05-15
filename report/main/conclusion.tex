@@ -1,0 +1,59 @@
+\chapter{Conclusion\label{chap:conclusion}}
+
+\williamnote{Need to wait until I have a polished MLP classifier version to be able to evaluate and then conclude. From what I can see it would be a positive conclusion.}
+\rcnote{Don't forget the initial paragraph here. Use it to summarise your contributions.}
+
+\section{Research Question and Requirements}
+
+The implementations detailed in this report have allowed us to answer the research question that was proposed in Chapter~\ref{chap:introduction}. \williamnote{TODO: Re-word rest of para} Through the evaluation section and showing specific example changes and comparing them to the reviewers on the change, the authors are confident that they have showed an automated system would be effective at recommending the right reviewer for a change in the open-source project MediaWiki. However, further work would be needed to make a better determination of the answer to this question, including potentially using it on the live MediaWiki project.
+
+Overall the project met its requirements. The tools that were built are runnable through the command line interface, with tools that allowed configuration providing command line arguments. Both reviewer recommender implementations could take pre-downloaded change information or change IDs, and then produce recommendations. Both implementations, using the result classes and score associated with each recommendation, can provide a specified number of recommendations (up-to a certain point) ordered by the strength of the recommendation.
+
+The evaluation results for the rule based recommender supports the assertion that this implementation produces good recommendations. This is based on the Top-k and MRR scores being good, and in some cases (as discussed in section~\ref{section:other-implementations-comparisons}) are better than implementations proposed in previous work on reviewer recommender systems detailed in section~\ref{section:related-work}. The neural network evaluation results are not as great, but still produce relatively good recommendations and for some repositories do so better than implementations proposed in previous work.
+
+Both implementations work over a wide range of repositories. While not fully tested, both implementations should produce recommendations for all {\raise.17ex\hbox{$\scriptstyle\sim$}}1,400 repositories that were collected as part of the data collection in section~\ref{section:data-collection-implementation}\footnote{The neural network recommender would need training for the repository before recommendations can be produced, but this training should work for all the {\raise.17ex\hbox{$\scriptstyle\sim$}}1,400 repositories.}, however, for inactive repositories the recommendations are generally poorer due to the lack of data.
+
+The tool largely reduced duplication of users in the results, using techniques to de-duplicate users as discussed on page~\pageref{para:de-duplication-supporting-code} and this seemed to be fairly successful based on producing recommendations over several example changes including those discussed in section~\ref{section:perceived-accuracy-of-recommendations}.
+
+While some of the data collection tools built in Python are MediaWiki specific, the data points collected and the way the data was applied into the implementations should be applicable to other software projects. Therefore, with some modification it should be possible to use the tool on another project, especially if this is an open-source project. For example, the result classes discussed in section~\ref{section:supporting-code} are specifically built to be independent of the implementation but also could be independent of the project. This means that future research could use the result classes to make other implementations for MediaWiki or other projects without having to modify them significantly.
+
+\section{Limitations}
+The project could not be evaluated using the \emph{live} MediaWiki project by giving recommendations to users when they upload changes to Gerrit. This was because doing so would require ethical approval, which we considered not worth the time spent on gaining the approval.
+
+Only two reviewer recommender implementations were created, so other ways of implementation, such as using other neural network models, could produce better results than was found in this research project.
+
+The project only focused on the MediaWiki project and as such the research here may not be applicable to other projects. While some consideration was given to making the implementations project non-specific, to answer the research question the implementations only needed to work for the MediaWiki project. While the applicability to other software projects is not clear, we feel that the large size and importance of the MediaWiki project means that the implementations working on this project means it should work similarly well on other large open-source projects.
+
+While effort was made to ensure there were no problems, the neural network implementation was not working as expected when the evaluation was run. Because of time constraints, these issues were not fixed and the models may have performed better if the issues as described on page~\ref{para:training-when-scaling-caused-issues} had been fixed.
+
+\section{Threats to Validity}
+This project and report aimed to minimise any threats to the validity of the evaluation, results and conclusions. However, threats still are present even if they have been minimised.
+
+One threat to the internal validity of this project is that the identifier for users between datasets that are used to make the recommendations are not the same and are therefore not matched. While common differences as mentioned in the implementation chapter on page~\pageref{para:de-duplication-supporting-code} were considered the data was not validated to be free of duplication of users.
+
+A threat to external validity is that this project focused on one open-source project. If the implementations proposed here were to be applied more widely than just the MediaWiki project, then they may not apply cleanly and could produce recommendations much worse than for MediaWiki. While there is future work related to the MediaWiki project, we feel that the work done here does have application to more than just MediaWiki even if that is limited to the techniques used and types of data collected.
+
+\section{Reflection}
+
+Not fully understanding how the neural network method works hindered the work in the project. Because a lot of the model is fairly opaque, knowing that the model is ``correct'' requires evaluation. This is unlike the rule based implementation which clearly maps input data to output data using defined and easily inspectable rules.
+
+Not being able to perform the evaluation because the model needs to be built first made the process of building the neural network implementation a case of constant iterations. In the end the model was re-trained from scratch around 10 times. Giving more time to implementing the neural network implementation
+
+When presenting this model in the presentation to the markers, the system did not work as expected and instead hung without performing more than one recommendation. We have realised that this was due to blocking somewhere between the University network and the API service. When tested not at the University network, the system worked fine.
+
+If the presentation could be done again, the use of a VPN or using a recording of the model running would have been chosen. To give the opportunity for the markers to see the code working, we have presented screenshots of the code running in section~\ref{section:perceived-accuracy-of-recommendations} to demonstrate that the code runs.
+
+\section{Future work\label{section:future-work}}
+There are many avenues for future work off this project. This includes:
+\begin{itemize}
+    \item Expanding the scope to include other open-source projects.
+    \item Evaluating the use of an implementation on the live MediaWiki code review platform.
+    \item Improving the code used by unit and integration testing.
+    \item Building custom defined presets for the implementations to optimise recommendations for different priorities.
+    \item Improving the performance of the neural network implementation by experimenting with using prediction probabilities and addressing the issue regarding scaling described on page~\pageref{para:training-when-scaling-caused-issues}.
+    \item Using the Python library `LIME'\footnote{\url{https://github.com/marcotcr/lime}. Accessed 13 May 2023.} to inspect the neural network models as described by \cite{10.1145/2939672.2939778}.
+    \item Implementing a user interface using the Gerrit plugins system to make requesting recommendations and providing them automatically on submitted changes seamless.
+    \item Collecting members of the LDAP WMF group\footnote{\url{https://ldap.toolforge.org/group/wmf}. Accessed 15 May 2023.} that is in the mediawiki Gerrit group but not returned when requesting this data from the API.
+\end{itemize}
+
+The adaptability built into the result and implementation base classes will make future implementations on the MediaWiki project much easier as the common supporting code can be used for new implementations. Collecting the data on a schedule would be needed to make this work on live wikis.

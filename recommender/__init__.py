@@ -162,7 +162,7 @@ class RecommendedReviewer:
 
 class NamesAndEmailsBase(Iterable, Sized, ABC):
     def __init__(self, names_or_emails: List[str], parent_weak_ref: ReferenceType):
-        self._names_or_emails = [x.strip() for x in list(set(names_or_emails))]
+        self._names_or_emails = [x.strip() for x in names_or_emails]
         self.parent_weak_ref = parent_weak_ref
 
     @abstractmethod

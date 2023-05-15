@@ -1,0 +1,62 @@
+\chapter{Introduction\label{chap:introduction}}
+
+Code review is an essential step in the process of making changes in software development. In open-source development where anyone can submit a change, this is particularly important as it helps ensure changes are high-quality. Finding the right reviewer for your change, especially as a newcomer to a project, can be a challenging process. This is worse if the project is diverse and large.
+
+To help address this problem two implementations of a system that automatically recommends users to be added to a change have been created and detailed in this report. These implementations work on the open-source project ``MediaWiki'', but have been designed for future portability. One implementation named `rule based' explores the use of pre-determined weights and the other uses a neural network to perform the recommendations. The results highlight the benefits of such a system and the results align with previous research on other open-source projects.
+
+\section{Motivation and Scope}
+This project is motivated to find a better solution for the finding of relevant reviewers, specifically in open-source projects. Making the barrier to finding a reviewer lower could encourage more participation in open-source projects by making patches be reviewed faster.
+
+Code review is the process at allows the review of proposed changes to the code. This is a vital step in the process to make changes to code, and without this step bugs, security issues and poor quality code can be merged into the code base. Code review also allows users who are less trusted to propose changes without the need to inherently trust them to not introduce issues.
+
+Because code review is necessary before a change is merged, it has the potential to be a bottleneck to development. Without efficient code review, code review speed can be the deciding factor on the number of changes that are merged and therefore the maintenance levels surrounding the code base.
+
+This project has the scope of covering the open-source software named ``MediaWiki'' (logo shown in Figure~\ref{fig:mediawikilogo}). MediaWiki is an open-source project that is used to run a wiki. A wiki is a website that allows anyone to edit it \citep{collins-dictionary-definition-wiki}. Wikipedia and sister sites run on MediaWiki \citep{WhatIsMediaWiki}. The base installation is all that is needed to run a wiki, but the functionality can easily be extended and adapted by the use of skins and extensions. Skins are used to provide styling to the user interface of the pages shown to the user. Extensions are much more varied regarding their intended use \citepmediawiki{mediawiki:manualextensions} and include anti-abuse tools provided by the CheckUser extension \citepmediawiki{ExtensionCheckUser}, tools to edit wiki pages as rich content provided by VisualEditor \citepmediawiki{mediawiki:visual-editor} and tools for centralised account management over multiple sites \citepmediawiki{mediawiki:central-auth}.
+
+\begin{figure}[htb]
+    \centering
+    \includegraphics[scale=0.035]{images/MediaWiki-2020-logo.svg.png}
+    \caption[MediaWiki project logo.]{MediaWiki project logo. Image credit: Serhio Magpie, CC BY-SA 4.0, via Wikimedia Commons from \url{https://commons.wikimedia.org/wiki/File:MediaWiki-2020-logo.svg}. Accessed 2 May 2023.}
+    \label{fig:mediawikilogo}
+\end{figure}
+
+MediaWiki uses Gerrit to store the code in repositories and to review changes \citepmediawiki{mediawiki:gerrit}. The Gerrit system is \enquote{highly extensible} and is used by Google for `products that are developed using Git, such as Android and Chromium` \citep{google:gerrit}. The Gerrit system also provides a REST API that is used for this project \citep{mediawiki-gerrit:rest-api-docs}. The research later produces a list of around 1,400 repositories that are a part of the MediaWiki project from the Gerrit system.
+
+Users can vote on changes submitted for review in the Gerrit system. What votes a user can give depends on what groups the user is in and this is configurable for each installation of Gerrit. The possible values for a vote are ``+2'' (otherwise known as an approval), ``+1'' (otherwise known as `looks good to me but someone else must approve'), ``-1'' (otherwise known as improvements needed) and ``-2'' (otherwise known as do not merge) \citep{gerrit:documentation-review-labels}. In the MediaWiki Gerrit system, everyone with an account can vote on changes but only users in particular groups can give ``+2'' votes. This is because ``+2'' votes will cause the changes to be merged into the code base after the tests pass. Therefore, there is a need to only let trusted users have +2 to ensure only high quality code is approved \citepmediawiki{mediawiki:gerrit-privilege-policy} \citepmediawiki{mediawiki:how-gerrit-works}.
+
+All the repositories used to run MediaWiki, including those not directly related to the core code, skins or extensions, are varied in terms of the number of uses, maintenance levels and code quality \citepmediawiki{mediawiki:manualextensions}. This variety also applies to the number of people who can review a change and the number who want to review a change. This increases the difficulty in making changes to in-use but unmaintained code, as it requires finding someone to invest the time needed.
+
+The WMF (WikiMedia Foundation) are the non-for-profit company that runs the servers that Wikipedia runs on \citep{WikiMediaFoundationAbout} and also develops with a community of volunteers the MediaWiki project \citepmediawiki{mediawiki:diff-between-phrases}.
+
+The WMF contracts the company Bitergia to provide a tool to generalise the data from Gerrit and other sources \citepmediawiki{mediawiki:community-metrics}. This service allows data collection from many sources and then collates it into panels that are easily used and inspected \citep{bitergia-analytics}. This service provides a REST API that is used to make the queries for the panels but also can be called outside the context of the panels \citepmediawiki{mediawiki:community-metrics}.
+
+The project aims to make the research adaptable to other projects where possible by making most of its elements general but will stop short of applying this research to other projects. The project will not use the implementations on the live code review system, instead evaluating the performance of the implementation(s) through appropriately selected testing changes. Testing on the live code review system is out of scope, as it would require significantly more time to obtain privileges as well as ethical approval.
+
+The intended outcome of this project is to produce an implementation that can be used as the basis for future research and potentially as a system that could be used by the MediaWiki project. The author also intends for this project to expand their knowledge of the concepts covered, including machine learning techniques.
+
+The author of this paper discloses a connection to the project as a long-term contributor to the English Wikipedia (that uses the MediaWiki software) that has administrator and functionary rights on the site. They also disclose that they have contributed to writing and reviewing code for the MediaWiki project since May 2022. The author intends to take a neutral position where possible to avoid risking the validity of this research. To do this, the author has avoided comparing the MediaWiki project to any other named project.
+
+However, the author feels that the significant knowledge about the MediaWiki project gives them an advantage in this research. It laid the groundwork for the author without the need for an investigation. The author of this paper also based their assessment from the CS4040 course (``Research Methods'') around the MediaWiki project, which allowed the author to further develop the main idea for this project.
+
+\section{Research Question\label{section:research-question}}
+
+\begin{quote}
+    \begin{center}\Large{\textit{How effective is an automated system at recommending the right reviewer for a change in the open-source project MediaWiki?}}\end{center}
+\end{quote}
+
+%\subsection{Strategy to answer}
+
+This research uses the pre-existing code review votes on merged, open and abandoned changes to evaluate the recommendations produced by the implementation(s). The types of changes have the following meanings:
+\begin{itemize}
+    \item Merged changes -- Changes that have been given approval and the changes made have been applied to the code base.
+    \item Open changes -- Changes that are waiting for or in the process of a review. The changes made have not (yet) been applied to the code base.
+    \item Abandoned changes -- Changes that have not been applied to the code base and instead have been closed without merging.
+\end{itemize}
+
+To answer the research question, the implementations have been trained using a selection of the test data set. They were given change information about a previously unseen change, that doesn't include the code review votes or reviewers already on the change, and asked to produce a list of users that it would most recommend to be added to the change. This is compared to the list of users who actually voted on the change. The recommendations are evaluated using a selection of rules and metrics, including positively indicating for users who cannot merge the change but otherwise provide good feedback. The systems are deemed as good if they produce a similar list to the users who voted on the change.
+
+\section{Outline}
+This report describes the research carried out to answer the research question. Chapter~\ref{chap:background-and-related-work} first describes the background work carried out to describe the main concepts used in this research and to investigate whether this had been done before.
+Chapter~\ref{chap:requirements} discusses the requirements, which are a more in-depth analysis of what needs to be done to carry out this research successfully.
+Then, in Chapter~\ref{chap:implementation} we discuss the development of the project, including the data collection that was needed for the implementations to be trained and make recommendations. Chapter~\ref{chap:evaluation} contains the evaluation of the implementations, as well as a discussion of the evaluation results.
+Finally, the report concludes the research in Chapter~\ref{chap:conclusion}, giving thoughts on the accuracy of the implementations and research as a whole, as well as thoughts on the viability of automatically recommending reviewers in general.

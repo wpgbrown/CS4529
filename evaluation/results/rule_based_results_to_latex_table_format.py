@@ -45,49 +45,64 @@ ninety_percentile_file_count = numpy.percentile([x[1] for x in repo_file_counts_
 ninety_percentile_changes_count = numpy.percentile([x[1]["changes_count"] for x in repo_test_changes_counts_in_order], 90)
 print("90th percentile &", int(ninety_percentile_file_count), "&", int(ninety_percentile_changes_count), "\\\\")
 
-# Top-k
-evaluation_results = json.load(open("rule_based_recommender.json", 'r'))
-top_k_accuracies = evaluation_results['top-k']
-mrr_score = evaluation_results['mrr']
-print("Top-k")
-for status in [ModelMode.OPEN.value, ModelMode.MERGED.value, ModelMode.ABANDONED.value]:
-    for vote_type in ["approved", "voted"]:
+# TODO: Modified version of https://stackoverflow.com/questions/32812255/round-floats-down-in-python-to-keep-one-non-zero-decimal-only
+def round_float(num, non_zero_digit_count):
+    if not num:
+        return num
+    current_num = abs(num) * 10
+    round_value = non_zero_digit_count
+
+    while not (current_num//1):
+        current_num *= 10
+        round_value +=1
+
+    return round(num, round_value)
+# End from https://stackoverflow.com/questions/32812255/round-floats-down-in-python-to-keep-one-non-zero-decimal-only
+
+if __name__ == "__main__":
+    # Top-k
+    evaluation_results = json.load(open("rule_based_recommender.json", 'r'))
+    top_k_accuracies = evaluation_results['top-k']
+    mrr_score = evaluation_results['mrr']
+    print("Top-k")
+    for status in [ModelMode.OPEN.value, ModelMode.MERGED.value, ModelMode.ABANDONED.value]:
+        for vote_type in ["approved", "voted"]:
+            print("\n\n\n")
+            print("Status:", status)
+            print("Vote type:", vote_type)
+            for repository, repository_top_ks in top_k_accuracies.items():
+                if status not in repository_top_ks:
+                    continue
+                if vote_type not in repository_top_ks[status]:
+                    continue
+                if len(arguments.repositories) and repository not in arguments.repositories:
+                    continue
+                vote_type_top_ks = repository_top_ks[status][vote_type]
+                print(repository, end=' ')
+                for top_k_score in vote_type_top_ks.values():
+                    print('&', round_float(top_k_score, 3), end=' ')
+                print("\\\\")
+
+    print("MRR")
+    for status in [ModelMode.OPEN.value, ModelMode.MERGED.value, ModelMode.ABANDONED.value]:
         print("\n\n\n")
         print("Status:", status)
-        print("Vote type:", vote_type)
-        for repository, repository_top_ks in top_k_accuracies.items():
-            if status not in repository_top_ks:
-                continue
-            if vote_type not in repository_top_ks[status]:
+        for repository, repository_mrr in mrr_score.items():
+            if status not in repository_mrr:
                 continue
             if len(arguments.repositories) and repository not in arguments.repositories:
                 continue
-            vote_type_top_ks = repository_top_ks[status][vote_type]
             print(repository, end=' ')
-            for top_k_score in vote_type_top_ks.values():
-                print('&', round(top_k_score, 3), end=' ')
+            for vote_type_mrr_score in repository_mrr[status].values():
+                print('&', round_float(vote_type_mrr_score, 3), end=' ')
             print("\\\\")
 
-print("MRR")
-for status in [ModelMode.OPEN.value, ModelMode.MERGED.value, ModelMode.ABANDONED.value]:
+    associated_line_of_best_fit_stats = json.load(open('rule_based_line_of_best_fit_stats.json', 'r'))
+
     print("\n\n\n")
-    print("Status:", status)
-    for repository, repository_mrr in mrr_score.items():
-        if status not in repository_mrr:
-            continue
-        if len(arguments.repositories) and repository not in arguments.repositories:
-            continue
-        print(repository, end=' ')
-        for vote_type_mrr_score in repository_mrr[status].values():
-            print('&', round(vote_type_mrr_score, 3), end=' ')
+    print("Line of best fit stats")
+    for graph_title, stats in associated_line_of_best_fit_stats.items():
+        print(graph_title, end=' ')
+        for stat in stats:
+            print('&', round_float(stat, 3), end=' ')
         print("\\\\")
-
-associated_line_of_best_fit_stats = json.load(open('rule_based_line_of_best_fit_stats.json', 'r'))
-
-print("\n\n\n")
-print("Line of best fit stats")
-for graph_title, stats in associated_line_of_best_fit_stats.items():
-    print(graph_title, end=' ')
-    for stat in stats:
-        print('&', round(stat, 3), end=' ')
-    print("\\\\")
