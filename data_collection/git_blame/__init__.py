@@ -11,6 +11,10 @@ from dateutil.relativedelta import relativedelta
 import time
 
 class GitProgressPrinter(RemoteProgress):
+    """
+    Used to print the progress on cloning the repository or updating the HEADs
+    to the logging file being used.
+    """
     def update(
         self,
         op_code: int,
@@ -18,6 +22,9 @@ class GitProgressPrinter(RemoteProgress):
         max_count: Union[str, float, None] = None,
         message: str = "",
     ) -> None:
+        """
+        Log based on an update about the current progress
+        """
         logging.debug(
             "Op code: %d, Current count: %s, Max count: %s, Progress done: %d, Message: %s" % (op_code,
             str(cur_count),
@@ -121,6 +128,18 @@ def _generate_stats_for_commit(actor: Actor, commit_date, lines_count: int, resu
             result_dictionary[actor.email]['last_' + key + '_lines_count'] += lines_count
 
 def git_blame_stats_for_head_of_branch(files: Union[List[str], str], repository: str, branch: Optional[str] = None, parent_commit_sha: str = None, throw_on_missing_file: bool = False, per_file: bool = False):
+    """
+    Get git-blame line count stats for the HEAD of the branch or for the specified commit sha over the specified files
+     on the repository specified.
+
+    :param files: The files to get this data for
+    :param repository: The repository these files are on
+    :param branch: The branch of the repository these files are on (if None, must specify a valid parent sha)
+    :param parent_commit_sha: A commit SHA in the repository to use instead of the branch if it can be found
+    :param throw_on_missing_file: Throw an error if one of the files is missing (default of False means don't do this).
+    :param per_file: Generate the line count stats per file if set to True. Otherwise combine the stats for all files.
+    :returns: The line count stats.
+    """
     # Get the Repo object for the specified repository
     repo = get_bare_repo(repository)
     # Use the "main" branch if no branch or parent sha specified

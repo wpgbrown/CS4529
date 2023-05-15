@@ -1,3 +1,6 @@
+"""
+Makes recommendations for changes using the rule based approach
+"""
 import sys
 import os
 import logging
@@ -11,8 +14,10 @@ from recommender import Recommendations, WeightingsBase, get_members_of_repo, ge
 sys.path.insert(1, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 import common
 
-#DEBUG
 class RuleBasedWeightings(WeightingsBase):
+    """
+    The class that parses and then allows access to the weightings for the rule based recommender.
+    """
     def __init__(self):
         super().__init__(common.path_relative_to_root("recommender/rule_based_recommender_weightings.json"))
         # -- Parse the weightings JSON file --
@@ -36,11 +41,17 @@ class RuleBasedWeightings(WeightingsBase):
             self.comments = self._weightings['comments']
 
 class RuleBasedImplementation(RecommenderImplementation):
+    """
+    Class that holds the code for the rule based recommendation implementation.
+    """
     def __init__(self, repository: str):
         super().__init__(repository)
+        # Load the weightings
         self.weightings = RuleBasedWeightings()
 
     def recommend_using_change_info(self, change_info: dict):
+        # Doc string is specified in the RecommenderImplementation class that this extends.
+        #
         # Get the owner of the change (if noted in the change_info) and exclude this user
         #  as they can't review their own patch
         owner = change_info['owner']
@@ -62,10 +73,13 @@ class RuleBasedImplementation(RecommenderImplementation):
         recommendations = Recommendations(exclude_emails=list(owner_emails), exclude_names=list(owner_names))
         # Get the files modified (added, changed or deleted) by the change
         git_blame_stats = self.get_change_git_blame_info(self.repository, change_info)
+        # Add the users in the git blame stats to the recommendations.
         for email, names in git_blame_stats['names'].items():
             reviewer = recommendations.get_reviewer_by_email_or_create_new(email)
             for name in names:
                 reviewer.names.add(name)
+        # Apply the weightings to the author and committer line counts stats, and add this to the
+        #  score for each recommended reviewer.
         for git_blame_key in ["authors", "committers"]:
             for line_count_key, weighting in self.weightings.lines_count[git_blame_key].items():
                 line_count_key = line_count_key.replace(' ', '_') + '_lines_count'
@@ -75,6 +89,8 @@ class RuleBasedImplementation(RecommenderImplementation):
         # Get previous reviewers for changes
         reviewer_votes_for_current_repo = get_reviewer_data()[self.repository]
         logging.debug("Reviewer votes: " + str(reviewer_votes_for_current_repo))
+        # Apply the weightings for the code review percentages and add this to the score
+        #  for each user.
         for vote_weighting_key, vote_weightings in self.weightings.votes.items():
             for key, weighting in vote_weightings.items():
                 for reviewer_name, reviewer_percentages in reviewer_votes_for_current_repo[key].items():
@@ -84,12 +100,14 @@ class RuleBasedImplementation(RecommenderImplementation):
         # Get authors of previous comments
         comments_for_current_repo = get_comment_data()[self.repository]
         logging.debug("Comments: " + str(comments_for_current_repo))
+        # Apply the weightings for the comment percentages and add this to the score
+        #  for each user.
         for key, weighting in self.weightings.comments.items():
             for reviewer_name, comment_percentage in comments_for_current_repo[key].items():
                 reviewer = recommendations.get_reviewer_by_name_or_create_new(reviewer_name)
                 reviewer.add_score(comment_percentage, weighting)
         del comments_for_current_repo
-        # Mark the users who can approve changes in this repository
+        # Mark users who can merge changes in the repository in the result class
         users_with_rights_to_merge = get_members_of_repo(self.repository)
         logging.debug("users with right to merge: " + str(users_with_rights_to_merge))
         for user in users_with_rights_to_merge:
@@ -114,6 +132,7 @@ class RuleBasedImplementation(RecommenderImplementation):
                 continue
             reviewer.has_rights_to_merge = True
         for reviewer in filter(lambda x: x.has_rights_to_merge is not True, recommendations.recommendations):
+            # Users with the has_rights_to_merge as not True (i.e. None), are assigned False.
             reviewer.has_rights_to_merge = False
         return recommendations
 
@@ -142,6 +161,7 @@ if __name__ == '__main__':
             except KeyboardInterrupt:
                 pass
     else:
+        # Accept command line arguments.
         command_line_arguments = argument_parser.parse_args()
         change_ids = command_line_arguments.change_id
         repositories = command_line_arguments.repository
@@ -168,14 +188,17 @@ if __name__ == '__main__':
                 change_dictionary['branch'] = repositories[index]
             change_ids_with_repo_and_branch.append(change_dictionary)
     logging.info("Recommending with the following inputs: " + str(change_ids_with_repo_and_branch))
+    # With the provided arguments, perform the recommendations.
     for change in change_ids_with_repo_and_branch:
         try:
+            # For each change ask for the recommendations, and then print them out.
             recommended_reviewers = RuleBasedImplementation(change["repository"]).recommend_using_change_id(change['change_id'], change["branch"])
             logging.debug("Recommendations: " + str(recommended_reviewers))
             top_10_recommendations = recommended_reviewers.top_n(10)
             for recommendation in top_10_recommendations:
                 print(recommendation)
             if command_line_arguments and command_line_arguments.stats:
+                # If stats about the recommendations are asked for, then print these out.
                 print("Recommendation stats for change", change['change_id'])
                 change_id_for_request = change['change_id']
                 if '~' not in change_id_for_request:

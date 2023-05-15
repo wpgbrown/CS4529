@@ -1,3 +1,7 @@
+"""
+Uses the trained models that are trained by neural_network_recommender_trainer.py to
+make recommendations.
+"""
 import argparse
 import logging
 import os
@@ -19,21 +23,44 @@ from recommender.neural_network_recommender import MLPClassifierImplementationBa
 
 
 class ModelMode(Enum):
+    """
+    The different types of models that can be used to produce recommendations
+    """
     GENERIC = "generic"
+    """The model type trained on all repositories"""
     REPO_SPECIFIC = "repo-specific"
+    """The model type trained on each repository separately"""
     OPEN = "open"
+    """The model type trained on open changes each repository separately"""
     ABANDONED = "abandoned"
+    """The model type trained on abandoned changes each repository separately"""
     MERGED = "merged"
+    """The model type trained on merged changes each repository separately"""
     DEFAULT = "generic"
 
 class SelectionMode(Enum):
+    """
+    The different "selection modes" that can be used to order the results.
+    """
     RANDOM = "random"
+    """Randomly order the users classified to vote and approve"""
     SEMI_RANDOM = "semi-random"
+    """
+    Randomly order the users classified to vote and approve but limit the places they can move by default 5 positions.
+    """
     IN_ORDER = "in-order"
+    """
+    Don't modify the order as returned by the classifiers.
+    """
 
 class MLPClassifierImplementation(RecommenderImplementation, MLPClassifierImplementationBase):
+    """
+    The class for the neural network (MLP classifier) implementation. Allows users to get recommendations
+    by providing either a Change-ID or change information.
+    """
     def __init__(self, repository: str, model_type: ModelMode, selection_mode: Union[str, SelectionMode], approved_to_voted: int = 3, time_period: Optional[str] = None):
         super().__init__(repository)
+        # Get the model name associated with the model_type and repository
         match model_type:
             case ModelMode.REPO_SPECIFIC:
                 model_name = common.get_sanitised_filename(repository)
@@ -77,6 +104,9 @@ class MLPClassifierImplementation(RecommenderImplementation, MLPClassifierImplem
     @classmethod
     @lru_cache(maxsize=5)
     def load_model(cls, name: str) -> MLPClassifier:
+        """
+        Loads a model with the given name.
+        """
         if not os.path.exists(cls.get_model_path(name)):
             raise Exception("Model with this name does not exist. Try training it first.")
         return pickle.load(open(cls.get_model_path(name), 'rb'))
@@ -84,11 +114,17 @@ class MLPClassifierImplementation(RecommenderImplementation, MLPClassifierImplem
     @staticmethod
     @lru_cache(maxsize=20)
     def get_model_path(name) -> str:
+        """
+        Gets the filepath for a model with the given name.
+        """
         return common.path_relative_to_root("recommender/neural_network_recommender/models/" + common.sanitize_filename(name) + "_clf.pickle")
 
     @classmethod
     @lru_cache(maxsize=5)
     def load_scaler(cls, name: str) -> StandardScaler:
+        """
+        Loads the scaler with the given name
+        """
         if not os.path.exists(cls.get_scaler_path(name)):
             raise Exception("Scaler with this name does not exist. Try training it first.")
         return pickle.load(open(cls.get_scaler_path(name), 'rb'))
@@ -96,29 +132,40 @@ class MLPClassifierImplementation(RecommenderImplementation, MLPClassifierImplem
     @staticmethod
     @lru_cache(maxsize=20)
     def get_scaler_path(name: str) -> str:
+        """
+        Gets the filepath for a scaler with a given name.
+        """
         return common.path_relative_to_root("recommender/neural_network_recommender/scalers/" + common.sanitize_filename(name) + "_scaler.pickle")
 
     @classmethod
     def load_model_and_associated_scaler(cls, name: str) -> Tuple[MLPClassifier, StandardScaler]:
+        """
+        Load the model and associated scaler with the given name.
+        """
         return cls.load_model(name), cls.load_scaler(name)
 
     def recommend_using_change_info(self, change_info: dict) -> Recommendations:
+        # Docstring is specified in RecommenderImplementation::recommend_using_change_info.
+        #
+        # Get the change specific data frame for this change.
         change_specific_data_frame = self.add_change_specific_attributes_to_data_frame(self.repository, change_info, self.base_data_frame)
         # Replace NaNs with 0s
         change_specific_data_frame = change_specific_data_frame.fillna(0)
-        # Scale the data frame data
+        # Copy the data frames so that they can be scaled.
         voted_X = change_specific_data_frame.copy(deep=True)
         approved_X = change_specific_data_frame.copy(deep=True)
+        # Scale the voted_X and approved_X data frames.
         voted_X[voted_X.columns] = self.voted_scaler.transform(voted_X[voted_X.columns])
         approved_X[approved_X.columns] = self.approved_scaler.transform(approved_X[approved_X.columns])
         try:
+            # Ask the model for the predictions
             predicted_approvers = [approved_X.index.values[i] for i, y in enumerate(self.approved_model.predict(approved_X)) if y]
             predicted_voters = [voted_X.index.values[i] for i, y in enumerate(self.voted_model.predict(voted_X)) if y]
-            # print(self.approved_model.classes_)
-            # print(self.approved_model.predict_proba(approved_X))
         except NotFittedError as e:
+            # If the model is not fitted, then the recommendations cannot be produced.
             logging.error("Model not fitted.", exc_info=e)
             raise e
+        # Get the predicted voters who are also not predicted to have approved.
         predicted_voters_but_not_approvers = list(set(predicted_voters).difference(predicted_approvers))
         # Get the owner of the change (if noted in the change_info) and exclude this user
         #  as they can't review their own patch
@@ -150,7 +197,7 @@ class MLPClassifierImplementation(RecommenderImplementation, MLPClassifierImplem
             #
             # Similar to the random shuffle but limits the distance travelled by this
             #  shuffle to a pre-defined amount. Means top-rated users are kept
-            # top-rated without always choosing the most top-rated users.
+            #  top-rated without always choosing the most top-rated users.
             def distance_limited_shuffle_sort(list: List[Any], distance_limit: int = 5) -> None:
                 start = 0
                 end = distance_limit
@@ -206,8 +253,11 @@ class MLPClassifierImplementation(RecommenderImplementation, MLPClassifierImplem
                             reviewer.emails.add(user['email'])
             if reviewer is None:
                 continue
+            # Mark this reviewer has having the rights to merge
             reviewer.has_rights_to_merge = True
         for reviewer in filter(lambda x: x.has_rights_to_merge is not True, recommendations.recommendations):
+            # Any reviewer with the "has_rights_to_merge" property as not True is not a reviewer,
+            #  and therefore should be marked as "False". The default is None, so this removes all None values.
             reviewer.has_rights_to_merge = False
         # Score the reviewers based on their position in the list
         i = 0
@@ -235,6 +285,7 @@ class MLPClassifierImplementation(RecommenderImplementation, MLPClassifierImplem
 
 
 if __name__ == '__main__':
+    # Allow command line arguments using the argparse library.
     argument_parser = argparse.ArgumentParser(description="A Multi-layer Perceptron classifier implementation of a tool that recommends reviewers for the MediaWiki project")
     argument_parser.add_argument('change_id', nargs='+', help="The change ID(s) of the changes you want to get recommended reviewers for")
     argument_parser.add_argument('--repository', nargs='+', help="The repository for these changes. Specifying one repository applies to all changes. Multiple repositories apply to each change in order.", required=True)
@@ -246,7 +297,7 @@ if __name__ == '__main__':
     change_ids_with_repo_and_branch = []
     command_line_arguments = None
     if not len(sys.argv) > 1:
-        # Ask for the user's input
+        # Ask for the user's input if no command line arguments were provided.
         while True:
             try:
                 change_id = input("Please enter your change ID (Nothing to start processing): ")
@@ -288,6 +339,7 @@ if __name__ == '__main__':
             except ValueError:
                 print("Invalid input. Must either be empty to use the default of 3 or a positive integer (including 0).")
     else:
+        # If command line arguments were provided, then use these as the settings.
         command_line_arguments = argument_parser.parse_args()
         change_ids = command_line_arguments.change_id
         repositories = command_line_arguments.repository
@@ -318,6 +370,7 @@ if __name__ == '__main__':
             change_ids_with_repo_and_branch.append(change_dictionary)
     logging.info("Recommending with the following inputs: " + str(change_ids_with_repo_and_branch))
     for change in change_ids_with_repo_and_branch:
+        # For each change, get the recommendations produced by the neural network implementation.
         try:
             recommended_reviewers = MLPClassifierImplementation(change["repository"], ModelMode(model_type), selection_mode, no_of_predicted_approvers_to_one_voter).recommend_using_change_id(change['change_id'], change["branch"])
             logging.debug("Recommendations: " + str(recommended_reviewers))
@@ -325,6 +378,7 @@ if __name__ == '__main__':
             for recommendation in top_10_recommendations:
                 print(recommendation)
             if command_line_arguments and command_line_arguments.stats:
+                # Print associated stats if requested.
                 print("Recommendation stats for change", change['change_id'])
                 print("Users recommended:", len(top_10_recommendations))
                 print("Users recommended with rights to merge:", len(list(filter(lambda x: x.has_rights_to_merge, top_10_recommendations))))

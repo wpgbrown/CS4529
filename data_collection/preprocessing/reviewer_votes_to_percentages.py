@@ -1,8 +1,18 @@
+"""
+Converts the code review count data collected into a percentage form
+where each code review type count for a author is divided by the sum of
+this code review type for all authors.
+"""
 import json
 import logging
 import common
 
 def convert_data_to_percentages():
+    """
+    Converts the code review count data that was collected into a percentage form
+    where each code review count type for an author is divided by the sum of this
+    code review type counts.
+    """
     reviewer_votes = json.load(
         open(common.path_relative_to_root("data_collection/raw_data/reviewer_votes_for_repos.json"), 'r'))
 
@@ -17,6 +27,7 @@ def convert_data_to_percentages():
     }
 
     for repo, data_for_repo in reviewer_votes.items():
+        # Perform this percentage calcuation per repository
         percentage_representation[repo] = {}
         for period, data_for_period in data_for_repo.items():
             totals = vote_types
@@ -30,6 +41,7 @@ def convert_data_to_percentages():
             for reviewer in data_for_period.keys():
                 for vote_type in vote_types.keys():
                     percentage_representation[repo][period][reviewer][vote_type] /= totals[vote_type]
+    # Save the percentage data to a JSON file
     json.dump(percentage_representation, open(common.path_relative_to_root("data_collection/raw_data/reviewer_vote_percentages_for_repos.json"), "w"))
 
 if __name__ == "__main__":

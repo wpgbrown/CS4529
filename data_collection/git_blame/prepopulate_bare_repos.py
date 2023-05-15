@@ -1,3 +1,7 @@
+"""
+Script used to mass create the bared cloned repositories,
+as doing this when trying to make recommendations is very inefficent.
+"""
 import json
 import logging
 import time
@@ -26,6 +30,8 @@ if __name__ == "__main__":
         try:
             print("Processed", number_processed, "repos out of", str(len(repositories)) + ". Currently processing", repo)
             logging.info("Processed " + str(number_processed) + " repos. Currently processing " + repo)
+            # Call get_bare_repo which will download the bare repository if it doesn't exist
+            #  and also refreshes the HEADs in the branch if needed.
             get_bare_repo(repo, True)
             time.sleep(1)
         except BaseException as e:

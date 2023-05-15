@@ -1,3 +1,6 @@
+"""
+Performs the evaluation of the neural network recommender implementation
+"""
 import argparse
 import json
 import logging
@@ -11,6 +14,7 @@ from recommender.neural_network_recommender.neural_network_recommender import Mo
 
 if __name__ == "__main__":
     if len(sys.argv) > 1:
+        # Accept command line arguments using the argparse library.
         argument_parser = argparse.ArgumentParser(
             description="The evaluation script for the neural network recommender")
         argument_parser.add_argument('repositories', nargs='+', help="The repositories to evaluate")
@@ -44,6 +48,8 @@ if __name__ == "__main__":
         num_changes = command_line_arguments.num_changes
         raw = command_line_arguments.raw
         test_models = []
+        # Generate the models used for the evaluation by adding those
+        #  which are not excluded based on flags in the command line arguments.
         if not command_line_arguments.exclude_generic:
             test_models.append(ModelMode.GENERIC)
         if not command_line_arguments.exclude_repo_specific:
@@ -57,6 +63,7 @@ if __name__ == "__main__":
         if not test_models:
             argument_parser.error("The at least one type of model must be evaluated.")
     else:
+        # Also allow inputting the arguments via the console if run without command line arguments.
         repositories = [input("Please enter the repository:").strip()]
         branch = input("Please enter the branch (empty for no branch filtering):").strip()
         if not branch:
@@ -85,6 +92,7 @@ if __name__ == "__main__":
             test_models = [ModelMode(model_mode)]
         raw = False
     logging.info("Evaluating with the repos " + str(repositories))
+    # Store the Top-k and MRR metric scores, to be saved to a JSON file later.
     top_k_accuracies = {}
     mrr_score = {}
     for repository in repositories:
@@ -118,8 +126,10 @@ if __name__ == "__main__":
             print("Error:", e)
             logging.error("Error occurred. Moving to next repo.", exc_info=e)
     if raw:
+        # If the results are requested in a raw format, just print the result dictionary
         print({'top-k': top_k_accuracies, 'mrr': mrr_score})
     else:
+        # Pretty print the results.
         try:
             for repository, repository_top_ks in top_k_accuracies.items():
                 print("Top K accuracy for repository", repository)
@@ -141,5 +151,6 @@ if __name__ == "__main__":
                         print(pandas.DataFrame.from_dict(selection_mode_mrr))
         except BaseException as e:
             pass
+    # Export the results to a JSON file for analysis
     json.dump({'top-k': top_k_accuracies, 'mrr': mrr_score},
               open(common.path_relative_to_root("evaluation/results/neural_network_recommender.json"), 'w'))

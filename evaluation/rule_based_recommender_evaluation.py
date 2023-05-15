@@ -1,3 +1,6 @@
+"""
+Performs the rule based recommender evaluation.
+"""
 import argparse
 import json
 import logging
@@ -10,6 +13,7 @@ from recommender.rule_based_recommender import RuleBasedImplementation
 
 if __name__ == "__main__":
     if len(sys.argv) > 1:
+        # Accept command line arguments using the argparse library.
         argument_parser = argparse.ArgumentParser(
             description="The evaluation script for the rule based recommender")
         argument_parser.add_argument('repositories', nargs='+', help="The repositories to evaluate")
@@ -28,6 +32,7 @@ if __name__ == "__main__":
         num_changes = command_line_arguments.num_changes
         raw = command_line_arguments.raw
     else:
+        # Allow input of arguments using input statements.
         repositories = [input("Please enter the repository:").strip()]
         branch = input("Please enter the branch (empty for no branch filtering):").strip()
         if not branch:
@@ -43,6 +48,7 @@ if __name__ == "__main__":
                 print("Number of changes was not an integer. Please try again.")
         raw = False
     logging.info("Evaluating with the repos " + str(repositories))
+    # Perform the evaluation for Top-k and MRR
     top_k_accuracies = {}
     mrr_score = {}
     try:
@@ -55,11 +61,14 @@ if __name__ == "__main__":
                 RuleBasedImplementation(repository).recommend_using_change_info, repository, num_changes, branch
             )
     except BaseException as e:
+        # If there is an error, just stop here and export the already generated results.
         print("Error:", e)
         logging.error("Error occurred. Exiting early.", exc_info=e)
     if raw:
+        # Print out the dictionary if the results were requested in a raw format
         print({'top-k': top_k_accuracies, 'mrr': mrr_score})
     else:
+        # Pretty print the results.
         for repository, repository_top_ks in top_k_accuracies.items():
             print("Top K accuracy for repository", repository)
             for status, status_top_ks in repository_top_ks.items():
@@ -70,4 +79,6 @@ if __name__ == "__main__":
         for repository, repository_mrr in mrr_score.items():
             print("MRR score for repository", repository)
             print(pandas.DataFrame.from_dict(repository_mrr))
+
+    # Export the generated stats to a JSON file.
     json.dump({'top-k': top_k_accuracies, 'mrr': mrr_score}, open(common.path_relative_to_root("evaluation/results/rule_based_recommender.json"), 'w'))

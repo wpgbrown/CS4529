@@ -1,11 +1,12 @@
 import json
+import logging
 import urllib.parse
 
 import requests
 import common
 
 
-def generate_list_of_repos( output_file_name, prefix: str = '' ):
+def generate_list_of_repos(output_file_name, prefix: str = ''):
     """
     Generates a list of repositories that start with a prefix.
 
@@ -18,22 +19,22 @@ def generate_list_of_repos( output_file_name, prefix: str = '' ):
     """
     repository_list = {}
     try:
+        # Make the request from the Gerrit API
         request_url = common.gerrit_api_url_prefix + "projects/?p=" + urllib.parse.quote(prefix, safe='')
-        print(request_url)
-        repository_list.update(json.loads(
-            common.remove_gerrit_api_json_response_prefix(requests.get(request_url, auth=common.secrets.gerrit_http_credentials()).text)
+        logging.debug(request_url)
+        repository_list.update(json.loads(common.remove_gerrit_api_json_response_prefix(
+            requests.get(request_url, auth=common.secrets.gerrit_http_credentials()).text)
         ))
-        # If ends with a slash, try for repo without the slash
+        # If ends with a slash, try for repo without the slash as well.
         if prefix.endswith('/'):
             request_url = common.gerrit_api_url_prefix + "projects/" + urllib.parse.quote(prefix.rstrip('/'), safe='')
             repository_list[prefix.rstrip('/')] = json.loads(
                 common.remove_gerrit_api_json_response_prefix(
                     requests.get(request_url, auth=common.secrets.gerrit_http_credentials()).text)
             )
-        print(repository_list)
     finally:
-        pass
-        # json.dump( repository_list, open( output_file_name, "w" ) )
+        # Save the list to a JSON file.
+        json.dump(repository_list, open(output_file_name, "w"))
 
 # Generate data
 generate_list_of_repos("raw_data/mediawiki_repos.json", 'mediawiki/')

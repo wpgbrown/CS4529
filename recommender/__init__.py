@@ -16,7 +16,7 @@ from data_collection.preprocessing import reviewer_votes_to_percentages, comment
 import common
 import time
 
-class WeightingsBase(common.TimePeriods):
+class WeightingsBase:
     def __init__(self, weightings_file):
         weightings = json.load(open(weightings_file, 'r'))
         weightings: dict
@@ -27,16 +27,33 @@ class WeightingsBase(common.TimePeriods):
 
 @lru_cache(maxsize=1)
 def load_members_of_mediawiki_repos() -> dict:
+    """
+    Load the data set of members of groups that have access to mediawiki repos.
+    """
     members_list = common.path_relative_to_root('data_collection/raw_data/members_of_mediawiki_repos.json')
     return json.load(open(members_list, 'r'))
 
 @lru_cache(maxsize=5)
 def get_members_of_repo(repository: str) -> List[dict[str, Any]]:
+    """
+    Get the users who have rights to merge code on the specified repository.
+
+    :param repository: The repository that users have to have rights to merge on to be returned.
+    """
+    # Get the groups that have access to this repository
     groups_with_rights_to_merge = load_members_of_mediawiki_repos()['groups_for_repository'][repository].keys()
+    # Filter out groups which have been globally excluded (such as groups that only have bot accounts)
     groups_with_rights_to_merge = list(filter(lambda x: x not in common.group_exclude_list, groups_with_rights_to_merge))
-    return list(filter(_get_members_of_repo_helper, list(itertools.chain.from_iterable([members for group_id, members in load_members_of_mediawiki_repos()['members_in_group'].items() if group_id in groups_with_rights_to_merge]))))
+    # Return the members of these groups as one list, excluding users that have been globally excluded (such as bot accounts).
+    return list(filter(_get_members_of_repo_helper, list(itertools.chain.from_iterable(
+        [members for group_id, members in load_members_of_mediawiki_repos()['members_in_group'].items()
+         if group_id in groups_with_rights_to_merge]
+    ))))
 
 def _get_members_of_repo_helper(user: dict) -> bool:
+    """
+    Returns True if the user is not globally excluded. Otherwise returns false.
+    """
     def __get_members_of_repo_helper(user_key: str):
         if user_key in user and common.convert_name_to_index_format(user[user_key]) in common.username_exclude_list:
             return False
@@ -53,6 +70,9 @@ def _get_members_of_repo_helper(user: dict) -> bool:
 
 @lru_cache(maxsize=1)
 def get_reviewer_data():
+    """
+    Load and return the code review percentages data
+    """
     percentage_list = common.path_relative_to_root('data_collection/raw_data/reviewer_vote_percentages_for_repos.json')
     if not os.path.exists(percentage_list):
         comment_counts_to_percentages.convert_data_to_percentages()
@@ -60,6 +80,9 @@ def get_reviewer_data():
 
 @lru_cache(maxsize=1)
 def get_comment_data():
+    """
+    Load and return the comment percentages data
+    """
     percentage_list = common.path_relative_to_root('data_collection/raw_data/comment_count_percentages_by_author_for_repo.json')
     if not os.path.exists(percentage_list):
         reviewer_votes_to_percentages.convert_data_to_percentages()
@@ -160,7 +183,7 @@ class RecommendedReviewer:
                 return_string += " %s and %s" % (", ".join(self.names[:-1]), self.names[-1])
         return return_string + " with score %s" % str(self.score)
 
-class NamesAndEmailsBase(Iterable, Sized, ABC):
+class _NamesAndEmailsBase(Iterable, Sized, ABC):
     def __init__(self, names_or_emails: List[str], parent_weak_ref: ReferenceType):
         self._names_or_emails = [x.strip() for x in names_or_emails]
         self.parent_weak_ref = parent_weak_ref
@@ -197,32 +220,56 @@ class NamesAndEmailsBase(Iterable, Sized, ABC):
     def __getitem__(self, index):
         return self._names_or_emails[index]
 
-class Names(NamesAndEmailsBase):
+class Names(_NamesAndEmailsBase):
     def __init__(self, names: List[str], parent_weak_ref: ReferenceType):
         super().__init__(names, parent_weak_ref)
 
     def add(self, name: str):
+        """
+        Add the specified name to the list of names for this recommended reviewer.
+
+        :param name: The name to be associated with this reviewer.
+        """
+        # Add the name
         _add_result = self._add(name)
+        # If this Names list is associated with a recommendations list then
+        #  update the index of names to recommended reviewers so that
+        #  Recommendations::get_reviewer_by_name can find this recommendation.
+        #
+        # The calls to the protected ::_update_email_index and ::_update_name_index
+        #  method are done because the index needs updating. They are protected
+        #  as these methods should not be called by the user who gets given the
+        #  Recommendations list, however, this other class needs to call it to
+        #  update the index for the names/emails.
         if _add_result is None:
             return
         grandparent, parent = _add_result
         if grandparent is None or parent is None:
             return
         if common.convert_name_to_index_format(name) in common.username_to_email_map.keys():
+            # If a name is associated with an email in the global username to email map,
+            #  then add this email to the index too for this reviewer.
             logging.debug("Email specified globally")
             grandparent._update_email_index(common.username_to_email_map[common.convert_name_to_index_format(name)], parent) # noqa
         logging.debug("Updating name index for %s using name %s." % (parent.emails, name))
-        # _update_name_index is intended for use only by this class, so the underscore is added
-        #  to indicate this. Users attempting to add a name for an emails using this method
-        #  won't work, so this underscore added to hide the method from suggestions in IDEs.
         grandparent._update_name_index(name, parent) # noqa
 
-class Emails(NamesAndEmailsBase):
+class Emails(_NamesAndEmailsBase):
     def __init__(self, emails: List[str], parent_weak_ref: ReferenceType):
         super().__init__(emails, parent_weak_ref)
 
     def add(self, email: str):
+        # Add the email to the list of emails.
         _add_result = self._add(email)
+        # If this Emails list is associated with a recommendations list then
+        #  update the index of emails to recommended reviewers so that
+        #  Recommendations::get_reviewer_by_email can find this recommendation.
+        #
+        # The calls to the protected ::_update_email_index method are done because
+        #  the index needs updating. It is protected as the methods should not be
+        #  called by the user who gets given a Recommendations object when asking
+        #  for recommendations, however, this class still needs to call it to update
+        #  the index.
         if _add_result is None:
             return
         grandparent, parent = _add_result
@@ -235,7 +282,20 @@ class Emails(NamesAndEmailsBase):
         grandparent._update_email_index(email, parent)  # noqa
 
 class Recommendations(Sized):
+    """
+    A class that is used to hold the recommendations returned by either implementation
+    in an implementation non-specific way. It also provides several de-duplication
+    techniques.
+    """
+
     def __init__(self, exclude_names: Union[List[str], str] = '', exclude_emails: Union[List[str], str] = ''):
+        """
+        Creates a recommendations list that excludes the specified names and emails
+        from showing in the results.
+
+        :param exclude_names: The usernames to exclude from the results (such as the change owner's username)
+        :param exclude_emails: The emails to exclude from the results (such as the change owner's email)
+        """
         self._recommendations = []
         """All the recommended reviewers stored by this recommendations list"""
         self._recommendations_by_email = {}
@@ -259,6 +319,9 @@ class Recommendations(Sized):
 
     @property
     def recommendations(self):
+        """
+        The recommendations provided in this result object.
+        """
         return self._recommendations
 
     def __len__(self):
@@ -298,6 +361,8 @@ class Recommendations(Sized):
         """
         # Un-assign any previous parent ref to prevent issues below.
         recommendation.parent_weak_ref = None
+        # Check to see if any of the usernames or emails specified
+        #  have been globally excluded or excluded for this recommendations list.
         if len(recommendation.names):
             if any(name for name in recommendation.names if common.convert_name_to_index_format(name) in common.username_exclude_list):
                 logging.info("User with names " + str(recommendation.names) + "globally excluded.")
@@ -312,6 +377,7 @@ class Recommendations(Sized):
             if any(email for email in recommendation.emails if common.convert_email_to_index_format(email) in self._exclude_emails):
                 logging.info("User with names " + str(recommendation.emails) + "excluded from this recommendations list.")
                 return self
+        # The user is not excluded from the results, so continue to add them as a recommended reviewer.
         if len(recommendation.names):
             # Has specified names, so add these to the index.
             logging.debug("Adding recommendation with names " + str(recommendation.names))
@@ -338,27 +404,47 @@ class Recommendations(Sized):
                 else:
                     # No such reviewer exists with this email. Add it to the index
                     self._recommendations_by_email[email] = recommendation
+        # Give the recommendation the parent weak ref of this recommendations list
         recommendation.parent_weak_ref = weakref.ref(self)
+        # Append the recommendation to the internal recommendations list.
         self._recommendations.append(recommendation)
         return self
 
     def _update_name_index(self, name: str, associated_reviewer: RecommendedReviewer) -> "Recommendations":
+        """
+        Update the internal recommendations name index. Called by the Names
+        class when a name is added to the list for a reviewer.
+
+        :param name: The new username to be added to the index
+        :param associated_reviewer: The RecommendedReviewer object associated with this name
+        """
+        # Convert the name to the index format
         name = common.convert_name_to_index_format(name)
         if name in self._recommendations_by_name.keys() \
                 and self._recommendations_by_name[name] is not None \
                 and self._recommendations_by_name[name] is not associated_reviewer:
-            # Merge the already existing entry into the entry given as the argument if the names match
+            # If the name is already associated with another reviewer, merge these users together
             self.merge_reviewer_entries(associated_reviewer, self._recommendations_by_name[name])
+        # Add this reviewer to the index under the name.
         self._recommendations_by_name[name] = associated_reviewer
         return self
 
     def _update_email_index(self, email: str, associated_reviewer: RecommendedReviewer) -> "Recommendations":
+        """
+        Update the internal recommendations email index. Called by the Emails
+        class when a name is added to the list for a reviewer.
+
+        :param email: The new email to be added to the index
+        :param associated_reviewer: The RecommendedReviewer object associated with this email
+        """
+        # Convert the email to the index format.
         email = common.convert_email_to_index_format(email)
         if email in self._recommendations_by_email.keys() \
                 and self._recommendations_by_email[email] is not None \
                 and self._recommendations_by_email[email] is not associated_reviewer:
-            # Merge the already existing entry into the entry given as the argument if the emails match
+            # If the email is already associated with another reviewer, merge these users together
             self.merge_reviewer_entries(associated_reviewer, self._recommendations_by_email[email])
+        # Add this reviewer under the email provided in the index.
         self._recommendations_by_email[email] = associated_reviewer
         return self
 
@@ -396,12 +482,13 @@ class Recommendations(Sized):
                 if email in self._recommendations_by_email.keys():
                     self._recommendations_by_email[email] = base
 
-
     def get_reviewer_by_email(self, email: str) -> Union[RecommendedReviewer, None]:
         """
+        Get the reviewer associated with the email provided as the first argument, returning
+        None if no email is associated with a reviewer.
 
-        :param email:
-        :return:
+        :param email: The email being used to search for the reviewer
+        :return: None if no such user in this list has the email, otherwise the RecommendedReviewer object
         """
         email = common.convert_email_to_index_format(email)
         if email in self._recommendations_by_email.keys():
@@ -410,23 +497,25 @@ class Recommendations(Sized):
 
     def get_reviewer_by_name(self, name: str) -> Union[RecommendedReviewer, None]:
         """
+        Get the reviewer associated with the name provided as the first argument, returning
+        None if this name is not associated with a reviewer.
 
-        :param name:
-        :return:
+        :param name: The name being used to search for the reviewer
+        :return: None if no such user in this list has this name, otherwise the RecommendedReviewer object
         """
         name = common.convert_name_to_index_format(name)
         if name in self._recommendations_by_name.keys():
-            # First check if the index had an emails associated with this name
             return self._recommendations_by_name[name]
         return None
 
     def get_reviewer_by_email_or_create_new(self, email: str) -> RecommendedReviewer:
         """
+        Get the reviewer associated with the email provided as the first argument, returning
+        a new RecommendedReviewer object if no recommendation has this email.
 
-        :param email:
-        :return:
+        :param email: The email address
+        :return: A RecommendedReviewer object
         """
-        logging.debug("Getting by emails")
         reviewer = self.get_reviewer_by_email(email)
         if reviewer is None:
             reviewer = RecommendedReviewer(email)
@@ -435,11 +524,12 @@ class Recommendations(Sized):
 
     def get_reviewer_by_name_or_create_new(self, name: str) -> RecommendedReviewer:
         """
+        Get the reviewer associated with the name provided as the first argument, returning
+        a new RecommendedReviewer object if no recommendation has this name.
 
-        :param name:
-        :return:
+        :param name: The username
+        :return: A RecommendedReviewer object
         """
-        logging.debug("Getting by name")
         reviewer = self.get_reviewer_by_name(name)
         if reviewer is None:
             reviewer = RecommendedReviewer(names=name)
@@ -459,18 +549,33 @@ class RecommenderImplementationBase:
     @staticmethod
     def _make_git_blame_stats(git_blame_stats: dict, change_info: dict, return_dictionary: dict,
                               total_delta_over_all_files: int, file_aliases: dict, git_blame_type: str) -> None:
-        time_period_to_key = {y: y.replace(' ', '_') + "_lines_count" for y in common.TimePeriods.DATE_RANGES}
+        """
+        Make the git blame stats for the change provided in the change_info.
+
+        :param git_blame_stats: The git blame stats as returned by git_blame.git_blame_stats_for_head_of_branch
+        :param change_info: The change info for the change being processed
+        :param return_dictionary: The dictionary to place the git blame stats in
+        :param total_delta_over_all_files: The total delta over all files being modified in this change
+        :param file_aliases: If a file has been moved in this change, this contains the old names as the keys and
+         the new names as values
+        :param git_blame_type: What type of git blame data is being requested to be processed in this call.
+        """
+        time_period_to_key = {y.value: y.value.replace(' ', '_') + "_lines_count" for y in common.TimePeriods}
         for file, associated_info in git_blame_stats[git_blame_type].items():
+            # Update the filename used for files that have been moved to use the new filename
             if file in file_aliases.keys():
                 file = file_aliases[file]
             file_size_delta = change_info["files"][file]["size_delta"]
-            logging.debug(associated_info)
+            # Sum the line count data together for each time period
             sums = {}
-            for time_period in common.TimePeriods.DATE_RANGES:
+            for time_period in common.TimePeriods:
+                time_period = time_period.value
                 sums[time_period] = sum([x[time_period_to_key[time_period]] for x in associated_info.values()])
             for email, commit_info in associated_info.items():
-                # Only strips whitespace and makes lowercase, so no need to keep original value
+                # Only strips whitespace and makes lowercase to make index form,
+                #  so no need to keep original value
                 email = common.convert_email_to_index_format(email)
+                # Create a map of names to emails that was generated from the git blame stat data.
                 for name in commit_info['names']:
                     lowercase_name = common.convert_name_to_index_format(name)
                     if lowercase_name not in return_dictionary['_names_to_emails_index'].keys():
@@ -492,6 +597,7 @@ class RecommenderImplementationBase:
                         return_dictionary['names'][email] = []
                     if name not in return_dictionary['names'][email]:
                         return_dictionary['names'][email].append(name)
+                # Produce the git blame stat percentage.
                 for time_period, result_dictionary_key in time_period_to_key.items():
                     if not sums[time_period]:
                         continue
@@ -503,6 +609,12 @@ class RecommenderImplementationBase:
 
     @classmethod
     def get_change_git_blame_info(cls, repository: str, change_info: dict):
+        """
+        Get the git blame info for the change.
+
+        :param repository: The repository this change is on
+        :param change_info: The change info associated with the change.
+        """
         return_dictionary = {
             "authors": {},
             "committers": {},
@@ -512,18 +624,22 @@ class RecommenderImplementationBase:
         }
         total_delta_over_all_files = sum(
             [abs(info['size_delta']) for info in change_info['files'].values()])
-        time_period_to_key = {y: y.replace(' ', '_') + "_lines_count" for y in common.TimePeriods.DATE_RANGES}
+        time_period_to_key = {y.value: y.value.replace(' ', '_') + "_lines_count" for y in common.TimePeriods}
+        # Fill out the result dictionary with empty dictionaries.
         for git_blame_type_dictionary in [return_dictionary["authors"], return_dictionary["committers"]]:
             git_blame_type_dictionary.update(dict((key, {}) for key in time_period_to_key.values()))
         if total_delta_over_all_files == 0:
             # Return early as no calculations needed because no files were modified (0 for all is fine)
             return return_dictionary
+        # Build the arguments to the git blame function.
         git_blame_arguments = {
             'repository': repository,
             'files': [],
             'per_file': True
         }
         if 'parent_shas' in change_info and len(change_info['parent_shas']):
+            # Use the parent sha if available as this will perform stats on the code that was
+            #  used as the base for the change.
             git_blame_arguments['parent_commit_sha'] = change_info['parent_shas'][0]
         git_blame_arguments['branch'] = change_info['branch']
         file_aliases = {}
@@ -533,7 +649,9 @@ class RecommenderImplementationBase:
             if info['size'] > 500_000:
                 continue
             if 'status' not in info.keys():
-                # File just modified (not created, moved or deleted), so other authors can likely help
+                # File just modified (not created, moved or deleted),
+                #  so other authors can likely help. As such include this
+                #  in the files to get git-blame stats for.
                 git_blame_arguments['files'].append(filename)
             else:
                 match info['status']:
@@ -550,19 +668,27 @@ class RecommenderImplementationBase:
                         #  or copy would make sense here.
                         git_blame_arguments['files'].append(info['old_path'])
                         file_aliases[info['old_path']] = filename
+        # Get the git blame stats using the arguments that were built above.
         git_blame_stats = git_blame.git_blame_stats_for_head_of_branch(**git_blame_arguments)
         logging.debug("Git blame files from base: " + str(git_blame_stats))
+        # Compile the git blame stats into a format that can be understood by the recommendation implementations.
         cls._make_git_blame_stats(git_blame_stats, change_info, return_dictionary, total_delta_over_all_files,
                                    file_aliases, "authors")
         cls._make_git_blame_stats(git_blame_stats, change_info, return_dictionary, total_delta_over_all_files,
                                    file_aliases, "committers")
-        # Remove indexes used for de-duplication before returning
+        # Remove indexes used for de-duplication by _make_git_blame_stats before returning
         del return_dictionary["_emails_to_names_index"]
         del return_dictionary["_names_to_emails_index"]
         return return_dictionary
 
 class RecommenderImplementation(RecommenderImplementationBase, ABC):
     def __init__(self, repository: str):
+        """
+        Create the recommendations class that can be used to perform recommendations on the provided
+        repository
+
+        :param repository: The repository this object will be able to perform evaluations on.
+        """
         self.repository = repository
 
     @abstractmethod
@@ -571,7 +697,7 @@ class RecommenderImplementation(RecommenderImplementationBase, ABC):
         Recommend reviewers for a patch using pre-downloaded change information
 
         :param change_info: Change information for this patch
-        :return:
+        :return: The recommendations in a Recommendations object
         """
         return NotImplemented
 
@@ -581,7 +707,7 @@ class RecommenderImplementation(RecommenderImplementationBase, ABC):
 
         :param change_id: The Change-ID for this patch (as detailed on gerrit)
         :param branch: The branch this change is on (required if change exists on multiple branches)
-        :return: The recommended reviewers
+        :return: The recommended reviewers in a Recommendations object
         :raises HTTPError: If information provided does not match a change or multiple patches match
         """
         # Rate-limiting

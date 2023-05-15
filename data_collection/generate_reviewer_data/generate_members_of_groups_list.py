@@ -67,9 +67,13 @@ def generate_members_of_repository(repositories, output_file_name='', recursive=
                     groups_for_repository[repository].update(groups_for_repository[inherits_from])
             time.sleep(1)
     except BaseException as e:
+        # Catch exceptions to prevent the script stopping when collecting the data
+        #  which can take a while to complete (and thus stopping nearly all the way through
+        #  would cause delay).
         logging.warning("Unexpected exception")
         logging.warning(type(e))
     finally:
+        # Finally save the data to a JSON file.
         final_data = {'groups_for_repository': groups_for_repository, 'members_in_group': members_in_group}
         if return_instead:
             return final_data

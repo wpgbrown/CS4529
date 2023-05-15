@@ -1,8 +1,8 @@
+"""
+Produces graphs for the neural network recommender evaluation results.
+"""
 import itertools
 import json
-
-import numpy
-from matplotlib import pyplot
 
 import common
 from evaluation import KValues
@@ -31,8 +31,8 @@ model_types_to_appendixes = {
 
 associated_line_of_best_fit_stats = {}
 
+# Plot average of accuracy_score
 for model_mode, matching_appendixes in model_types_to_appendixes.items():
-    # Plot average of accuracy_score
     x = []
     y = []
     for model_name, testing_after_training_results in neural_network_testing_after_training_results.items():
@@ -76,14 +76,17 @@ for model_mode, matching_appendixes in model_types_to_appendixes.items():
         line_label="Average accuracy score"
     )
 
-
+# Plot the Top-k scores
 for vote_type in ["approved", "voted"]:
-    for top_k_value in KValues.ALL_VALUES:
+    for top_k_value in KValues:
+        top_k_value = top_k_value.value
         for model_mode in [ModelMode.REPO_SPECIFIC]:
             for selection_mode in ['in-order']:
                 x = []
                 y = []
                 for repo, info in repo_test_changes_counts_in_order:
+                    # Gate for Top-k scores that are not performed due to models
+                    #  not been trained enough to produce recommendations.
                     if repo not in neural_network_top_k.keys():
                         continue
                     if model_mode.value not in neural_network_top_k[repo].keys():
@@ -97,10 +100,12 @@ for vote_type in ["approved", "voted"]:
                     if "merged" not in neural_network_top_k[repo][model_mode.value][selection_mode].keys():
                         continue
                     if repo == "mediawiki/core":
+                        # mediawiki/core is added to a later graph.
                         continue
                     x.append(info["changes_count"])
                     y.append(neural_network_top_k[repo][model_mode.value][selection_mode]["merged"][vote_type][str(top_k_value)])
                 if not len(x):
+                    # Skip if the graph has no points.
                     continue
                 associated_line_of_best_fit_stats["Top-k scores for " + vote_type + " predictions using the model type '" + model_mode.value + "', selection mode '" + selection_mode + "', and k of " + str(
                         top_k_value) + " without mediawiki/core"] = create_and_save_graph(
@@ -122,12 +127,14 @@ for vote_type in ["approved", "voted"]:
                     line_label="Top-k score for k = " + str(top_k_value)
                 )
 
+# Plot the MRR scores
 for vote_type in ["approved", "voted"]:
     for model_mode in [ModelMode.REPO_SPECIFIC]:
         for selection_mode in ['in-order']:
             x = []
             y = []
             for repo, info in repo_test_changes_counts_in_order:
+                # Gating for repositories with no results.
                 if repo not in neural_network_mrr.keys():
                     continue
                 if model_mode.value not in neural_network_mrr[repo].keys():
@@ -143,10 +150,12 @@ for vote_type in ["approved", "voted"]:
                 if vote_type not in neural_network_mrr[repo][model_mode.value][selection_mode]["merged"].keys():
                     continue
                 if repo == "mediawiki/core":
+                    # mediawiki/core is added to a later graph.
                     continue
                 x.append(info["changes_count"])
                 y.append(neural_network_mrr[repo][model_mode.value][selection_mode]["merged"][vote_type])
             if not len(x):
+                # Skip if the graph has no points.
                 continue
             associated_line_of_best_fit_stats["MRR scores for " + vote_type + ", model type " + model_mode.value + ", selection mode " + selection_mode + " without mediawiki/core"] = create_and_save_graph(
                 x, y, "MRR score",
@@ -162,4 +171,5 @@ for vote_type in ["approved", "voted"]:
                 'neural-network-mrr-' + vote_type + '-model-mode-' + model_mode.value + '-selection-mode-' + selection_mode + '.png'
             )
 
+# Export the line of best fit stats to a JSON file.
 json.dump(associated_line_of_best_fit_stats, open('neural_network_line_of_best_fit_stats.json', 'w'))

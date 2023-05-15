@@ -1,3 +1,7 @@
+"""
+Exports the rule based evaluation scores into a LaTeX table format for use in the report.
+Used only for the evaluation.
+"""
 import json
 import statistics
 from argparse import ArgumentParser
@@ -25,6 +29,7 @@ repo_test_changes_counts_in_order = sorted(repo_test_changes_counts_in_order, ke
 if len(arguments.repositories):
     repo_test_changes_counts_in_order = list(filter(lambda x: x[0] in arguments.repositories, repo_test_changes_counts_in_order))
 
+# Print out the file count and change counts stats
 print("File count and changes count stats")
 min_file_count = min(repo_file_counts_in_order, key=lambda x: x[1])
 min_changes_count = min(repo_test_changes_counts_in_order, key=lambda x: x[1]["changes_count"])

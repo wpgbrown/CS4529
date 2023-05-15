@@ -1,9 +1,8 @@
-import copy
+"""
+Generate LaTeX table definitions for the neural based recommender to be used in the report.
+"""
 import json
-import statistics
 from argparse import ArgumentParser
-
-import numpy
 
 import common
 from evaluation.results.rule_based_results_to_latex_table_format import round_float
@@ -105,6 +104,7 @@ for status in [ModelMode.MERGED.value]:
                         print('&', round_float(top_k_score, 3), end=' ')
                     print("\\\\")
 
+# MRR
 print("\n\n\n")
 print("MRR")
 for status in [ModelMode.MERGED.value]:
@@ -136,6 +136,7 @@ for status in [ModelMode.MERGED.value]:
                     print('&', round_float(vote_type_mrr_score, 3), end=' ')
                 print("\\\\")
 
+# Line of best fit stats
 associated_line_of_best_fit_stats = json.load(open('neural_network_line_of_best_fit_stats.json', 'r'))
 
 print("\n\n\n")
